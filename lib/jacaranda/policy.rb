@@ -1,34 +1,23 @@
-class Jacaranda::Policy
+require 'jacaranda/launcher'
+
+class Jacaranda::Policy < Jacaranda::Launcher
   require 'jacaranda/answer'
 
   attr_accessor :lookups
   attr_reader   :routes
-  attr_reader   :request
   attr_reader   :answer
   attr_reader   :scope
 
-  def initialize(req)
-    @request=req
+  def initialize(&block)
     @lookups=[]
     @routes={}
-    @answer=Jacaranda::Answer.new(@request.lookup_type)
-    @scope=Jacaranda::Scope.new(@request)
-  end
-  def create(policy)
-    @policy[:loaded] = 1
-  end
-
-  def load(policy)
-    policy = File.read("/Users/craigdunn/jacaranda/etc/default.rb")
-    self.instance_eval policy
-  end
-
-  def route(name,dest)
-    @routes[name]=dest
+    @answer=Jacaranda::Answer.new(request.lookup_type)
+    @scope=Jacaranda::Scope.new
+    instance_eval &block
   end
 
   def clone_request
-    Marshal.load(Marshal.dump(@request))
+    Marshal.load(Marshal.dump(request))
   end
 
   def lookup(name,&block)
