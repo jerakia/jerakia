@@ -1,0 +1,9 @@
+---
+apache::port: 8080
+
+apache::configdata:
+  hashel1: foo
+  hashel2: bar
+  somearray:
+    - something1
+    - something2

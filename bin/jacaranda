@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'jacaranda'
+jac = Jacaranda.new
+req = Jacaranda::Request.new(
+  :key => 'port',
+  :namespace => [ 'apache' ],
+  :policy => 'default',
+  :lookup_type => :first,
+  :metadata => { :environment => 'development' }
+) 
+
+answer = jac.lookup(req)
+puts answer.payload
