@@ -1,15 +1,17 @@
 #!/usr/bin/env ruby
 
 require 'jacaranda'
+require 'json'
 req = Jacaranda::Request.new(
   :key => 'port',
   :namespace => [ 'apache' ],
   :policy => :craig,
-  :lookup_type => :first,
+  :lookup_type => :cascade,
+  :merge       => :array,
   :metadata => { :environment => 'development' }
 ) 
 
 jac = Jacaranda.new
 
 answer = jac.lookup(req)
-puts answer.payload
+puts answer.payload.to_json

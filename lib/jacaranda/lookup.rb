@@ -3,6 +3,7 @@ class Jacaranda::Lookup
   require 'jacaranda/scope'
   require 'jacaranda/plugins/lookup/hiera_compat'
   require 'jacaranda/plugins/lookup/confine'
+
   attr_accessor :request
   attr_reader :datasource
   attr_reader :valid
@@ -11,7 +12,6 @@ class Jacaranda::Lookup
   attr_reader :output_filters
 
   def initialize(req,scope,&block)
-    Jacaranda::Log.debug "Lookup class initialized for request #{p req}"
     @request=req
     @valid=true
     @scope_object=scope
