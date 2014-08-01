@@ -5,8 +5,8 @@ require 'json'
 req = Jacaranda::Request.new(
   :key => 'port',
   :namespace => [ 'apache' ],
-  :policy => :craig,
-  :lookup_type => :cascade,
+  :policy => "craig",
+  :lookup_type => "cascade",
   :merge       => :array,
   :metadata => { :environment => 'development' }
 ) 

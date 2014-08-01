@@ -1,6 +1,11 @@
 ---
 apache::port: 8080
 
+apache::somearray:
+  - foo
+  - bar
+  - baz
+
 apache::configdata:
   hashel1: foo
   hashel2: bar

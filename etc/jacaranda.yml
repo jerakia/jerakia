@@ -1,3 +1,6 @@
 ---
 policydir: /Users/craigdunn/jacaranda/etc/policy.d
 
+server_url: http://localhost:4567
+
+
