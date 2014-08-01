@@ -1,5 +1,7 @@
 ## Quickstart ##
 
+This doc is for the impatient, will not give you enough information and will probably leave you dumbfounded - it is advisable to read the user guide in detail. you have been warned.
+
 ### Install jacaranda ###
 
     gem install jacaranda 
