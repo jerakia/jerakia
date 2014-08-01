@@ -49,7 +49,7 @@ Edit `/etc/puppet.conf` and add the following:
 
 ## Hiera Compatiblity ##
 
-Jacaranda has the concept of a namespace and a key, by default the file lookup datasource will look for _key_ in <datadir>/<scope>/<namespace>.yml - in order to retain Hieras way of doing things, which is to lookup <namespace>::<key> in a file called <datadir>/<scope>.yml a plugin _hiera_compat_ has been provided.  To enable this in your lookup simply add the directive to the lookup block and the request key and namespace will automatically get re-written on the fly
+Jacaranda has the concept of a namespace and a key, by default the file lookup datasource will look for _key_ in `<datadir>/<scope>/<namespace>.yml` - in order to retain Hieras way of doing things, which is to lookup `<namespace>::<key>` in a file called `<datadir>/<scope>.yml` a plugin _hiera_compat_ has been provided.  To enable this in your lookup simply add the directive to the lookup block and the request key and namespace will automatically get re-written on the fly
 
       lookup :default do
         datasource :file, {
