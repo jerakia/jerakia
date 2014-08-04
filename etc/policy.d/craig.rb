@@ -15,17 +15,6 @@ policy :craig do
     hiera_compat
   end
 
-  lookup :secondary do
-    datasource :file, {
-      :docroot => '../etc',
-      :searchpath => [
-        "#{scope[:environment]}",
-        'global',
-        'common'
-    ],
-    }
-    hiera_compat
-  end
 
 end
 

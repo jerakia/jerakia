@@ -10,7 +10,7 @@ class Jacaranda
 
 
 
-  def initialize
+  def initialize()
     @@config = Jacaranda::Config.new
   end
 

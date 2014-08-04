@@ -26,6 +26,8 @@ A policy definition can contain many lookups which will be in in order.
 
 ## Lookups ##
 
-Lookup blocks define where and how to source the data.  
+Lookup blocks define where and how to source the data.  At a minmum a lookup block must specify a `datasource` to pass the request to. Data sources can optionally take a hash of arguments.
+
+
 
  

@@ -1,5 +1,4 @@
 require 'puppet/indirector/code'
-require 'rest_client'
 require 'jacaranda'
 require 'json'
 
@@ -12,6 +11,8 @@ class Puppet::DataBinding::Jacaranda < Puppet::Indirector::Code
 
   def initialize(*args)
     @jacaranda=::Jacaranda.new
+
+    # Currently defaulting the policy to "puppet" - we should change this.
     @policy = "puppet"
     super
   end

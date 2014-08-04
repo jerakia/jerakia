@@ -3,6 +3,7 @@ class Jacaranda::Answer
   attr_accessor :payload
   attr_accessor :datatype
   attr_reader :lookup_type
+
   def initialize(lookup_type = :first)
     case lookup_type
     when :first

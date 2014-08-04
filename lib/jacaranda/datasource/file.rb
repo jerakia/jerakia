@@ -27,6 +27,7 @@ class Jacaranda::Datasource
       load_format_handler
 
       options[:searchpath].each do |path|
+        return unless response.want?
         data=read_from_file(path)
         if data[lookup.request.key]
           response.submit data[lookup.request.key]

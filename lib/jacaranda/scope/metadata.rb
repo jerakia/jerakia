@@ -10,7 +10,7 @@ class Jacaranda::Scope
   module Metadata
     def create
       request.metadata.each_pair do |key, val|
-        value[key] = val
+        value[key.to_sym] = val
       end
     end
   end

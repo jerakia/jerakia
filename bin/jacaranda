@@ -3,7 +3,7 @@
 require 'jacaranda'
 require 'json'
 req = Jacaranda::Request.new(
-  :key => 'port',
+  :key => 'configdata',
   :namespace => [ 'apache' ],
   :policy => "craig",
   :lookup_type => "cascade",
@@ -14,4 +14,5 @@ req = Jacaranda::Request.new(
 jac = Jacaranda.new
 
 answer = jac.lookup(req)
+p answer
 puts answer.payload.to_json
