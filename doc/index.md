@@ -3,8 +3,8 @@
 
 ## Getting Started ##
 
-[# Installation #](./install.md)
+[Installation](./install.md)
 
-[# Writing policies and lookups #](./policy.md)
+[Writing policies and lookups](./policy.md)
 
 
