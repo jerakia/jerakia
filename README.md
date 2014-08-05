@@ -44,6 +44,12 @@ Future integrations with other tools such as Chef and Rundeck are under developm
 
 It is recommended you [read the documentation here](./docs/index.md) before continuing.
 
+## Features in development ##
+* Better logging
+* PuppetDB and MCollective scope plugins
+* HTTP datasource
+* ENC integration
+
 ## License ##
 
 Jacaranda is distributed under the Apache 2.0 license

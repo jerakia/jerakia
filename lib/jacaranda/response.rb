@@ -1,4 +1,4 @@
-class Jacaranda::Response
+class Jacaranda::Response < Jacaranda
 
   attr_accessor :entries
   attr_reader :lookup

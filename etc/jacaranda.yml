@@ -1,6 +1,16 @@
 ---
 policydir: /Users/craigdunn/jacaranda/etc/policy.d
 
-server_url: http://localhost:4567
+#
+# Response filter encryption
+#
+eyaml:
+  private_key: /Users/craigdunn/jacaranda/etc/secure/keys/private_key.pkcs7.pem
+  public_key: /Users/craigdunn/jacaranda/etc/secure/keys/public_key.pkcs7.pem
+
+# Configuration for Puppet data binding
+#
+puppet:
+  default_policy: puppet
 
 

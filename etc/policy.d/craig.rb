@@ -1,8 +1,10 @@
+
 policy :craig do
+
   lookup :default do
     datasource :file, {
       :format => :yaml,
-      :docroot => '../etc',
+      :docroot => "/Users/craigdunn/jacaranda/etc/data",
       :searchpath => [
         "#{scope[:environment]}",
         'global',

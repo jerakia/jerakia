@@ -10,8 +10,10 @@ class Jacaranda
 
 
 
-  def initialize()
-    @@config = Jacaranda::Config.new
+  def initialize(options={})
+    configfile = options[:config] || '/etc/jacaranda/jacaranda.yml'
+    Jacaranda::Log.debug("Jacaranda initialized with config #{configfile}")
+    @@config = Jacaranda::Config.new(configfile)
   end
 
   def lookup(request)

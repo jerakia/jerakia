@@ -6,14 +6,13 @@ class Puppet::DataBinding::Jacaranda < Puppet::Indirector::Code
   desc "Data binding for Jacaranda"
 
   attr_reader :jacaranda
-  attr_reader :jacaranda_url
   attr_reader :policy
 
   def initialize(*args)
     @jacaranda=::Jacaranda.new
 
     # Currently defaulting the policy to "puppet" - we should change this.
-    @policy = "puppet"
+    @policy = @jacaranda::config["puppet"]["default_policy"] || "puppet"
     super
   end
 

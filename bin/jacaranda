@@ -2,17 +2,72 @@
 
 require 'jacaranda'
 require 'json'
+require 'optparse'
+
+options = {
+  :policy       => "default",
+  :config       => "/etc/jacaranda/jacaranda.yml",
+  :scope        => nil,
+  :key          => nil,
+  :merge        => "array",
+  :lookup_type  => "first",
+  :namespace    => nil,
+  :metadata     => {},
+}
+
+OptionParser.new do |opts|
+
+  opts.on("--config CONFIG","-c","Config file") do |c|
+    puts c
+    options[:config] = c
+  end
+
+  opts.on("--key KEY", "-k", "Lookup key") do |k|
+    options[:key] = k
+  end
+
+  opts.on("--policy POLICY", "-p", "Policy") do |p|
+    puts p.class
+    options[:policy] = p.to_sym
+  end
+
+  opts.on("--namespace NAMESPACE", "-n", "Namespace") do |n|
+    options[:namespace] = n.split(/::/)
+  end
+
+  opts.on("--type TYPE", "-t", "Lookup type") do |t|
+    options[:lookup_type] = t.to_sym
+  end
+
+  opts.on("--scope SCOPE", "-s", "Scope handler") do |s|
+    options[:scope] = s.to_sym
+  end
+
+  opts.on("--merge MERGE", "-m", "Merge type") do |m|
+    options[:merge] = m.to_sym
+  end
+end.parse!
+
+unless ARGV.empty?
+  ARGV.each do |arg|
+    meta=arg.split(':')
+    options[:metadata][meta[0]] = meta[1]
+  end
+end
+
+
+
+jac = Jacaranda.new({:config => options[:config]})
 req = Jacaranda::Request.new(
-  :key => 'configdata',
-  :namespace => [ 'apache' ],
-  :policy => "craig",
-  :lookup_type => "cascade",
-  :merge       => :array,
-  :metadata => { :environment => 'development' }
+  :key => options[:key],
+  :namespace => options[:namespace],
+  :policy => options[:policy].to_sym,
+  :lookup_type => options[:lookup_type].to_sym,
+  :merge       => options[:merge].to_sym,
+  :metadata => options[:metadata]
 ) 
 
-jac = Jacaranda.new
 
 answer = jac.lookup(req)
-p answer
+puts "----"
 puts answer.payload.to_json
