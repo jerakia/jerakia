@@ -42,9 +42,6 @@ class Jacaranda::Response < Jacaranda
       Jacaranda::Util.walk(entry[:value]) do |v|
         yield v
       end
-      puts "***"
-      p entry
-      puts "***"
       entry
     end
 
