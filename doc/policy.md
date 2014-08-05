@@ -22,6 +22,8 @@ Each search request is run aganst a specific search policies.  Search policies a
     
     end
 
+Because polcies are written in native ruby, this makes them extremely customizable to adapt to a wide range of complex use cases.
+
 A policy definition can contain many lookups which will be in in order.
 
 ## Lookups ##
