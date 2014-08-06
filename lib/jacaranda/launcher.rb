@@ -12,8 +12,9 @@ class Jacaranda::Launcher < Jacaranda
 
   def invoke
     policy_name=request.policy.to_s
+    log.info "Invoked lookup for #{@@request.key} using policy #{policy_name}"
     filename=File.join(config.policydir, "#{policy_name}.rb")
-    policydata=File.read(filename)
+    policydata=filecache(filename)
     instance_eval policydata
   end
 
@@ -23,7 +24,6 @@ class Jacaranda::Launcher < Jacaranda
 
 
   def policy(name, &block)
-    Jacaranda::Log.debug "Lookup Key #{request.key} using policy #{request.policy}"
     policy = Jacaranda::Policy.new(&block)
     policy.fire!
     @answer = policy.answer

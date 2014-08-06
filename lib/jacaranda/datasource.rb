@@ -1,4 +1,5 @@
-class Jacaranda::Datasource
+require 'jacaranda/cache'
+class Jacaranda::Datasource < Jacaranda::Cache
 
   require 'jacaranda/response'
   attr_reader :response
@@ -22,9 +23,5 @@ class Jacaranda::Datasource
       exit
     end
   end
-
-
-
-
 end
 

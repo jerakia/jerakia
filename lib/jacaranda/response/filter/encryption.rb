@@ -19,7 +19,6 @@ class Jacaranda::Response
     module Encryption
 
       def filter_encryption
-        puts "ENC"
         parse_values do |val|
           if val.is_a?(String)
             decrypt val
@@ -30,7 +29,6 @@ class Jacaranda::Response
 
       def decrypt(data)
         if encrypted?(data)
-          # Move this to Jacaranda::Config... ->
           public_key = config["eyaml"]["public_key"]
           private_key = config["eyaml"]["private_key"]
           Hiera::Backend::Eyaml::Options[:pkcs7_private_key] = private_key

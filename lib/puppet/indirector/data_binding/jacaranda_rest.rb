@@ -39,7 +39,6 @@ class Puppet::DataBinding::Jacaranda_rest < Puppet::Indirector::Code
       :lookup_type => :first,
       :metadata => metadata,
     }.to_json
-    puts jacaranda_url
     response = RestClient.get "#{jacaranda_url}/#{policy}/#{key}", :params => { :payload => payload }
     response
   end

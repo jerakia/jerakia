@@ -1,3 +1,5 @@
+require 'faster_require'
+
 class Jacaranda
   require 'jacaranda/policy'
   require 'jacaranda/lookup'
@@ -6,14 +8,20 @@ class Jacaranda
   require 'jacaranda/util'
   require 'jacaranda/config'
   require 'jacaranda/launcher'
+  require 'jacaranda/cache'
 
 
 
 
   def initialize(options={})
     configfile = options[:config] || '/etc/jacaranda/jacaranda.yml'
-    Jacaranda::Log.debug("Jacaranda initialized with config #{configfile}")
     @@config = Jacaranda::Config.new(configfile)
+    @@filecache = {}
+    @@cache = Jacaranda::Cache.new
+    loglevel = options[:loglevel] || @@config["loglevel"] || "info"
+    @@log = Jacaranda::Log.new(loglevel.to_sym)
+    @@log.debug("Jacaranda initialized")
+
   end
 
   def lookup(request)
@@ -25,6 +33,18 @@ class Jacaranda
     @@config
   end
 
+  def filecache(name)
+    @@filecache[name] ||= File.read(name)
+    return @@filecache[name]
+  end
+
+  def add_to_filecache(name,data)
+    @@filecache[name] = data
+  end
+
+  def log
+    @@log
+  end
 
   def self.crit(msg)
     Jacaranda::Log.crit msg

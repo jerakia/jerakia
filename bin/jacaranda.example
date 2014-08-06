@@ -2,16 +2,18 @@
 
 require 'jacaranda'
 jac = Jacaranda.new
+
+
+100.times do
 req = Jacaranda::Request.new(
   :key => 'port',
   :namespace => [ 'apache' ],
-  :policy => 'default',
+  :policy => :craig,
   :lookup_type => :first,
   :metadata => { :environment => 'development' }
 ) 
 
-p req
-
 answer = jac.lookup(req)
 puts "---- FINAL OUTPUT ----"
 p answer
+end

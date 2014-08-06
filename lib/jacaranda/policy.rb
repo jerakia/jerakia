@@ -25,6 +25,7 @@ class Jacaranda::Policy < Jacaranda::Launcher
     # request payload for the scope of this lookup only.
     #
     lookup = Jacaranda::Lookup.new(clone_request,scope,&block)
+   
     @lookups << lookup if lookup.valid?
   end
 

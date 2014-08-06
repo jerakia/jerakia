@@ -1,0 +1,10 @@
+---
+apache::port:
+  - 9999
+
+apache::configdata:
+  hashel3: kkk
+  hashel4: bar
+  somearray2:
+    - something1
+    - something2

@@ -18,7 +18,6 @@ options = {
 OptionParser.new do |opts|
 
   opts.on("--config CONFIG","-c","Config file") do |c|
-    puts c
     options[:config] = c
   end
 
@@ -27,7 +26,6 @@ OptionParser.new do |opts|
   end
 
   opts.on("--policy POLICY", "-p", "Policy") do |p|
-    puts p.class
     options[:policy] = p.to_sym
   end
 
@@ -69,5 +67,4 @@ req = Jacaranda::Request.new(
 
 
 answer = jac.lookup(req)
-puts "----"
 puts answer.payload.to_json

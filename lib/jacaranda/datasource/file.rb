@@ -9,9 +9,15 @@ class Jacaranda::Datasource
       @file_format = eval "Jacaranda::Datasource::File::#{class_name}"
     end
 
+    
     def read_from_file(fname)
       diskname=::File.join(options[:docroot],fname,lookup.request.namespace).gsub(/\/$/,'')
-      @file_format.import_file(diskname)
+      cache_index={ :diskname => diskname, :format => options[:format] }
+      if in_bucket?(cache_index)
+        bucket[cache_index]
+      else
+        bucket_add(cache_index,@file_format.import_file(diskname))
+      end
     end
 
 

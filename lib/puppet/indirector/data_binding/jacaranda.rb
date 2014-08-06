@@ -28,7 +28,7 @@ class Puppet::DataBinding::Jacaranda < Puppet::Indirector::Code
       :namespace => namespace,
       :policy => policy,
       :lookup_type => :first,
-      :metadata => metadata
+      :metadata => {}
     )
     answer = jacaranda.lookup(jacreq)
     answer.payload
