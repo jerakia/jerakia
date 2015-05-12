@@ -1,6 +1,7 @@
 
 policy :puppet do
 
+  
   lookup :default do
     datasource :file, {
       :format => :yaml,
@@ -16,6 +17,8 @@ policy :puppet do
     output_filter :encryption
     hiera_compat
   end
+
+  datamodel :strict
 
 
 end

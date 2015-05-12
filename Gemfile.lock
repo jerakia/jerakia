@@ -1,0 +1,13 @@
+GEM
+  specs:
+    faster_require (0.9.4)
+    psych (2.0.0)
+    rake (0.9.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  faster_require
+  psych
+  rake
