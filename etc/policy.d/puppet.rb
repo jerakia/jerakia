@@ -14,11 +14,8 @@ policy :puppet do
     }
 
     exclude :environment, "production"
-    output_filter :encryption
     hiera_compat
   end
-
-  datamodel :strict
 
 
 end

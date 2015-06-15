@@ -1,4 +1,4 @@
-require 'faster_require'
+#require 'faster_require'
 
 class Jacaranda
   require 'jacaranda/policy'
