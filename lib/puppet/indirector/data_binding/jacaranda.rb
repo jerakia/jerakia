@@ -12,7 +12,7 @@ class Puppet::DataBinding::Jacaranda < Puppet::Indirector::Code
     @jacaranda=::Jacaranda.new
 
     # Currently defaulting the policy to "puppet" - we should change this.
-    @policy = @jacaranda::config["puppet"]["default_policy"] || "puppet"
+    @default_policy = @jacaranda::config["puppet"]["default_policy"] || "puppet"
     super
   end
 
@@ -21,8 +21,8 @@ class Puppet::DataBinding::Jacaranda < Puppet::Indirector::Code
     lookupdata=request.key.split(/::/)
     key=lookupdata.pop
     namespace=lookupdata
-
     metadata =  request.options[:variables].to_hash
+    policy=metadata[:jacaranda_policy] || @default_policy
     jacreq = Jacaranda::Request.new(
       :key => key,
       :namespace => namespace,

@@ -10,7 +10,11 @@ class Jacaranda::Lookup
   module Plugin
     def hiera_compat
       request.key.prepend("#{request.namespace.join('::')}::")
-      request.namespace=''
+      request.namespace=[]
+    end
+
+    def calling_module
+      request.namespace.join('::') 
     end
   end
 end
