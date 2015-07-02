@@ -19,7 +19,6 @@ class Jacaranda
     @@filecache = {}
     @@cache = Jacaranda::Cache.new
     loglevel = options[:loglevel] || @@config["loglevel"] || "info"
-puts "loglevel #{loglevel}"
     @@log = Jacaranda::Log.new(loglevel.to_sym)
     @@log.debug("Jacaranda initialized")
 
@@ -34,7 +33,11 @@ puts "loglevel #{loglevel}"
     @@config
   end
 
-  def filecache(name)
+  def self.config
+    @@config
+  end
+
+  def self.filecache(name)
     @@filecache[name] ||= File.read(name)
     return @@filecache[name]
   end
@@ -44,6 +47,10 @@ puts "loglevel #{loglevel}"
   end
 
   def log
+    @@log
+  end
+
+  def self.log
     @@log
   end
 

@@ -1,6 +1,6 @@
 require 'jacaranda/launcher'
 
-class Jacaranda::Policy < Jacaranda::Launcher
+class Jacaranda::Policy < Jacaranda
   require 'jacaranda/answer'
 
   attr_accessor :lookups

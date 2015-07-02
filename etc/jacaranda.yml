@@ -1,19 +1,19 @@
 ---
-policydir: /Users/craigdunn/jacaranda/etc/policy.d
+policydir: /root/jacaranda/etc/policy.d
 
 #
 # Response filter encryption
 #
 eyaml:
-  private_key: /Users/craigdunn/jacaranda/etc/secure/keys/private_key.pkcs7.pem
-  public_key: /Users/craigdunn/jacaranda/etc/secure/keys/public_key.pkcs7.pem
+  private_key: /root/jacaranda/etc/secure/keys/private_key.pkcs7.pem
+  public_key: /root/jacaranda/etc/secure/keys/public_key.pkcs7.pem
 
 # Configuration for Puppet data binding
-#
+# DEPRECATE!
 puppet:
   default_policy: puppet
 
 
 
-logfile: /Users/craigdunn/tmp/jacaranda.log
+logfile: /tmp/jacaranda.log
 loglevel: info
