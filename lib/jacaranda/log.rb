@@ -21,6 +21,10 @@ class Jacaranda::Log < Jacaranda
     @@logger.debug msg
   end
 
+  def crit(msg)
+    @@logger.crit msg
+  end
+
   def self.debug(msg)
     self.new.debug msg
   end

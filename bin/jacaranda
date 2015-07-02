@@ -62,6 +62,7 @@ req = Jacaranda::Request.new(
   :policy => options[:policy].to_sym,
   :lookup_type => options[:lookup_type].to_sym,
   :merge       => options[:merge].to_sym,
+  :loglevel    => 'debug',
   :metadata => options[:metadata]
 ) 
 

@@ -19,6 +19,7 @@ class Jacaranda
     @@filecache = {}
     @@cache = Jacaranda::Cache.new
     loglevel = options[:loglevel] || @@config["loglevel"] || "info"
+puts "loglevel #{loglevel}"
     @@log = Jacaranda::Log.new(loglevel.to_sym)
     @@log.debug("Jacaranda initialized")
 
@@ -47,7 +48,7 @@ class Jacaranda
   end
 
   def self.crit(msg)
-    Jacaranda::Log.crit msg
+    puts msg
     exit 1 
   end
 end
