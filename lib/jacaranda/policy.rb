@@ -13,7 +13,11 @@ class Jacaranda::Policy < Jacaranda::Launcher
     @routes={}
     @answer=Jacaranda::Answer.new(request.lookup_type)
     @scope=Jacaranda::Scope.new
-    instance_eval &block
+    begin
+      instance_eval &block
+    rescue => e
+      Jacaranda.fatal "Error processing policy file", e
+    end
   end
 
   def clone_request
@@ -31,7 +35,6 @@ class Jacaranda::Policy < Jacaranda::Launcher
 
   def fire!
     @lookups.each do |l|
-      puts "processing lookup #{l}"
       responses = l.run
       responses.entries.each do |res|
         case request.lookup_type

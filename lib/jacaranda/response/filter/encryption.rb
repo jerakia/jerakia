@@ -38,7 +38,7 @@ class Jacaranda::Response
           tokens = parser.parse(data)
           decrypted = tokens.map{ |token| token.to_plain_text }
           plaintext = decrypted.join
-          Jacaranda::Log.debug(plaintext)
+          Jacaranda.log.debug(plaintext)
           plaintext.chomp!
           data.clear.insert(0,plaintext)
         else

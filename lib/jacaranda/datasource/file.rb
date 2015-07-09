@@ -9,22 +9,25 @@ class Jacaranda::Datasource
       @file_format = eval "Jacaranda::Datasource::File::#{class_name}"
     end
 
-    
     def read_from_file(fname)
       fpath = []
       fpath << options[:docroot] unless fname[0] == '/'
       fpath << [ fname, lookup.request.namespace ]
       diskname = ::File.join(fpath.flatten).gsub(/\/$/, '')
 
+      import_args=[]
+      import_args << diskname
+      import_args << options[:extension] if options[:extension]
+
       cache_index={ :diskname => diskname, :format => options[:format] }
       if options[:enable_caching]
         if in_bucket?(cache_index) 
           bucket[cache_index]
         else
-          bucket_add(cache_index,@file_format.import_file(diskname))
+          bucket_add(cache_index,@file_format.import_file(*import_args))
         end
       else
-        @file_format.import_file(diskname)
+        @file_format.import_file(*import_args)
       end
     end
 
@@ -33,7 +36,7 @@ class Jacaranda::Datasource
       #
       # Do the lookup
 
-      Jacaranda::Log.debug("Searching key #{lookup.request.key} from file format #{options[:format]} (#{whoami})")
+      Jacaranda.log.debug("Searching key #{lookup.request.key} from file format #{options[:format]} (#{whoami})")
       option :searchpath, { :type => Array,  :mandatory => true }
       option :format,     { :type => Symbol, :default => :yaml }
       option :docroot,    { :type => String, :default => "/etc/jacaranda/data" }

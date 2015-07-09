@@ -3,9 +3,9 @@ class Jacaranda::Datasource
     class Yaml
       class << self
       require 'yaml'
-      def import_file(fname)
-        diskfile="#{fname}.yml"
-        Jacaranda::Log.debug("scanning file #{diskfile}")
+      def import_file(fname, extension='yml')
+        diskfile="#{fname}.#{extension}"
+        Jacaranda.log.debug("scanning file #{diskfile}")
         return {} unless ::File.exists?(diskfile)
         data=::File.read(diskfile)
         YAML.load(data)

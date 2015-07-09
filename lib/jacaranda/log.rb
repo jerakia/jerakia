@@ -11,6 +11,7 @@ class Jacaranda::Log < Jacaranda
     when :debug
       @@logger.level = Logger::DEBUG
     end
+puts "initialize called"
   end
 
   def info(msg)
@@ -21,17 +22,30 @@ class Jacaranda::Log < Jacaranda
     @@logger.debug msg
   end
 
-  def crit(msg)
-    @@logger.crit msg
+  def error(msg)
+    @@logger.error msg
   end
 
+  def fatal(msg)
+    @@logger.fatal msg
+  end
+
+#  def self.fatal(msg)
+#    self.new.fatal msg
+#  end 
+#
+#  def self.error(msg)
+#    self.new.error msg
+#  end
+#
   def self.debug(msg)
     self.new.debug msg
   end
-
-  def self.info(msg)
-    self.new.info msg
-  end
+#
+##  def self.info(msg)
+#    puts @@logger
+#    self.new.info msg
+#  end
 
 
 

@@ -33,6 +33,15 @@ class Jacaranda
     @@config
   end
 
+
+  def self.fatal(msg,e)
+    stacktrace=e.backtrace.join("\n")
+    Jacaranda.log.fatal msg
+    Jacaranda.log.fatal "Full stacktrace output:\n#{$!}\n\n#{stacktrace}"
+    puts "Fatal error, check log output for details"
+    exit 1
+  end 
+
   def self.config
     @@config
   end
@@ -55,6 +64,7 @@ class Jacaranda
   end
 
   def self.crit(msg)
+    
     puts msg
     exit 1 
   end

@@ -19,11 +19,12 @@ class Jacaranda::Datasource < Jacaranda::Cache
 
   ## used for verbose logging
   def whoami
-    "#{@name} datasource in lookup #{@lookup.name}"
+    "datasource=#{@name}  lookup=#{@lookup.name}"
   end
 
   def option(opt, data={})
     @options[opt] ||= data[:default] || nil
+    Jacaranda.log.debug("[#{whoami}]: options[#{opt}] to #{options[opt]} [#{options[opt].class}]")
     if @options[opt].nil?
       Jacaranda.crit "#{opt} must be configured in #{whoami}" if data[:mandatory]
     else 

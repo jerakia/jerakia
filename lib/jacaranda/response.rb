@@ -19,7 +19,7 @@ class Jacaranda::Response < Jacaranda
   end
 
   def submit(val)
-    Jacaranda::Log.debug "Backend submitted #{val}"
+    Jacaranda.log.debug "Backend submitted #{val}"
     unless want?
       no_more_answers
     else
@@ -27,7 +27,7 @@ class Jacaranda::Response < Jacaranda
         :value => val,
         :datatype => val.class.to_s.downcase
       }
-      Jacaranda::Log.debug "Added answer #{val}"
+      Jacaranda.log.debug "Added answer #{val}"
     end
   end
 
@@ -50,7 +50,7 @@ class Jacaranda::Response < Jacaranda
 
 
   def no_more_answers
-    Jacaranda::Log.debug "warning: backend tried to submit too many answers"
+    Jacaranda.log.debug "warning: backend tried to submit too many answers"
   end
 
 end

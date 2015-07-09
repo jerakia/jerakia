@@ -2,7 +2,7 @@ class Jacaranda
   module Util
     class << self
       def autoload(path,mod)
-        Jacaranda::Log.debug "autoloading #{path} #{mod}"
+        Jacaranda.log.debug "autoloading #{path} #{mod}"
         require "jacaranda/#{path}/#{mod.to_s}"
       end
 

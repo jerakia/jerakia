@@ -5,7 +5,7 @@ class Jacaranda::Datasource
       #
       # Do the lookup
 
-      Jacaranda::Log.debug("Searching key #{lookup.request.key} in dummy datasource")
+      Jacaranda.log.debug("Searching key #{lookup.request.key} in dummy datasource")
       option :return,    String, 'returned data'
       response.submit options[:return]
       
