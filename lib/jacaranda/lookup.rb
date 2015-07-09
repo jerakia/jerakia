@@ -10,8 +10,11 @@ class Jacaranda::Lookup
   attr_reader :lookuptype
   attr_reader :scope_object
   attr_reader :output_filters
+  attr_reader :name
 
-  def initialize(req,scope,&block)
+  def initialize(name,req,scope,&block)
+    
+    @name=name
     @request=req
     @valid=true
     @scope_object=scope

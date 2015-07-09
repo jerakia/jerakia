@@ -1,6 +1,6 @@
 require 'jacaranda/launcher'
 
-class Jacaranda::Policy < Jacaranda
+class Jacaranda::Policy < Jacaranda::Launcher
   require 'jacaranda/answer'
 
   attr_accessor :lookups
@@ -24,13 +24,14 @@ class Jacaranda::Policy < Jacaranda
     # We specifically clone the request object to allow plugins to modify the
     # request payload for the scope of this lookup only.
     #
-    lookup = Jacaranda::Lookup.new(clone_request,scope,&block)
+    lookup = Jacaranda::Lookup.new(name,clone_request,scope,&block)
    
     @lookups << lookup if lookup.valid?
   end
 
   def fire!
     @lookups.each do |l|
+      puts "processing lookup #{l}"
       responses = l.run
       responses.entries.each do |res|
         case request.lookup_type

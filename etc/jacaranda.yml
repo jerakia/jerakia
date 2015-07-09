@@ -16,4 +16,4 @@ puppet:
 
 
 logfile: /tmp/jacaranda.log
-loglevel: info
+loglevel: debug

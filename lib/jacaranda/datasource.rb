@@ -10,18 +10,29 @@ class Jacaranda::Datasource < Jacaranda::Cache
     @response = Jacaranda::Response.new(lookup)
     @options = opts
     @lookup = lookup
+    @name = name
     require "jacaranda/datasource/#{name.to_s}"
     # rescue loaderrer
     eval "extend Jacaranda::Datasource::#{name.to_s.capitalize}"
   end
 
 
-  def option(*o)
-    @options[o[0]] ||= o[2]
-    unless @options[o[0]].is_a?(o[1])
-      Jacaranda.crit "#{o[0]} must be configured for lookup and be a #{o[1]}"
-      exit
+  ## used for verbose logging
+  def whoami
+    "#{@name} datasource in lookup #{@lookup.name}"
+  end
+
+  def option(opt, data={})
+    @options[opt] ||= data[:default] || nil
+    if @options[opt].nil?
+      Jacaranda.crit "#{opt} must be configured in #{whoami}" if data[:mandatory]
+    else 
+      if data[:type]
+        Jacaranda.crit "#{opt} must be a #{data[:type].to_s} in #{whoami}" unless @options[opt].is_a?(data[:type])
+      end
     end
   end
+    
+          
 end
 
