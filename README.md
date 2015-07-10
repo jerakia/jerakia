@@ -62,3 +62,8 @@ It is recommended you [read the documentation here](./docs/index.md) before cont
 
 Jacaranda is distributed under the Apache 2.0 license
 
+## Achnowledgements ##
+
+* Sponsered by Baloise Group [http://baloise.github.io](http://baloise.github.io)
+
+
