@@ -7,9 +7,9 @@ A pluggable and extendable data lookup system
 
 This project is still in a prototype development stage - it shouldn't be considered suitable for production use without extensive review until 1.0, versioning will be:
 
-0.0.x + : Volatile, in extensive development, every release should be considered a break release
-0.1.x + : Minor version considered breaking change, patch version may add features
-1.0.0 + : Stable release, all versions from 1.0.0 onward will ahere to semver
+* 0.0.x + : Volatile, in extensive development, every release should be considered a break release
+* 0.1.x + : Minor version considered breaking change, patch version may add features
+* 1.0.0 + : Stable release, all versions from 1.0.0 onward will ahere to semver
 
 ## Introduction ##
 
