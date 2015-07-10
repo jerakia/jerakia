@@ -35,7 +35,11 @@ class Hiera
         end
           
         metadata={}
-        metadata = scope.real.to_hash if scope.is_a?(Hiera::Scope)
+        if scope.is_a?(Hash)
+          metadata=scope
+        else
+          metadata = scope.real.to_hash
+        end
 
 
         request = Jacaranda::Request.new(
