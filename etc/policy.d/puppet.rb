@@ -9,7 +9,7 @@ policy :puppet do
   lookup :default do
     datasource :file, {
       :format => :yaml,
-      - :docroot => '/root/basler_hiera',
+      :docroot => '/root/basler_hiera',
       :extension => 'yaml',
       :searchpath => [
         "/tmp/test",
