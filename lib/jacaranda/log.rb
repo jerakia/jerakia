@@ -11,7 +11,6 @@ class Jacaranda::Log < Jacaranda
     when :debug
       @@logger.level = Logger::DEBUG
     end
-puts "initialize called"
   end
 
   def info(msg)
