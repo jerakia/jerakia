@@ -227,6 +227,6 @@ Using the hiera_compat plugin, the jacaranda lookup is rewritten to mesh the loo
 
 # Further reading #
 
-Some other examples of Jacaranda policies and lookups with various plugins (can be found here)[https://github.com/crayfishx/jacaranda/blob/master/doc/policy.md] with further documentation appearing in the docs/ section of the site.
+Some other examples of Jacaranda policies and lookups with various plugins [can be found here](policy.md) with further documentation appearing in the docs/ section of the site.
 
 We are trying to document this as fast as we write it - please bear with us.
