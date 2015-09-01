@@ -15,7 +15,6 @@ This project is still in a prototype development stage - it shouldn't be conside
 
 Jacaranda is a pluggable hierarchical data lookup engine.  It is not a database, Jacaranda itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jacaranda is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jacaranda is an attempt at a different way of approaching data lookup management.  Jacaranda started out as a prototype experiment to replace hiera in order to solve a number of complicated requirements for a particular project, over time it matured a bit and we decided to open source it and move it towards a standalone data lookup system.
 
-
 The main goals of Jacaranda are:
 
 * Extendable framework to solve even the most complex edge cases
@@ -29,11 +28,14 @@ Features include:
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
 
+<<<<<<< HEAD
 ## Usage ##
 
 Documentation is ongoing, but for the impatient, and for people already familar with Hiera (See the Puppet users tutorial)[https://github.com/crayfishx/jacaranda/blob/master/doc/getting_started.md] page for a quick start guide!
 
 
+=======
+>>>>>>> 225e18b017c48e5900264a1a993a062b41a8222d
 ## Architecture ##
 
 Jacaranda is a policy based lookup system.  A lookup request consists of a key, a namespace and a scope.  The scope sets a list of key value pairs used for determining how the request is handled (eg: environment => development).  Scopes are also pluggable and Jacaranda can set the scope data in a variety of ways, by default it is passed as metadata information within the request, but other future options include PuppetDB, MCollective...etc.  Each search request is passed to a pre-determined policy.  The policy dictates a series of lookups that should be performed and in what order.  Each lookup uses a configurable and pluggable data source to search for the lookup key.  Lookups support various plugins to control and manipulate lookup requests and the final result returned from the back end data source is then optionally passed through a number of response filters before the data is finally serialized in a common format (JSON) and returned to the requestor.
@@ -50,6 +52,7 @@ There are various integration options for making requests to Jacaranda.
 * Ruby API
 * REST API (experimental)
 * Puppet data binding terminus
+* Hiera Backend
 
 Future integrations with other tools such as Chef and Rundeck are under development
 

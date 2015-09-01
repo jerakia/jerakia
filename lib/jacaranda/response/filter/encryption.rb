@@ -18,7 +18,7 @@ class Jacaranda::Response
   module Filter
     module Encryption
 
-      def filter_encryption
+      def filter_encryption(opts={})
         parse_values do |val|
           if val.is_a?(String)
             decrypt val
