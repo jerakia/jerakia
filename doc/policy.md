@@ -48,7 +48,7 @@ Additionally, lookup functionality can be expanded with a variety of shipped or 
 
 * `confine` : Confine the lookup based on a scope attribute having a particular value
 * `exclude` : Exclude the lookup if a scope attribute has a particular value
-* `hiera_compat` : Rewrite the lookup to emulate Hiera's filesystem layout (see (The file datastore)[datasources/file.md])
+* `hiera_compat` : Rewrite the lookup to emulate Hiera's filesystem layout (see [The file datastore](datasources/file.md))
 
 
 ### Output Handler ###

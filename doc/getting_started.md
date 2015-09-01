@@ -74,7 +74,7 @@ Jacaranda policies are containers for lookups, which are performed in order.  A 
 
 ## Data files ##
 
-Using the YAML file datasource, we'll now add some configuraton data for Jacaranda to query,  first lets create the directory structure
+Using the YAML [file datasource](datasources/file.md), we'll now add some configuraton data for Jacaranda to query,  first lets create the directory structure
 
     # cd /var/lib/jacaranda
     # mkdir -p common hostname/fake.server.com environment/development
