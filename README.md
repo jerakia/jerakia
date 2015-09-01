@@ -13,6 +13,8 @@ This project is still in a prototype development stage - it shouldn't be conside
 
 ## Introduction ##
 
+### Description ###
+
 Jacaranda is a pluggable hierarchical data lookup engine.  It is not a database, Jacaranda itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jacaranda is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jacaranda is an attempt at a different way of approaching data lookup management.
 
 The main goals of Jacaranda are:
@@ -27,7 +29,6 @@ Features include:
 * HTTP REST API data source nativly included
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
-
 
 ## Architecture ##
 
@@ -45,6 +46,7 @@ There are various integration options for making requests to Jacaranda.
 * Ruby API
 * REST API (experimental)
 * Puppet data binding terminus
+* Hiera Backend
 
 Future integrations with other tools such as Chef and Rundeck are under development
 

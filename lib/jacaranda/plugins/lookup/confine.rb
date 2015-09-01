@@ -1,12 +1,18 @@
 class Jacaranda::Lookup
   module Plugin
 
-    def confine(key,match)
-      invalidate unless scope[key][Regexp.new(match)] == key
+    def confine(key=nil,match)
+      if key
+        invalidate unless key[Regexp.new(match)] == key
+      else
+        invalidate
+      end
     end
 
-    def exclude(key,match)
-      invalidate if scope[key][Regexp.new(match)] == key
+    def exclude(key=nil,match)
+      if key
+        invalidate if key[Regexp.new(match)] == key
+      end
     end
       
   end

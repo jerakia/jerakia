@@ -11,6 +11,7 @@ class Jacaranda::Lookup
   attr_reader :scope_object
   attr_reader :output_filters
   attr_reader :name
+  attr_reader :proceed
 
   def initialize(name,req,scope,&block)
     
@@ -19,6 +20,7 @@ class Jacaranda::Lookup
     @valid=true
     @scope_object=scope
     @output_filters=[]
+    @proceed=true
     extend Jacaranda::Lookup::Plugin
     instance_eval &block
     
@@ -41,7 +43,33 @@ class Jacaranda::Lookup
     @output_filters << { :name => name, :opts => opts }
   end
     
+  def proceed?
+    @proceed
+  end
 
+  ## lookup function: stop
+  # Enabling stop sets @proceed to false, which will cause Jacaranda
+  # *not* to load any more lookups in the policy if this lookup is
+  # deemed as valid.  If the lookup is invalidated than Jacaranda *will*
+  # progress to the next lookup.   This is useful in conjuction with
+  # the confine plugin where we want to segregate some lookups but
+  # not worry about excluding from later lookups
+  #
+  def stop
+    @proceed = false
+  end
+
+  ## lookup function: continue
+  # Will cause Jacaranda to continue to the next lookup in the policy
+  # which is the default behaviour
+  #
+  def continue
+    @proceed = true
+  end
+
+  ## lookup function: invalidate
+  # Setting invalidate will mean this lookup will be skipped in the policy
+  #
   def invalidate
     @valid=false
   end
