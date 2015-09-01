@@ -57,9 +57,15 @@ Future integrations with other tools such as Chef and Rundeck are under developm
 
 ## Features in active development ##
 * Better logging
+* Better caching
 * PuppetDB and MCollective scope plugins
 * HTTP datasource
 * ENC integration
+
+## Help and support ##
+
+Raise issues on the github page, we would love to hear any feature requests that aren't currently covered by jacaranda.  There is also an IRC channel on freenode, #jacaranda
+
 
 ## License ##
 
