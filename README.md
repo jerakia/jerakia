@@ -9,11 +9,12 @@ This project is still in a prototype development stage - it shouldn't be conside
 
 * 0.0.x + : Volatile, in extensive development, every release should be considered a break release
 * 0.1.x + : Minor version considered breaking change, patch version may add features
-* 1.0.0 + : Stable release, all versions from 1.0.0 onward will ahere to semver
+* 1.0.0 + : Stable release, all versions from 1.0.0 onward will adhere to semver
 
 ## Introduction ##
 
-Jacaranda is a pluggable hierarchical data lookup engine.  It is not a database, Jacaranda itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jacaranda is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jacaranda is an attempt at a different way of approaching data lookup management.
+Jacaranda is a pluggable hierarchical data lookup engine.  It is not a database, Jacaranda itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jacaranda is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jacaranda is an attempt at a different way of approaching data lookup management.  Jacaranda started out as a prototype experiment to replace hiera in order to solve a number of complicated requirements for a particular project, over time it matured a bit and we decided to open source it and move it towards a standalone data lookup system.
+
 
 The main goals of Jacaranda are:
 
@@ -27,6 +28,10 @@ Features include:
 * HTTP REST API data source nativly included
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
+
+## Usage ##
+
+Documentation is ongoing, but for the impatient, and for people already familar with Hiera (See the Puppet users tutorial)[https://github.com/crayfishx/jacaranda/blob/master/doc/getting_started.md] page for a quick start guide!
 
 
 ## Architecture ##
@@ -52,7 +57,7 @@ Future integrations with other tools such as Chef and Rundeck are under developm
 
 It is recommended you [read the documentation here](./docs/index.md) before continuing.
 
-## Features in development ##
+## Features in active development ##
 * Better logging
 * PuppetDB and MCollective scope plugins
 * HTTP datasource

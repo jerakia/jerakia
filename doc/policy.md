@@ -81,7 +81,7 @@ Here is an example of a slightly more complicated policy that makes use of some 
             "/config/?#{scope[:certname]}",
             "/config/?global"
           ]
-        confine :calling_module, "specialapp"
+        confine calling_module, "specialapp"
       end
     end
 
