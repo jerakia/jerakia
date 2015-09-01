@@ -28,14 +28,11 @@ Features include:
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
 
-<<<<<<< HEAD
 ## Usage ##
 
 Documentation is ongoing, but for the impatient, and for people already familar with Hiera (See the Puppet users tutorial)[https://github.com/crayfishx/jacaranda/blob/master/doc/getting_started.md] page for a quick start guide!
 
 
-=======
->>>>>>> 225e18b017c48e5900264a1a993a062b41a8222d
 ## Architecture ##
 
 Jacaranda is a policy based lookup system.  A lookup request consists of a key, a namespace and a scope.  The scope sets a list of key value pairs used for determining how the request is handled (eg: environment => development).  Scopes are also pluggable and Jacaranda can set the scope data in a variety of ways, by default it is passed as metadata information within the request, but other future options include PuppetDB, MCollective...etc.  Each search request is passed to a pre-determined policy.  The policy dictates a series of lookups that should be performed and in what order.  Each lookup uses a configurable and pluggable data source to search for the lookup key.  Lookups support various plugins to control and manipulate lookup requests and the final result returned from the back end data source is then optionally passed through a number of response filters before the data is finally serialized in a common format (JSON) and returned to the requestor.
