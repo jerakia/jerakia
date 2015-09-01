@@ -36,6 +36,7 @@ Supported methods are
 * `invalidate` disable this lookup
 * `scope` return the scope object
 * `output_handler` add an output handler to this request
+* `stop` Do not proceed to the next lookup _if this lookup is deemed valid_, regardless of whether data is returned
 
 ### Scope object ###
 
@@ -47,7 +48,8 @@ Additionally, lookup functionality can be expanded with a variety of shipped or 
 
 * `confine` : Confine the lookup based on a scope attribute having a particular value
 * `exclude` : Exclude the lookup if a scope attribute has a particular value
-* `hiera_compat` : Rewrite the lookup to emulate Hiera's filesystem layout (see datasources/file.md)
+* `hiera_compat` : Rewrite the lookup to emulate Hiera's filesystem layout (see (The file datastore)[datasources/file.md])
+
 
 ### Output Handler ###
 
@@ -59,9 +61,22 @@ Here is an example of a slightly more complicated policy that makes use of some 
 
     policy :puppet do
     
+      lookup :special do {
+        datasource :file, {
+          :format => :yaml,
+          :docroot => '/var/specialapp/data',
+          :searchpath => [
+            "scope[:environment]/config"
+          ]
+        }
+        confine calling_module, "specialapp"
+        stop
+      end
+
       lookup :default do
         datasource :file, {
           :format => :yaml,
+          :extension => 'yaml',
           :docroot => '/etc/jacaranda/data',
           :searchpath => [
             scope[:certname],
@@ -70,22 +85,13 @@ Here is an example of a slightly more complicated policy that makes use of some 
           ]
           },
         hiera_compat
-        exclude :calling_module, "specialapp"
         output_handler :encryption
       }
     
-      lookup :special do {
-        datasource :http, {
-          :url => 'http://localhost:9999',
-          :paths => [
-            "/config/?#{scope[:certname]}",
-            "/config/?global"
-          ]
-        confine calling_module, "specialapp"
       end
     end
 
-In this, rather imaginative example, all lookup requests will be passed to the file datasource specified in the default lookup, except for requets that have calling_module set to 'specialapp'.  When calling_module is set to special_app the only lookup that will be used is `special`.   Here we are using a combination of exclude and confine to effectivly route lookup requests.
+In this, rather imaginative example, all lookup requests will be passed to the file datasource specified in the default lookup, except for requets that have calling_module set to 'specialapp'.  When calling_module is set to special_app the only lookup that will be used is `special`.   Here we are using  confine to effectivly route lookup requests.
 
 
      
