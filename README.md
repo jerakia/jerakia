@@ -28,9 +28,11 @@ Features include:
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
 
-## Usage ##
+## Usage and Documentation ##
 
-Documentation is ongoing, but for the impatient, and for people already familar with Hiera (See the Puppet users tutorial)[doc/getting_started.md] page for a quick start guide!
+It is recommended you [read the documentation here](./doc/index.md) before continuing.
+
+Documentation is ongoing, but for the impatient, and for people already familar with Hiera See the [Puppet users tutorial](doc/getting_started.md) page for a quick start guide!
 
 
 ## Architecture ##
@@ -52,10 +54,6 @@ There are various integration options for making requests to Jacaranda.
 * Hiera Backend
 
 Future integrations with other tools such as Chef and Rundeck are under development
-
-## Documentation ##
-
-It is recommended you [read the documentation here](./docs/index.md) before continuing.
 
 ## Features in active development ##
 * Better logging
