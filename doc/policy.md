@@ -55,6 +55,10 @@ Additionally, lookup functionality can be expanded with a variety of shipped or 
 
 Optionally, you can specify one or more output handlers.  Output handlers are passed the response object before they are compiled into an answer and returned to the requestor.  One shipped output handler is encryption which passes every response value through a filter to determine if decryption is required, and if so, uses eyaml (from heira-eyaml) to decrypt the data
 
+### Ordering ###
+
+The ordering of lookups is important - they will be perormed in the order that they are read.  Since plugins have the ability to rewrite and modify the lookup request, ordering may be important for those too and you should consult the relevant plugin docs.
+
 ## Example ##
 
 Here is an example of a slightly more complicated policy that makes use of some of the above
