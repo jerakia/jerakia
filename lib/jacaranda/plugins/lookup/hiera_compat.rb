@@ -14,7 +14,11 @@ class Jacaranda::Lookup
     end
 
     def calling_module
-      request.namespace.join('::') 
+      if request.namespace.length > 0
+        request.namespace[0]
+      else
+        Jacaranda.log.error("hiera_compat plugin tried to use calling_module but there is no namespace declared.  Ensure that calling_module is called before hiera_compat in the policy")
+      end
     end
   end
 end

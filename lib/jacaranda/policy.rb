@@ -8,11 +8,12 @@ class Jacaranda::Policy < Jacaranda::Launcher
   attr_reader   :answer
   attr_reader   :scope
 
-  def initialize(&block)
+  def initialize(name, opts, &block)
     @lookups=[]
     @routes={}
     @answer=Jacaranda::Answer.new(request.lookup_type)
     @scope=Jacaranda::Scope.new
+    
     begin
       instance_eval &block
     rescue => e

@@ -23,8 +23,8 @@ class Jacaranda::Launcher
   end
 
 
-  def policy(name, &block)
-    policy = Jacaranda::Policy.new(&block)
+  def policy(name, opts={},  &block)
+    policy = Jacaranda::Policy.new(name, opts, &block)
     policy.fire!
     @answer = policy.answer
   end

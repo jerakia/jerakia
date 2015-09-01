@@ -5,8 +5,9 @@ class Hiera
       def initialize
         require 'jacaranda'
         @config = Config[:jacaranda] || {}
-        @policy = @config[:policy] || 'puppet'
-        @jacaranda = ::Jacaranda.new(Config[:jacaranda])
+        @policy = @config[:policy] || 'default'
+        @jacaranda = ::Jacaranda.new(Config[:jacaranda] || {}) 
+        Jacaranda.log.debug("[hiera] hiera backend loaded with policy #{@policy}")
 
       end
 
@@ -26,13 +27,15 @@ class Hiera
           merge_type = :hash
         end
 
-        namespace = ''
+        namespace = []
 
         if key.include?('::')
            lookup_key = key.split('::')
-           namespace = lookup_key.shift
+           namespace << lookup_key.shift
            key = lookup_key.join('::')
         end
+
+        Jacaranda.log.debug("[hiera] backend invoked for key #{key} using namespace #{namespace}")
           
         metadata={}
         if scope.is_a?(Hash)
