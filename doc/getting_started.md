@@ -5,6 +5,8 @@ Getting started tutorial using Jacaranda and Puppet
 
 This is a *very quick*start guide for users already familiar with Puppet and Hiera who want to dive right in....
 
+Note - the following is tested against Puppet 3.x, testing on Puppet 4 is ongoing
+
 # Installation #
 
 Jacaranda is installed from a rubygem, simply;
