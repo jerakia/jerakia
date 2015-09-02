@@ -11,7 +11,10 @@ Note - the following is tested against Puppet 3.x, testing on Puppet 4 is ongoin
 
 Jacaranda is installed from a rubygem, simply;
 
-`gem install jacaranda`
+*IMPORTANT* jacaranda is not currently on rubygems due to a naming conflict with an inactive project.  Hopefully we will be able to use this namespace soon but in the mean time you will need to build the gem manually.
+
+`gem build jacaranda.gemspec`
+`gem install ./jacaranda*gem`
 
 # Configuration #
 
