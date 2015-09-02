@@ -2,7 +2,7 @@ require 'rake'
 
 Gem::Specification.new do |s|
   s.name       = 'jacaranda'
-  s.version    = '0.0.1'
+  s.version    = File.read('VERSION').chomp
   s.date       = '2015-06-01'
   s.summary    = 'Extendable and flexible ata lookup system'
   s.description = 'Extendable and flexible data lookup system'
