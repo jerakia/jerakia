@@ -15,7 +15,6 @@ class Jacaranda::Response
         parse_values do |val|
           if val.is_a?(String)
             do_substr(val)
-            Jacaranda.log.debug("strsub returning #{val}")
           end
           val
         end

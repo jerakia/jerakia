@@ -9,11 +9,11 @@ This project is still in a prototype development stage - it shouldn't be conside
 
 * 0.0.x + : Volatile, in extensive development, every release should be considered a break release
 * 0.1.x + : Minor version considered breaking change, patch version may add features
-* 1.0.0 + : Stable release, all versions from 1.0.0 onward will ahere to semver
+* 1.0.0 + : Stable release, all versions from 1.0.0 onward will adhere to semver
 
 ## Introduction ##
 
-Jacaranda is a pluggable hierarchical data lookup engine.  It is not a database, Jacaranda itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jacaranda is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jacaranda is an attempt at a different way of approaching data lookup management.
+Jacaranda is a pluggable hierarchical data lookup engine.  It is not a database, Jacaranda itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jacaranda is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jacaranda is an attempt at a different way of approaching data lookup management.  Jacaranda started out as a prototype experiment to replace hiera in order to solve a number of complicated requirements for a particular project, over time it matured a bit and we decided to open source it and move it towards a standalone data lookup system.
 
 The main goals of Jacaranda are:
 
@@ -28,6 +28,12 @@ Features include:
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
 
+## Usage and Documentation ##
+
+It is recommended you [read the documentation here](./doc/index.md) before continuing.
+
+Documentation is ongoing, but for the impatient, and for people already familar with Hiera See the [Puppet users tutorial](doc/getting_started.md) page for a quick start guide!
+
 
 ## Architecture ##
 
@@ -35,7 +41,7 @@ Jacaranda is a policy based lookup system.  A lookup request consists of a key, 
 
 ## Puppet ##
 
-For Puppet users wishing to test or migrate to Jacaranda there are a number of options.  Jacaranda ships with a Puppet data binding terminus that can be enabled with a simple configuration directive in Puppet's configuration file causing all data binding lookups from parameterised classes to Jacaranda rather than Puppet's native Hiera.  Like Hiera, Jacaranda supports a file based data source for looking up data in YAML or JSON source files.  By default, Jacaranda has a slightly different filesystem layout and lookup format than hiera, however, if you wish to retain your existing data files this can be enabled using the _hiera_compat_ lookup plugin.  [Read more about Puppet integration here](./docs/puppet.md).
+For Puppet users wishing to test or migrate to Jacaranda there are a number of options.  Jacaranda ships with a Puppet data binding terminus that can be enabled with a simple configuration directive in Puppet's configuration file causing all data binding lookups from parameterised classes to Jacaranda rather than Puppet's native Hiera.  Like Hiera, Jacaranda supports a file based data source for looking up data in YAML or JSON source files.  By default, Jacaranda has a slightly different filesystem layout and lookup format than hiera, however, if you wish to retain your existing data files this can be enabled using the _hiera_compat_ lookup plugin.  [Read more about Hiera compatability and integration here](./docs/quickstart_puppet.md).
 
 ## Integration ##
 
@@ -45,18 +51,21 @@ There are various integration options for making requests to Jacaranda.
 * Ruby API
 * REST API (experimental)
 * Puppet data binding terminus
+* Hiera Backend
 
 Future integrations with other tools such as Chef and Rundeck are under development
 
-## Documentation ##
-
-It is recommended you [read the documentation here](./docs/index.md) before continuing.
-
-## Features in development ##
+## Features in active development ##
 * Better logging
+* Better caching
 * PuppetDB and MCollective scope plugins
 * HTTP datasource
 * ENC integration
+
+## Help and support ##
+
+Raise issues on the github page, we would love to hear any feature requests that aren't currently covered by jacaranda.  There is also an IRC channel on freenode, #jacaranda
+
 
 ## License ##
 
