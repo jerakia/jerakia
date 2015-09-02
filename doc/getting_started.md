@@ -5,6 +5,8 @@ Getting started tutorial using Jacaranda and Puppet
 
 This is a *very quick*start guide for users already familiar with Puppet and Hiera who want to dive right in....
 
+Note - the following is tested against Puppet 3.x, testing on Puppet 4 is ongoing
+
 # Installation #
 
 Jacaranda is installed from a rubygem, simply;
@@ -74,7 +76,7 @@ Jacaranda policies are containers for lookups, which are performed in order.  A 
 
 ## Data files ##
 
-Using the YAML file datasource, we'll now add some configuraton data for Jacaranda to query,  first lets create the directory structure
+Using the YAML [file datasource](datasources/file.md), we'll now add some configuraton data for Jacaranda to query,  first lets create the directory structure
 
     # cd /var/lib/jacaranda
     # mkdir -p common hostname/fake.server.com environment/development
@@ -227,6 +229,6 @@ Using the hiera_compat plugin, the jacaranda lookup is rewritten to mesh the loo
 
 # Further reading #
 
-Some other examples of Jacaranda policies and lookups with various plugins (can be found here)[https://github.com/crayfishx/jacaranda/blob/master/doc/policy.md] with further documentation appearing in the docs/ section of the site.
+Some other examples of Jacaranda policies and lookups with various plugins [can be found here](policy.md) with further documentation appearing in the docs/ section of the site.
 
 We are trying to document this as fast as we write it - please bear with us.

@@ -28,9 +28,11 @@ Features include:
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
 
-## Usage ##
+## Usage and Documentation ##
 
-Documentation is ongoing, but for the impatient, and for people already familar with Hiera (See the Puppet users tutorial)[https://github.com/crayfishx/jacaranda/blob/master/doc/getting_started.md] page for a quick start guide!
+It is recommended you [read the documentation here](./doc/index.md) before continuing.
+
+Documentation is ongoing, but for the impatient, and for people already familar with Hiera See the [Puppet users tutorial](doc/getting_started.md) page for a quick start guide!
 
 
 ## Architecture ##
@@ -39,7 +41,7 @@ Jacaranda is a policy based lookup system.  A lookup request consists of a key, 
 
 ## Puppet ##
 
-For Puppet users wishing to test or migrate to Jacaranda there are a number of options.  Jacaranda ships with a Puppet data binding terminus that can be enabled with a simple configuration directive in Puppet's configuration file causing all data binding lookups from parameterised classes to Jacaranda rather than Puppet's native Hiera.  Like Hiera, Jacaranda supports a file based data source for looking up data in YAML or JSON source files.  By default, Jacaranda has a slightly different filesystem layout and lookup format than hiera, however, if you wish to retain your existing data files this can be enabled using the _hiera_compat_ lookup plugin.  [Read more about Puppet integration here](./docs/puppet.md).
+For Puppet users wishing to test or migrate to Jacaranda there are a number of options.  Jacaranda ships with a Puppet data binding terminus that can be enabled with a simple configuration directive in Puppet's configuration file causing all data binding lookups from parameterised classes to Jacaranda rather than Puppet's native Hiera.  Like Hiera, Jacaranda supports a file based data source for looking up data in YAML or JSON source files.  By default, Jacaranda has a slightly different filesystem layout and lookup format than hiera, however, if you wish to retain your existing data files this can be enabled using the _hiera_compat_ lookup plugin.  [Read more about Hiera compatability and integration here](./docs/quickstart_puppet.md).
 
 ## Integration ##
 
@@ -53,15 +55,17 @@ There are various integration options for making requests to Jacaranda.
 
 Future integrations with other tools such as Chef and Rundeck are under development
 
-## Documentation ##
-
-It is recommended you [read the documentation here](./docs/index.md) before continuing.
-
 ## Features in active development ##
 * Better logging
+* Better caching
 * PuppetDB and MCollective scope plugins
 * HTTP datasource
 * ENC integration
+
+## Help and support ##
+
+Raise issues on the github page, we would love to hear any feature requests that aren't currently covered by jacaranda.  There is also an IRC channel on freenode, #jacaranda
+
 
 ## License ##
 

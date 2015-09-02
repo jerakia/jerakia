@@ -10,7 +10,9 @@ The file data source performs hierarchical searches across YAML or JSON formatte
 
 * `:format`  The file format, one of :yaml and :json
 * `:docroot` The root of the documents
-* `:searchpath` An array specifying the order of hierarchical lookups
+* `:searchpath` An array specifying the order of hierarchical lookups.  Entries starting with an alphanumerical character will be relative from `docroot`, paths starting with `/` will be absolute.
+* `:extension` Overrides the default extension (eg: yml) for the file format chosen
+* `:enable_caching` true or false, whether to cache the contents of files
 
 # Example #
 
