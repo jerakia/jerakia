@@ -81,7 +81,7 @@ Using the YAML [file datasource](datasources/file.md), we'll now add some config
     # cd /var/lib/jacaranda
     # mkdir -p common hostname/fake.server.com environment/development
 
-Jacaranda lookups contain two important components, a _namespace_ and a _key_, by default the file backend will search for your key in a file corresponding to _<path>/<namespace>.yml.  So let's create that now for a fictional _servers_ key in the _ntp_ namespace
+Jacaranda lookups contain two important components, a _namespace_ and a _key_, by default the file backend will search for your key in a file corresponding to `<path>/<namespace>.yml`.  So let's create that now for a fictional _servers_ key in the _ntp_ namespace
 
     # vim /var/lib/jacaranda/common/ntp.yml
 
@@ -183,7 +183,7 @@ Now we should be able to use Jacaranda transparently from Puppet
 
 # Existing Hiera compatibility #
 
-You would have noted by now that Jacaranda does things slightly differently from Hiera, notably the location of files using the namespace as the filename.  Whereas Jacaranda searches for _key_ in _<path>/<namespace>.yml  Hiera will search for _<namespace>::<key>_ in _<path>.yaml_  (note the file extentions).  It is however possible to use Jacaranda on top of your existing Hiera file structure in order to test drive it without modifying your data by using the hiera_compat plugin that ships with Jacaranda.
+You would have noted by now that Jacaranda does things slightly differently from Hiera, notably the location of files using the namespace as the filename.  Whereas Jacaranda searches for _key_ in `<path>/<namespace>.yml`  Hiera will search for `<namespace>::<key>` in `<path>.yaml`  (note the file extentions).  It is however possible to use Jacaranda on top of your existing Hiera file structure in order to test drive it without modifying your data by using the hiera_compat plugin that ships with Jacaranda.
 
 An example Hiera herarchy would like:
 
