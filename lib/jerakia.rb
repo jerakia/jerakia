@@ -16,6 +16,11 @@ class Jerakia
   def initialize(options={})
     configfile = options[:config] || '/etc/jerakia/jerakia.yml'
     @@config = Jerakia::Config.new(configfile)
+
+    if @@config[:plugindir]
+      $LOAD_PATH << @@config[:plugindir] unless $LOAD_PATH.include?(@@config[:plugindir])
+    end
+
     @@filecache = {}
     loglevel = options[:loglevel] || @@config["loglevel"] || "info"
     @@log = Jerakia::Log.new(loglevel.to_sym)

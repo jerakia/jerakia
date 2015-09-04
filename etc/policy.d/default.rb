@@ -1,6 +1,7 @@
     policy :default do
 
-      lookup :default do
+      lookup :default, :use => :basler_hostname  do
+        puts basler_env
         datasource :file, {
           :format     => :yaml,
           :docroot    => "/var/lib/jerakia",

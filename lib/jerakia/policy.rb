@@ -31,7 +31,7 @@ class Jerakia::Policy < Jerakia::Launcher
     # We specifically clone the request object to allow plugins to modify the
     # request payload for the scope of this lookup only.
     #
-    lookup = Jerakia::Lookup.new(name,clone_request,scope,&block)
+    lookup = Jerakia::Lookup.new(name,opts,clone_request,scope,&block)
     Jerakia.log.debug("Proceed to next lookup #{lookup.proceed?}")
    
     @lookups << lookup if lookup.valid? and @lookup_proceed

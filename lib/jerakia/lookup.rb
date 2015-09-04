@@ -13,7 +13,7 @@ class Jerakia::Lookup
   attr_reader :name
   attr_reader :proceed
 
-  def initialize(name,req,scope,&block)
+  def initialize(name,opts,req,scope,&block)
     
     @name=name
     @request=req
@@ -21,10 +21,22 @@ class Jerakia::Lookup
     @scope_object=scope
     @output_filters=[]
     @proceed=true
+
+    if opts[:use]
+      plugins = Array(opts[:use]).flatten.each do |plugin|
+        plugin_load(plugin)
+      end
+    end
+
     extend Jerakia::Lookup::Plugin
     instance_eval &block
     
   end
+ 
+  def plugin_load(plugin)
+    require "jerakia/plugins/lookup/#{plugin}"
+  end
+
 
   def datasource(source, opts={})
     @datasource = Jerakia::Datasource.new(source, self, opts)
