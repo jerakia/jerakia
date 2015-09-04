@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-require 'jacaranda'
-jac = Jacaranda.new
+require 'jerakia'
+jac = Jerakia.new
 
 
 100.times do
-req = Jacaranda::Request.new(
+req = Jerakia::Request.new(
   :key => 'port',
   :namespace => [ 'apache' ],
   :policy => :craig,

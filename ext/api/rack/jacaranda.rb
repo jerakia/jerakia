@@ -1,8 +1,8 @@
 require 'sinatra'
 require 'json'
-require 'jacaranda'
+require 'jerakia'
 
-jac=Jacaranda.new
+jac=Jerakia.new
 
 get '/:policy/:key' do
   
@@ -38,7 +38,7 @@ get '/:policy/:key' do
     reqdata[:lookup_type] = lookup_type.to_sym
   end
 
-  jacreq=Jacaranda::Request.new(reqdata)
+  jacreq=Jerakia::Request.new(reqdata)
   answer = jac.lookup(jacreq)
   answer.payload.to_json
 

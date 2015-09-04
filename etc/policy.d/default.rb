@@ -3,7 +3,7 @@
       lookup :default do
         datasource :file, {
           :format     => :yaml,
-          :docroot    => "/var/lib/jacaranda",
+          :docroot    => "/var/lib/jerakia",
           :searchpath => [
             "hostname/#{scope[:fqdn]}",
             "environment/#{scope[:environment]}",

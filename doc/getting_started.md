@@ -1,4 +1,4 @@
-Getting started tutorial using Jacaranda and Puppet
+Getting started tutorial using Jerakia and Puppet
 ==============================
 
 # About #
@@ -9,30 +9,30 @@ Note - the following is tested against Puppet 3.x, testing on Puppet 4 is ongoin
 
 # Installation #
 
-Jacaranda is installed from a rubygem, simply;
+Jerakia is installed from a rubygem, simply;
 
-*IMPORTANT* jacaranda is not currently on rubygems due to a naming conflict with an inactive project.  Hopefully we will be able to use this namespace soon but in the mean time you will need to build the gem manually.
+*IMPORTANT* jerakia is not currently on rubygems due to a naming conflict with an inactive project.  Hopefully we will be able to use this namespace soon but in the mean time you will need to build the gem manually.
 
-`gem build jacaranda.gemspec`
+`gem build jerakia.gemspec`
 
 ...
 
-`gem install ./jacaranda*gem`
+`gem install ./jerakia*gem`
 
 # Configuration #
 
-## Jacaranda configuration file ##
+## Jerakia configuration file ##
 
-The first step is to create a basic configuration file for Jacaranda to tell it where to load policies, log data...etc
+The first step is to create a basic configuration file for Jerakia to tell it where to load policies, log data...etc
 
-    # mkdir /etc/jacaranda
-    # vim /etc/jacaranda/jacaranda.yml
+    # mkdir /etc/jerakia
+    # vim /etc/jerakia/jerakia.yml
 
 A basic configuration looks like:
 
     ---
-    policydir: /etc/jacaranda/policy.d
-    logfile: /var/log/jacaranda.log
+    policydir: /etc/jerakia/policy.d
+    logfile: /var/log/jerakia.log
     loglevel: info
 
 If you are going to use the encryption output filter provided by hiera-eyaml to enable you to use encrypted strings in your data, you can provide the keys here
@@ -45,12 +45,12 @@ If you are going to use the encryption output filter provided by hiera-eyaml to 
 
 ## The policy file ##
 
-All jacaranda requests are processed using a lookup policy.  Policy filenames should correspond to the name of the policy and are loaded from the `policydir` directive in jacaranda.yml.  If you don't specify a policy name in the lookup request then the name _default_ is used.  So let's create that now.
+All jerakia requests are processed using a lookup policy.  Policy filenames should correspond to the name of the policy and are loaded from the `policydir` directive in jerakia.yml.  If you don't specify a policy name in the lookup request then the name _default_ is used.  So let's create that now.
 
-    # mkdir /etc/jacaranda/policy.d
-    # vim /etc/jacaranda/policy.d/default.rb
+    # mkdir /etc/jerakia/policy.d
+    # vim /etc/jerakia/policy.d/default.rb
 
-Jacaranda policies are written in ruby DSL, therefore you a free to use any ruby you wish.  A Jacaranda policy is defined as a block.
+Jerakia policies are written in ruby DSL, therefore you a free to use any ruby you wish.  A Jerakia policy is defined as a block.
 
     policy :default do
     
@@ -58,14 +58,14 @@ Jacaranda policies are written in ruby DSL, therefore you a free to use any ruby
 
 ## Lookups ##
 
-Jacaranda policies are containers for lookups, which are performed in order.  A lookup contains a data source that should be used for the data lookup along with any plugun functions.  A simple example using the file data source to source data from yaml files would look like;
+Jerakia policies are containers for lookups, which are performed in order.  A lookup contains a data source that should be used for the data lookup along with any plugun functions.  A simple example using the file data source to source data from yaml files would look like;
 
     policy :default do
 
       lookup :default do
         datasource :file, {
           :format     => :yaml,
-          :docroot    => "/var/lib/jacaranda",
+          :docroot    => "/var/lib/jerakia",
           :searchpath => [
             "hostname/#{scope[:fqdn]}",
             "environment/#{scope[:environment]}",
@@ -78,18 +78,18 @@ Jacaranda policies are containers for lookups, which are performed in order.  A 
  
 
 
-# Add data to Jacaranda #
+# Add data to Jerakia #
 
 ## Data files ##
 
-Using the YAML [file datasource](datasources/file.md), we'll now add some configuraton data for Jacaranda to query,  first lets create the directory structure
+Using the YAML [file datasource](datasources/file.md), we'll now add some configuraton data for Jerakia to query,  first lets create the directory structure
 
-    # cd /var/lib/jacaranda
+    # cd /var/lib/jerakia
     # mkdir -p common hostname/fake.server.com environment/development
 
-Jacaranda lookups contain two important components, a _namespace_ and a _key_, by default the file backend will search for your key in a file corresponding to `<path>/<namespace>.yml`.  So let's create that now for a fictional _servers_ key in the _ntp_ namespace
+Jerakia lookups contain two important components, a _namespace_ and a _key_, by default the file backend will search for your key in a file corresponding to `<path>/<namespace>.yml`.  So let's create that now for a fictional _servers_ key in the _ntp_ namespace
 
-    # vim /var/lib/jacaranda/common/ntp.yml
+    # vim /var/lib/jerakia/common/ntp.yml
 
 In this document we put our configuration for the _ntp_ namespace
 
@@ -98,19 +98,19 @@ In this document we put our configuration for the _ntp_ namespace
       - ntp0.fake.com
       - ntp1.fake.com
 
-## Query Jacaranda from the command line ##
+## Query Jerakia from the command line ##
 
-Using the key and the namespace we can now query this data directly from Jacaranda
+Using the key and the namespace we can now query this data directly from Jerakia
 
-    # jacaranda -k servers -n ntp
+    # jerakia -k servers -n ntp
     ["ntp0.fake.com","ntp1.fake.com"]
 
 ## Hierarical overrides ##
 
 Note the hierarchy that we have defined in our lookups. The scope is a bunch of key/value metadata that is sent with the request.  In Puppet terms, these would be facts and top-level variables.  In our fictional environment we are going to override the ntp servers for everything in the dev environment by creating a new data file at the environment level.
 
-    # mkdir /var/lib/jacaranda/environment/development
-    # vim /var/lib/jacaranda/environment/development/ntp.yml
+    # mkdir /var/lib/jerakia/environment/development
+    # vim /var/lib/jerakia/environment/development/ntp.yml
 
 And put in different server names 
 
@@ -123,17 +123,17 @@ And put in different server names
 
 We can simulate the scope of the lookup request on the command line by passing key:val pairs after the arguments
 
-    # jacaranda -k servers -n ntp environment:production
+    # jerakia -k servers -n ntp environment:production
     ["ntp0.fake.com","ntp1.fake.com"]
     
 By running against production, we have the values returned from common as there is no production environment defined, but if we now run the same lookup but with development environment in the scope, we get different results
 
-    # jacaranda -k servers -n ntp environment:development
+    # jerakia -k servers -n ntp environment:development
     ["ntp0.devbox.com","ntp1.devbox.com"]
 
 # Integration with Puppet #
 
-There are a few options to integrate Jacaranda with Puppet.
+There are a few options to integrate Jerakia with Puppet.
 
 
 ## As a hiera backend ##
@@ -142,11 +142,11 @@ Hiera can be enabled very simply by simply adding it as a backend to hiera
 
     # vim /etc/hiera.yaml
 
-Jacaranda can be used in place of, or addition to, other hiera backends.
+Jerakia can be used in place of, or addition to, other hiera backends.
 
     ---
     :backends:
-      - jacaranda
+      - jerakia
 
 We can now query the same data using Hiera
 
@@ -156,16 +156,16 @@ We can now query the same data using Hiera
     # hiera ntp::servers environment=development
     ["ntp0.devbox.com","ntp1.devbox.com"]
 
-Note that using the Hiera backend, a query of foo::bar will send a lookup request to Jacaranda for the key _bar_ with the namespace _foo_
+Note that using the Hiera backend, a query of foo::bar will send a lookup request to Jerakia for the key _bar_ with the namespace _foo_
 
 ## The Puppet data binding terminus ##
 
-Jacaranda supports a puppet data binding terminus for direct integration, this is the preferred method of using Jacaranda from Puppet although we still advise having the hiera backend to support any modules that use hiera() function calls directly.  Using the data binding terminus however will route all data mapping requests from parametersed classes directly to Jacaranda.
+Jerakia supports a puppet data binding terminus for direct integration, this is the preferred method of using Jerakia from Puppet although we still advise having the hiera backend to support any modules that use hiera() function calls directly.  Using the data binding terminus however will route all data mapping requests from parametersed classes directly to Jerakia.
 
 This can be configured in `/etc/puppet/puppet.conf` under the `[master]` section
 
       [master]
-        data_terminus = jacaranda
+        data_terminus = jerakia
 
 Let's write a small module to test this....
 
@@ -180,7 +180,7 @@ A simple class to perform a data mapping lookup.
       notify { $servers: }
     }
 
-Now we should be able to use Jacaranda transparently from Puppet
+Now we should be able to use Jerakia transparently from Puppet
 
     # puppet -e 'include ntp'
     Notice: /Stage[main]/Ntp/Notify[ntp0.fake.com]/message: defined 'message' as 'ntp0.fake.com'
@@ -189,7 +189,7 @@ Now we should be able to use Jacaranda transparently from Puppet
 
 # Existing Hiera compatibility #
 
-You would have noted by now that Jacaranda does things slightly differently from Hiera, notably the location of files using the namespace as the filename.  Whereas Jacaranda searches for _key_ in `<path>/<namespace>.yml`  Hiera will search for `<namespace>::<key>` in `<path>.yaml`  (note the file extentions).  It is however possible to use Jacaranda on top of your existing Hiera file structure in order to test drive it without modifying your data by using the hiera_compat plugin that ships with Jacaranda.
+You would have noted by now that Jerakia does things slightly differently from Hiera, notably the location of files using the namespace as the filename.  Whereas Jerakia searches for _key_ in `<path>/<namespace>.yml`  Hiera will search for `<namespace>::<key>` in `<path>.yaml`  (note the file extentions).  It is however possible to use Jerakia on top of your existing Hiera file structure in order to test drive it without modifying your data by using the hiera_compat plugin that ships with Jerakia.
 
 An example Hiera herarchy would like:
 
@@ -214,7 +214,7 @@ The corresponding hiera.yaml file might contain
       - "environment/%{environment}"
       - "common"
 
-Using the hiera_compat plugin, the jacaranda lookup is rewritten to mesh the lookup key to _<namespace>::<key>_ and drop the namespace from the request, meaning Jacaranda will search for _<namespace>::<key>_ in _<path>.yaml, just like Hiera.   Here is an example of a Jacaranda policy that simulates the same Hiera config
+Using the hiera_compat plugin, the jerakia lookup is rewritten to mesh the lookup key to _<namespace>::<key>_ and drop the namespace from the request, meaning Jerakia will search for _<namespace>::<key>_ in _<path>.yaml, just like Hiera.   Here is an example of a Jerakia policy that simulates the same Hiera config
 
     policy :default do
 
@@ -235,6 +235,6 @@ Using the hiera_compat plugin, the jacaranda lookup is rewritten to mesh the loo
 
 # Further reading #
 
-Some other examples of Jacaranda policies and lookups with various plugins [can be found here](policy.md) with further documentation appearing in the docs/ section of the site.
+Some other examples of Jerakia policies and lookups with various plugins [can be found here](policy.md) with further documentation appearing in the docs/ section of the site.
 
 We are trying to document this as fast as we write it - please bear with us.

@@ -1,12 +1,12 @@
 ---
-policydir: /root/jacaranda/etc/policy.d
+policydir: /root/jerakia/etc/policy.d
 
 #
 # Response filter encryption
 #
 eyaml:
-  private_key: /root/jacaranda/etc/secure/keys/private_key.pkcs7.pem
-  public_key: /root/jacaranda/etc/secure/keys/public_key.pkcs7.pem
+  private_key: /root/jerakia/etc/secure/keys/private_key.pkcs7.pem
+  public_key: /root/jerakia/etc/secure/keys/public_key.pkcs7.pem
 
 # Configuration for Puppet data binding
 # DEPRECATE!
@@ -15,5 +15,5 @@ puppet:
 
 
 
-logfile: /tmp/jacaranda.log
+logfile: /tmp/jerakia.log
 loglevel: debug

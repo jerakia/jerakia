@@ -2,13 +2,13 @@
 
 This doc is for the impatient, will not give you enough information and will probably leave you dumbfounded - it is advisable to read the user guide in detail. you have been warned.
 
-### Install jacaranda ###
+### Install jerakia ###
 
-    gem install jacaranda 
+    gem install jerakia 
 
 ### Define a policy ###
 
-To define a new policy, which we will call _puppet_  edit `/etc/jacaranda/policy.d/puppet.rb` and add the following
+To define a new policy, which we will call _puppet_  edit `/etc/jerakia/policy.d/puppet.rb` and add the following
 
 
     policy :puppet do
@@ -16,7 +16,7 @@ To define a new policy, which we will call _puppet_  edit `/etc/jacaranda/policy
       lookup :default do
         datasource :file, {
           :format => :yaml,
-          :docroot => '/etc/jacaranda/data',
+          :docroot => '/etc/jerakia/data',
           :searchpath => [
             scope[:environment],
             global
@@ -27,7 +27,7 @@ To define a new policy, which we will call _puppet_  edit `/etc/jacaranda/policy
 
 ### Add some data ###
  
-Edit `/etc/jacaranda/data/global/apache.yml` and add the following
+Edit `/etc/jerakia/data/global/apache.yml` and add the following
 
     ---
     port: 9080
@@ -38,7 +38,7 @@ Edit `/etc/jacaranda/data/global/apache.yml` and add the following
 
 Edit `/etc/puppet.conf` and add the following:
 
-    data_binding_terminus = jacaranda
+    data_binding_terminus = jerakia
 
 ### Write a test class in Puppet ###
 
@@ -51,12 +51,12 @@ Edit `/etc/puppet.conf` and add the following:
 
 ## Hiera Compatiblity ##
 
-Jacaranda has the concept of a namespace and a key, by default the file lookup datasource will look for _key_ in `<datadir>/<scope>/<namespace>.yml` - in order to retain Hieras way of doing things, which is to lookup `<namespace>::<key>` in a file called `<datadir>/<scope>.yml` a plugin _hiera_compat_ has been provided.  To enable this in your lookup simply add the directive to the lookup block and the request key and namespace will automatically get re-written on the fly
+Jerakia has the concept of a namespace and a key, by default the file lookup datasource will look for _key_ in `<datadir>/<scope>/<namespace>.yml` - in order to retain Hieras way of doing things, which is to lookup `<namespace>::<key>` in a file called `<datadir>/<scope>.yml` a plugin _hiera_compat_ has been provided.  To enable this in your lookup simply add the directive to the lookup block and the request key and namespace will automatically get re-written on the fly
 
       lookup :default do
         datasource :file, {
           :format => :yaml,
-          :docroot => '/etc/jacaranda/data',
+          :docroot => '/etc/jerakia/data',
           :searchpath => [
             scope[:environment],
             global
@@ -68,14 +68,14 @@ Jacaranda has the concept of a namespace and a key, by default the file lookup d
 
 ## Other useful plugins ##
 
-Jacaranda lookup plugins can be written and used to extend the functionality available in the lookup block.  One such shipped plugin is _confine_ which extends the lookup functionality with `exclude` and `confine` methods to invalidate the lookup under a set of circumstances.  For example
+Jerakia lookup plugins can be written and used to extend the functionality available in the lookup block.  One such shipped plugin is _confine_ which extends the lookup functionality with `exclude` and `confine` methods to invalidate the lookup under a set of circumstances.  For example
 
     policy :puppet do
 
       lookup :default do
         datasource :file, {
           :format => :yaml,
-          :docroot => '/etc/jacaranda/data',
+          :docroot => '/etc/jerakia/data',
           :searchpath => [
             scope[:environment],
             global

@@ -1,17 +1,17 @@
-## Jacaranda Policies ##
+## Jerakia Policies ##
 
 ### Introduction ###
 
 Each search request is run aganst a specific search policies.  Search policies are used to defined a set of lookups to resolve data.  A simple policy can be defined as follows
 
-`/etc/jacaranda/policy.d/puppet.rb`:
+`/etc/jerakia/policy.d/puppet.rb`:
 
     policy :puppet do
     
       lookup :default do
         datasource :file, {
           :format => :yaml,
-          :docroot => '/etc/jacaranda/data',
+          :docroot => '/etc/jerakia/data',
           :searchpath => [
             "#{scope[:environment]}",
             'global',
@@ -81,7 +81,7 @@ Here is an example of a slightly more complicated policy that makes use of some 
         datasource :file, {
           :format => :yaml,
           :extension => 'yaml',
-          :docroot => '/etc/jacaranda/data',
+          :docroot => '/etc/jerakia/data',
           :searchpath => [
             scope[:certname],
             scope[:environment],

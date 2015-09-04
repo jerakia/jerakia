@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-require 'jacaranda'
+require 'jerakia'
 require 'json'
 require 'optparse'
 
 options = {
   :policy       => "default",
-  :config       => "/etc/jacaranda/jacaranda.yml",
+  :config       => "/etc/jerakia/jerakia.yml",
   :scope        => nil,
   :key          => nil,
   :merge        => "array",
@@ -55,8 +55,8 @@ end
 
 
 
-jac = Jacaranda.new({:config => options[:config]})
-req = Jacaranda::Request.new(
+jac = Jerakia.new({:config => options[:config]})
+req = Jerakia::Request.new(
   :key => options[:key],
   :namespace => options[:namespace],
   :policy => options[:policy].to_sym,
