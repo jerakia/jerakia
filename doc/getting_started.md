@@ -11,13 +11,7 @@ Note - the following is tested against Puppet 3.x, testing on Puppet 4 is ongoin
 
 Jerakia is installed from a rubygem, simply;
 
-*IMPORTANT* jerakia is not currently on rubygems due to a naming conflict with an inactive project.  Hopefully we will be able to use this namespace soon but in the mean time you will need to build the gem manually.
-
-`gem build jerakia.gemspec`
-
-...
-
-`gem install ./jerakia*gem`
+`gem install jerakia`
 
 # Configuration #
 
