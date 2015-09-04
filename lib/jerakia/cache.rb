@@ -4,17 +4,28 @@
 #
 class Jerakia::Cache
 
+  @@bucket = {}
+
   def initialize
-    @@bucket = {}
   end
 
-  def bucket_add(index,data)
-    @@bucket[index] = data
+  def add(index,data)
+    @@bucket[index] ||= {}
+    @@bucket[index][:content] = data
     data
   end
 
   def in_bucket?(index)
     @@bucket.has_key?(index)
+  end
+
+  ## default behaviour is always validate if exists.
+  def valid?(index)
+    in_bucket?(index)
+  end
+  
+  def get(index)
+    @@bucket[index][:content]
   end
 
   def bucket

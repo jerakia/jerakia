@@ -1,7 +1,12 @@
+require 'jerakia/cache/file'
+
+
 class Jerakia::Datasource
   module File
 
     attr_reader :file_format
+    @@cache = Jerakia::Cache::File.new
+
     def load_format_handler
       format = options[:format] || :yaml
       class_name=format.to_s.capitalize
@@ -9,29 +14,33 @@ class Jerakia::Datasource
       @file_format = eval "Jerakia::Datasource::File::#{class_name}"
     end
 
+
+    def cache
+      @@cache
+    end
+
     def read_from_file(fname)
       fpath = []
       fpath << options[:docroot] unless fname[0] == '/'
       fpath << [ fname, lookup.request.namespace ]
-      diskname = ::File.join(fpath.flatten).gsub(/\/$/, '')
 
-      Jerakia.log.debug("read_from_file() #{fname} using diskname #{diskname}")
+      extension = options[:extension] || @file_format::EXTENSION
+      diskname = "#{::File.join(fpath.flatten).gsub(/\/$/, '')}.#{extension}"
+      
 
-      import_args=[]
-      import_args << diskname
-      import_args << options[:extension] if options[:extension]
+      Jerakia.log.debug("read_from_file()  #{diskname}")
 
-      cache_index={ :diskname => diskname, :format => options[:format] }
+     
       if options[:enable_caching]
-        if in_bucket?(cache_index) 
-          Jerakia.log.debug("returning cached data #{bucket[cache_index]}")
-          bucket[cache_index]
+        if cache.valid?(diskname) 
+          Jerakia.log.debug("Returning cached data")
+          cache.get(diskname)
         else
-          Jerakia.log.debug("adding to cache #{@file_format.import_file(*import_args)}")
-          bucket_add(cache_index,@file_format.import_file(*import_args))
+          Jerakia.log.debug("Adding contents of #{diskname} to cache")
+          cache.add(diskname,@file_format.import_file(diskname))
         end
       else
-        @file_format.import_file(*import_args)
+        @file_format.import_file(diskname)
       end
     end
 

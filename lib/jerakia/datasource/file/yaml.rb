@@ -1,13 +1,15 @@
 class Jerakia::Datasource
   module File
     class Yaml
+
+      EXTENSION='yaml'
+
       class << self
       require 'yaml'
-      def import_file(fname, extension='yml')
-        diskfile="#{fname}.#{extension}"
-        Jerakia.log.debug("scanning file #{diskfile}")
-        return {} unless ::File.exists?(diskfile)
-        data=::File.read(diskfile)
+      def import_file(fname)
+        Jerakia.log.debug("scanning file #{fname}")
+        return {} unless ::File.exists?(fname)
+        data=::File.read(fname)
         YAML.load(data)
       end
       end

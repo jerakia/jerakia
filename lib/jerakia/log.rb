@@ -37,9 +37,9 @@ class Jerakia::Log < Jerakia
 #    self.new.error msg
 #  end
 #
-  def self.debug(msg)
-    self.new.debug msg
-  end
+#  def self.debug(msg)
+#    self.new.debug msg
+#  end
 #
 ##  def self.info(msg)
 #    puts @@logger

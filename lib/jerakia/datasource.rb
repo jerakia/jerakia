@@ -1,5 +1,5 @@
 require 'jerakia/cache'
-class Jerakia::Datasource < Jerakia::Cache
+class Jerakia::Datasource 
 
   require 'jerakia/response'
   attr_reader :response

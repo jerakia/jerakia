@@ -17,7 +17,6 @@ class Jerakia
     configfile = options[:config] || '/etc/jerakia/jerakia.yml'
     @@config = Jerakia::Config.new(configfile)
     @@filecache = {}
-    @@cache = Jerakia::Cache.new
     loglevel = options[:loglevel] || @@config["loglevel"] || "info"
     @@log = Jerakia::Log.new(loglevel.to_sym)
     @@log.debug("Jerakia initialized")
@@ -42,10 +41,6 @@ class Jerakia
     exit 1
   end 
 
-  def self.config
-    @@config
-  end
-
   def self.filecache(name)
     @@filecache[name] ||= File.read(name)
     return @@filecache[name]
@@ -55,9 +50,15 @@ class Jerakia
     @@filecache[name] = data
   end
 
+  def self.config
+    @@config
+  end
+
+
   def log
     @@log
   end
+  
 
   def self.log
     @@log
