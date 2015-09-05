@@ -212,7 +212,7 @@ Using the hiera_compat plugin, the jerakia lookup is rewritten to mesh the looku
 
     policy :default do
 
-      policy :hiera do
+      lookup :default, :use => :hiera do
         datasource :file, {
           :format     => :yaml,
           :extension  => 'yaml', # Remember what we said about extensions?
@@ -222,7 +222,7 @@ Using the hiera_compat plugin, the jerakia lookup is rewritten to mesh the looku
             "common",
           ],
         }
-        hiera_compat
+        plugin.hiera.rewrite_request
       end
     end
 

@@ -1,8 +1,7 @@
     policy :default do
      
-      lookup :default, :use => [  :basler, :craig ]  do
+      lookup :default, :use => [  :basler, :hiera ]  do
         puts plugin.basler.env
-        puts plugin.craig.test
         datasource :file, {
           :format     => :yaml,
           :docroot    => "/var/lib/jerakia",
@@ -14,6 +13,7 @@
             "common",
            ].flatten,
         }
+        plugin.hiera.rewrite_lookup
       end
 
     end
