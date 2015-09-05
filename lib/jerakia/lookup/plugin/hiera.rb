@@ -6,9 +6,9 @@
 # but maintain an existing hiera filesystem layout and naming convention
 # within the source data.
 #
-class Jerakia::Lookup
-  module Plugin
-    def hiera_compat
+class Jerakia::Lookup::Plugin
+  module Hiera
+    def rewrite_lookup
       request.key.prepend("#{request.namespace.join('::')}::")
       request.namespace=[]
     end
