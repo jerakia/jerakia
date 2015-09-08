@@ -37,6 +37,8 @@ Supported methods are
 * `scope` return the scope object
 * `output_handler` add an output handler to this request
 * `stop` Do not proceed to the next lookup _if this lookup is deemed valid_, regardless of whether data is returned
+* `confine` Confine this lookup to a set of criteria
+* `exclude` Exclude this lookup if the criteria is matched
 
 ### Scope object ###
 
@@ -46,10 +48,18 @@ Scope is a key value set that can be used to determine the behaviour of a lookup
 
 Additionally, lookup functionality can be expanded with a variety of shipped or custom plugins.  Plugins have access to a copy of the request object and therefore can inspect and make changes to all manor of things contained within it.  Shipped plugins currently include
 
-* `confine` : Confine the lookup based on a scope attribute having a particular value
-* `exclude` : Exclude the lookup if a scope attribute has a particular value
-* `hiera_compat` : Rewrite the lookup to emulate Hiera's filesystem layout (see [The file datastore](datasources/file.md))
+* `hiera` : Rewrite the lookup to emulate Hiera's filesystem layout (see [The file datastore](datasources/file.md))
 
+Custom plugins can be used using the `use` option to the lookup block, and plugins methods are available as `plugin.<name>.<method>` from the lookup. Plugins have the ability to read and modify any part of the request, including the scope.  Eg:
+
+    lookup :default, :use => :hiera do
+      datasource :file, {
+        ...
+      }
+      plugin.hiera.rewrite_lookup
+    end
+
+    
 
 ### Output Handler ###
 
@@ -77,7 +87,7 @@ Here is an example of a slightly more complicated policy that makes use of some 
         stop
       end
 
-      lookup :default do
+      lookup :default, :use => :hiera do
         datasource :file, {
           :format => :yaml,
           :extension => 'yaml',
@@ -88,7 +98,7 @@ Here is an example of a slightly more complicated policy that makes use of some 
             'global',
           ]
           },
-        hiera_compat
+        plugin.hiera.rewrite_lookup
         output_handler :encryption
       }
     
