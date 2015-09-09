@@ -96,9 +96,13 @@ class Jerakia::Lookup
   end
 
 
+  def get_matches(key,match)
+    matches = Array(match).select { |m| key[Regexp.new(m)] == key}
+  end
+  
   def confine(key=nil,match)
     if key
-      invalidate unless key[Regexp.new(match)] == key
+      invalidate unless get_matches(key,match).size > 0
     else
       invalidate
     end
@@ -106,7 +110,7 @@ class Jerakia::Lookup
 
   def exclude(key=nil,match)
     if key
-      invalidate if key[Regexp.new(match)] == key
+      invalidate if get_matches(key,match).size > 0
     end
   end
       
