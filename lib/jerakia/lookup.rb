@@ -1,8 +1,8 @@
 class Jerakia::Lookup
   require 'jerakia/datasource'
   require 'jerakia/scope'
-  require 'jerakia/plugins/lookup/hiera_compat'
-  require 'jerakia/plugins/lookup/confine'
+  require 'jerakia/lookup/plugin'
+  require 'jerakia/lookup/pluginfactory'
 
   attr_accessor :request
   attr_reader :datasource
@@ -12,6 +12,7 @@ class Jerakia::Lookup
   attr_reader :output_filters
   attr_reader :name
   attr_reader :proceed
+  attr_reader :pluginfactory
 
   def initialize(name,opts,req,scope,&block)
     
@@ -21,22 +22,26 @@ class Jerakia::Lookup
     @scope_object=scope
     @output_filters=[]
     @proceed=true
+    @pluginfactory = Jerakia::Lookup::PluginFactory.new
 
     if opts[:use]
-      plugins = Array(opts[:use]).flatten.each do |plugin|
+       Array(opts[:use]).flatten.each do |plugin|
         plugin_load(plugin)
       end
     end
 
-    extend Jerakia::Lookup::Plugin
     instance_eval &block
     
   end
  
   def plugin_load(plugin)
-    require "jerakia/plugins/lookup/#{plugin}"
+    Jerakia.log.debug("Loading plugin #{plugin}")
+    @pluginfactory.register(plugin, Jerakia::Lookup::Plugin.new(self))
   end
 
+  def plugin
+    @pluginfactory
+  end
 
   def datasource(source, opts={})
     @datasource = Jerakia::Datasource.new(source, self, opts)
@@ -89,6 +94,22 @@ class Jerakia::Lookup
   def valid?
     return @valid
   end
+
+
+  def confine(key=nil,match)
+    if key
+      invalidate unless key[Regexp.new(match)] == key
+    else
+      invalidate
+    end
+  end
+
+  def exclude(key=nil,match)
+    if key
+      invalidate if key[Regexp.new(match)] == key
+    end
+  end
+      
 
   def run
     @datasource.run

@@ -51,9 +51,9 @@ Edit `/etc/puppet.conf` and add the following:
 
 ## Hiera Compatiblity ##
 
-Jerakia has the concept of a namespace and a key, by default the file lookup datasource will look for _key_ in `<datadir>/<scope>/<namespace>.yml` - in order to retain Hieras way of doing things, which is to lookup `<namespace>::<key>` in a file called `<datadir>/<scope>.yml` a plugin _hiera_compat_ has been provided.  To enable this in your lookup simply add the directive to the lookup block and the request key and namespace will automatically get re-written on the fly
+Jerakia has the concept of a namespace and a key, by default the file lookup datasource will look for _key_ in `<datadir>/<scope>/<namespace>.yml` - in order to retain Hieras way of doing things, which is to lookup `<namespace>::<key>` in a file called `<datadir>/<scope>.yml` a plugin _hiera_ has been provided.  To enable this in your lookup simply add the directive to the lookup block and the request key and namespace will automatically get re-written on the fly
 
-      lookup :default do
+      lookup :default, :use => :hiera do
         datasource :file, {
           :format => :yaml,
           :docroot => '/etc/jerakia/data',
@@ -61,18 +61,20 @@ Jerakia has the concept of a namespace and a key, by default the file lookup dat
             scope[:environment],
             global
           ]
-        hiera_compat
+        plugin.hiera.rewrite_lookup
       end
     
     end
 
 ## Other useful plugins ##
 
+*DOCUMENTATION UPDATE* - these are now core methods, not plugins....
+
 Jerakia lookup plugins can be written and used to extend the functionality available in the lookup block.  One such shipped plugin is _confine_ which extends the lookup functionality with `exclude` and `confine` methods to invalidate the lookup under a set of circumstances.  For example
 
     policy :puppet do
 
-      lookup :default do
+      lookup :default, :use => :hiera do
         datasource :file, {
           :format => :yaml,
           :docroot => '/etc/jerakia/data',
@@ -80,11 +82,11 @@ Jerakia lookup plugins can be written and used to extend the functionality avail
             scope[:environment],
             global
           ]
-        hiera_compat
+        plugin.hiera.rewrite_lookup
         exclude :environment, "dev"
       end
 
-      lookup :special do
+      lookup :special, :use => :hiera do
         datasource :file, {
           :format => :json,
           :docroot => '/etc/myapp/data',
@@ -93,7 +95,7 @@ Jerakia lookup plugins can be written and used to extend the functionality avail
             scope[:environment],
             global
           ]
-        hiera_compat
+        plugin.hiera.rewrite_lookup
         confine :calling_module, "specialapp"
       end
 
