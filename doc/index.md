@@ -9,5 +9,7 @@
 
 [The file datasource](./datasource/file.md)
 
+[Writing lookup plugins](./plugins.md)
+
 
 
