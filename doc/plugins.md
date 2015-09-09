@@ -39,9 +39,10 @@ The `:use` parameter also supports an array if you are using more than one plugi
 
 In this not highly imaginative example, we'll create a custom plugin called _mycorp_ that provides a method for auto-determining an environment name (not the puppet environment) based on the first letter of a hostname, eg: `pweb01 => prod` and `dweb01 => dev` and using that value in the search hierarchy.
 
-`vim /etc/jerakia/lookup/plugin/mycorp.rb`
+    # cd /etc/jerakia/lib
+    # vim jerakia/lookup/plugin/mycorp.rb
 
-We are assuming your plugindir is set to `/etc`
+We are assuming your plugindir is set to `/etc/jerakia/lib`
 
     class Jerakia::Lookup
       module Mycorp
