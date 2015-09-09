@@ -12,7 +12,7 @@ class Jerakia::Launcher
 
   def invoke
     policy_name=request.policy.to_s
-    Jerakia.log.info "Invoked lookup for #{@@request.key} using policy #{policy_name}"
+    Jerakia.log.debug "Invoked lookup for #{@@request.key} using policy #{policy_name}"
     filename=File.join(Jerakia.config.policydir, "#{policy_name}.rb")
     policydata=Jerakia.filecache(filename)
     instance_eval policydata
