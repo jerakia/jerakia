@@ -10,9 +10,7 @@ class Puppet::DataBinding::Jerakia < Puppet::Indirector::Code
 
   def initialize(*args)
     @jerakia=::Jerakia.new
-
-    # Currently defaulting the policy to "puppet" - we should change this.
-    @default_policy = @jerakia::config["puppet"]["default_policy"] || "puppet"
+    @default_policy = "default"
     super
   end
 
@@ -28,7 +26,7 @@ class Puppet::DataBinding::Jerakia < Puppet::Indirector::Code
       :namespace => namespace,
       :policy => policy,
       :lookup_type => :first,
-      :metadata => {}
+      :metadata => metadata,
     )
     answer = jerakia.lookup(jacreq)
     answer.payload

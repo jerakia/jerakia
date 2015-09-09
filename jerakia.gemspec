@@ -3,7 +3,7 @@ require 'rake'
 Gem::Specification.new do |s|
   s.name       = 'jerakia'
   s.version    = File.read('VERSION').chomp
-  s.date       = '2015-06-01'
+  s.date       = %x{ /bin/date '+%Y-%m-%d' }
   s.summary    = 'Extendable and flexible ata lookup system'
   s.description = 'Extendable and flexible data lookup system'
   s.authors     = [ 'Craig Dunn' ]
