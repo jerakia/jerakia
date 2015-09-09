@@ -57,7 +57,7 @@ class Jerakia::Datasource
 
       load_format_handler
 
-      options[:searchpath].each do |path|
+      options[:searchpath].flatten.each do |path|
         Jerakia.log.debug("Attempting to load data from #{path}")
         return unless response.want?
         data=read_from_file(path)
