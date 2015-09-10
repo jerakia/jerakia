@@ -11,7 +11,11 @@ class Jerakia::Cache
 
   def add(index,data)
     @@bucket[index] ||= {}
-    @@bucket[index][:content] = data
+    ## The cache bucket is a global class object, therefore we should
+    ## always store a copy of the data object, not the actual object
+    ## to ensure that it is not referenced and tainted by the lookup
+    #
+    @@bucket[index][:content] = Marshal::load(Marshal.dump(data))
     data
   end
 
