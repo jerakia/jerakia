@@ -29,7 +29,8 @@ class Jerakia::Cache
   end
   
   def get(index)
-    @@bucket[index][:content]
+    data = @@bucket[index][:content]
+    Marshal::load(Marshal.dump(data))
   end
 
   def bucket
