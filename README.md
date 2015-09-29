@@ -1,6 +1,8 @@
 jerakia
 =========
 
+[![Join the chat at https://gitter.im/crayfishx/jerakia](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/crayfishx/jerakia?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A pluggable and extendable data lookup system
 
 ## Development status ##
