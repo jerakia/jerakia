@@ -1,0 +1,8 @@
+
+
+0.3.0:
+  - *BREAK* by default, jerakia will now use .yaml instead of .yml for all YAML files.
+
+0.2.0:
+  - introduced HTTP datasource using lookup_http
+
