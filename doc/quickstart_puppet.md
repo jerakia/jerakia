@@ -27,7 +27,7 @@ To define a new policy, which we will call _puppet_  edit `/etc/jerakia/policy.d
 
 ### Add some data ###
  
-Edit `/etc/jerakia/data/global/apache.yml` and add the following
+Edit `/etc/jerakia/data/global/apache.yaml` and add the following
 
     ---
     port: 9080
@@ -51,7 +51,7 @@ Edit `/etc/puppet.conf` and add the following:
 
 ## Hiera Compatiblity ##
 
-Jerakia has the concept of a namespace and a key, by default the file lookup datasource will look for _key_ in `<datadir>/<scope>/<namespace>.yml` - in order to retain Hieras way of doing things, which is to lookup `<namespace>::<key>` in a file called `<datadir>/<scope>.yml` a plugin _hiera_ has been provided.  To enable this in your lookup simply add the directive to the lookup block and the request key and namespace will automatically get re-written on the fly
+Jerakia has the concept of a namespace and a key, by default the file lookup datasource will look for _key_ in `<datadir>/<scope>/<namespace>.yaml` - in order to retain Hieras way of doing things, which is to lookup `<namespace>::<key>` in a file called `<datadir>/<scope>.yaml` a plugin _hiera_ has been provided.  To enable this in your lookup simply add the directive to the lookup block and the request key and namespace will automatically get re-written on the fly
 
       lookup :default, :use => :hiera do
         datasource :file, {

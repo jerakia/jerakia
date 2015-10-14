@@ -1,6 +1,6 @@
 # This plugin reformats the lookup key according to a puppet's
-# Hiera system, so instead of looking up <key> in <path>/<namespace>.yml
-# we lookup <namespace>::<key> in <path>.yml
+# Hiera system, so instead of looking up <key> in <path>/<namespace>.yaml
+# we lookup <namespace>::<key> in <path>.yaml
 #
 # This is a useful plugin for people wanting to test drive Jerakia
 # but maintain an existing hiera filesystem layout and naming convention

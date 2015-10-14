@@ -4,7 +4,7 @@ class Jerakia::Config
   attr_reader :policydir
   attr_reader :server_url
 
-  def initialize(config='/etc/jerakia/jerakia.yml')
+  def initialize(config='/etc/jerakia/jerakia.yaml')
     unless File.exists?(config)
       Jerakia.crit("Config file #{config} not found")
     end

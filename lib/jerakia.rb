@@ -14,7 +14,7 @@ class Jerakia
 
 
   def initialize(options={})
-    configfile = options[:config] || '/etc/jerakia/jerakia.yml'
+    configfile = options[:config] || '/etc/jerakia/jerakia.yaml'
     @@config = Jerakia::Config.new(configfile)
 
     if @@config[:plugindir]

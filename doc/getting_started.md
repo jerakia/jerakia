@@ -20,7 +20,7 @@ Jerakia is installed from a rubygem, simply;
 The first step is to create a basic configuration file for Jerakia to tell it where to load policies, log data...etc
 
     # mkdir /etc/jerakia
-    # vim /etc/jerakia/jerakia.yml
+    # vim /etc/jerakia/jerakia.yaml
 
 A basic configuration looks like:
 
@@ -39,7 +39,7 @@ If you are going to use the encryption output filter provided by hiera-eyaml to 
 
 ## The policy file ##
 
-All jerakia requests are processed using a lookup policy.  Policy filenames should correspond to the name of the policy and are loaded from the `policydir` directive in jerakia.yml.  If you don't specify a policy name in the lookup request then the name _default_ is used.  So let's create that now.
+All jerakia requests are processed using a lookup policy.  Policy filenames should correspond to the name of the policy and are loaded from the `policydir` directive in jerakia.yaml.  If you don't specify a policy name in the lookup request then the name _default_ is used.  So let's create that now.
 
     # mkdir /etc/jerakia/policy.d
     # vim /etc/jerakia/policy.d/default.rb
@@ -81,9 +81,9 @@ Using the YAML [file datasource](datasources/file.md), we'll now add some config
     # cd /var/lib/jerakia
     # mkdir -p common hostname/fake.server.com environment/development
 
-Jerakia lookups contain two important components, a _namespace_ and a _key_, by default the file backend will search for your key in a file corresponding to `<path>/<namespace>.yml`.  So let's create that now for a fictional _servers_ key in the _ntp_ namespace
+Jerakia lookups contain two important components, a _namespace_ and a _key_, by default the file backend will search for your key in a file corresponding to `<path>/<namespace>.yaml`.  So let's create that now for a fictional _servers_ key in the _ntp_ namespace
 
-    # vim /var/lib/jerakia/common/ntp.yml
+    # vim /var/lib/jerakia/common/ntp.yaml
 
 In this document we put our configuration for the _ntp_ namespace
 
@@ -104,7 +104,7 @@ Using the key and the namespace we can now query this data directly from Jerakia
 Note the hierarchy that we have defined in our lookups. The scope is a bunch of key/value metadata that is sent with the request.  In Puppet terms, these would be facts and top-level variables.  In our fictional environment we are going to override the ntp servers for everything in the dev environment by creating a new data file at the environment level.
 
     # mkdir /var/lib/jerakia/environment/development
-    # vim /var/lib/jerakia/environment/development/ntp.yml
+    # vim /var/lib/jerakia/environment/development/ntp.yaml
 
 And put in different server names 
 
@@ -183,7 +183,7 @@ Now we should be able to use Jerakia transparently from Puppet
 
 # Existing Hiera compatibility #
 
-You would have noted by now that Jerakia does things slightly differently from Hiera, notably the location of files using the namespace as the filename.  Whereas Jerakia searches for _key_ in `<path>/<namespace>.yml`  Hiera will search for `<namespace>::<key>` in `<path>.yaml`  (note the file extentions).  It is however possible to use Jerakia on top of your existing Hiera file structure in order to test drive it without modifying your data by using the hiera_compat plugin that ships with Jerakia.
+You would have noted by now that Jerakia does things slightly differently from Hiera, notably the location of files using the namespace as the filename.  Whereas Jerakia searches for _key_ in `<path>/<namespace>.yaml`  Hiera will search for `<namespace>::<key>` in `<path>.yaml`  (note the file extentions).  It is however possible to use Jerakia on top of your existing Hiera file structure in order to test drive it without modifying your data by using the hiera_compat plugin that ships with Jerakia.
 
 An example Hiera herarchy would like:
 

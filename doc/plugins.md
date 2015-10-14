@@ -6,7 +6,7 @@ Lookup plugins expand the functionality of Jerakia lookups and have the ability 
 
 ## Installation ##
 
-Lookups are loaded from `lib/jerakia/lookup/plugin/<name>.rb`.  They can either be shipped as rubygems or placed locally in the `plugindir` defined in `jerakia.yml` under the same relative filesystem structure
+Lookups are loaded from `lib/jerakia/lookup/plugin/<name>.rb`.  They can either be shipped as rubygems or placed locally in the `plugindir` defined in `jerakia.yaml` under the same relative filesystem structure
 
 ## Writing plugins ##
 

@@ -6,7 +6,7 @@ require 'optparse'
 
 options = {
   :policy       => "default",
-  :config       => "/etc/jerakia/jerakia.yml",
+  :config       => "/etc/jerakia/jerakia.yaml",
   :scope        => nil,
   :key          => nil,
   :merge        => "array",
