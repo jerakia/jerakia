@@ -36,6 +36,11 @@ It is recommended you [read the documentation here](./doc/index.md) before conti
 
 Documentation is ongoing, but for the impatient, and for people already familar with Hiera See the [Puppet users tutorial](doc/getting_started.md) page for a quick start guide!
 
+## Other documentation ##
+
+* [Blog post part 1: Solving real world problems with Jerakia](http://www.craigdunn.org/2015/09/solving-real-world-problems-with-jerakia/)
+* [Blog post part 2: Extending Jerakia with lookup plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/)
+
 
 ## Architecture ##
 
