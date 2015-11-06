@@ -48,7 +48,7 @@ class Hiera
         request = Jerakia::Request.new(
           :key =>      key,
           :namespace   => namespace,
-          :policy      => @policy,
+          :policy      => metadata[:jerakia_policy] || @policy,
           :lookup_type => lookup_type,
           :merge       => merge_type,
           :metadata    => metadata,
