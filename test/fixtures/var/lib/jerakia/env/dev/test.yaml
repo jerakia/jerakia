@@ -1,0 +1,7 @@
+---
+teststring: valid_string
+
+accounts:
+  oracle:
+    uid: 500
+

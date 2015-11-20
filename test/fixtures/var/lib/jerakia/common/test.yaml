@@ -1,0 +1,11 @@
+---
+users:
+  - joshua
+  - craig
+  - karina
+  - max
+
+
+accounts:
+  admin:
+    uid: 99

@@ -1,0 +1,8 @@
+---
+policydir: test/fixtures/etc/jerakia/policy.d
+logfile: /dev/null
+loglevel: info
+plugindir: test/fixtures/etc/jerakia/lib
+
+
+
