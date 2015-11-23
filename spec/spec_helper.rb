@@ -6,10 +6,11 @@ require 'rubygems'
 require 'rspec'
 require 'mocha'
 require 'jerakia'
+require 'hiera/backend/jerakia_backend'
 
 
 RSpec.configure do |c|
     c.mock_with :mocha
+    c.pattern = "**/*_spec.rb"
 end
-
 

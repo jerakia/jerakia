@@ -128,7 +128,7 @@ describe Jerakia do
     end
 
 
-     context "with host overrides"
+     context "with host overrides" do
         before do
          @answer=@jerakia.lookup(Jerakia::Request.new(
            :metadata    => { :env => "dev", :hostname => "localhost" },
@@ -142,6 +142,21 @@ describe Jerakia do
     end
       
 
+     context "with a different policy" do
+        before do
+         @answer=@jerakia.lookup(Jerakia::Request.new(
+           :metadata    => { :env => "dev", :hostname => "localhost" },
+           :key         => 'teststring',
+           :namespace   => [ 'test' ],
+           :policy      => 'dummy',
+           ) )
+       end
+       it "should call the right policy" do
+        expect(@answer.payload).to eq("Dummy data string")
+      end
+    end
+      
+
 
 
 #  let (:jerakia) { Jerakia.new(:config => "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
@@ -149,6 +164,7 @@ describe Jerakia do
  #   it "initalizes" do
   #    expect(jerakia).to be_a(Jerakia)
   #  end
+  end
 end
 
 

@@ -43,7 +43,7 @@ class Jerakia
     Jerakia.log.fatal msg
     Jerakia.log.fatal "Full stacktrace output:\n#{$!}\n\n#{stacktrace}"
     puts "Fatal error, check log output for details"
-    exit 1
+    throw Exception
   end 
 
   def self.filecache(name)
@@ -72,7 +72,7 @@ class Jerakia
   def self.crit(msg)
     
     puts msg
-    exit 1 
+    throw Exception
   end
 end
 
