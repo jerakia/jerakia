@@ -1,25 +1,21 @@
-class Jerakia::Config
+require 'yaml'
 
-  require 'yaml'
+class Jerakia::Config
   attr_reader :policydir
   attr_reader :server_url
 
-  def initialize(config='/etc/jerakia/jerakia.yaml')
-    unless File.exists?(config)
-      Jerakia.crit("Config file #{config} not found")
-    end
-    rawdata=File.read(config)
-    ymldata=YAML.load(rawdata)
-    @policydir=ymldata['policydir']
-    @server_url=ymldata['server_url']
-    @configdata=ymldata
+  def self.load_from_file(file = '/etc/jerakia/jerakia.yaml')
+    Jerakia.crit("Config file #{file} not found") unless File.exists?(file)
+    new YAML.load_file(file)
+  end
+
+  def initialize(config)
+    @policydir = config['policydir']
+    @server_url = config['server_url']
+    @configdata = config
   end
 
   def [](key)
     @configdata[key.to_s]
   end
-
-
 end
-
-
