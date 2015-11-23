@@ -19,29 +19,53 @@ class Jerakia::Datasource
       @@cache
     end
 
+    def import_file(filename)
+      if ::File.exists?(filename)
+        ::File.read(filename)
+      else
+        ""
+      end
+    end
+
+    def get_file_with_cache(diskname)
+      if options[:enable_caching]
+        if cache.valid?(diskname)
+          Jerakia.log.debug("Returning cached data")
+          cache.get(diskname)
+        else
+          Jerakia.log.debug("Adding contents of #{diskname} to cache")
+          cache.add(diskname,import_file(diskname))
+        end
+      else
+        import_file(diskname)
+      end
+    end
+
     def read_from_file(fname)
       fpath = []
       fpath << options[:docroot] unless fname[0] == '/'
       fpath << [ fname, lookup.request.namespace ]
 
       extension = options[:extension] || @file_format::EXTENSION
-      diskname = "#{::File.join(fpath.flatten).gsub(/\/$/, '')}.#{extension}"
+      diskname_prefix = "#{::File.join(fpath.flatten).gsub(/\/$/, '')}"
+      diskname = "#{diskname_prefix}.#{extension}"
       
 
       Jerakia.log.debug("read_from_file()  #{diskname}")
 
      
-      if options[:enable_caching]
-        if cache.valid?(diskname) 
-          Jerakia.log.debug("Returning cached data")
-          cache.get(diskname)
-        else
-          Jerakia.log.debug("Adding contents of #{diskname} to cache")
-          cache.add(diskname,@file_format.import_file(diskname))
-        end
-      else
-        @file_format.import_file(diskname)
-      end
+#      if options[:enable_caching]
+#        if cache.valid?(diskname) 
+#          Jerakia.log.debug("Returning cached data")
+#          cache.get(diskname)
+#        else
+#          Jerakia.log.debug("Adding contents of #{diskname} to cache")
+#          cache.add(diskname,@file_format.import_file(diskname))
+#        end
+#      else
+#        @file_format.import_file(diskname)
+#      end
+       @file_format.convert(get_file_with_cache(diskname))
     end
 
 
