@@ -20,6 +20,7 @@ class Jerakia::Datasource
     end
 
     def import_file(filename)
+      Jerakia.log.debug("import_file() Importing #{filename}")
       if ::File.exists?(filename)
         ::File.read(filename)
       else
@@ -41,6 +42,12 @@ class Jerakia::Datasource
       end
     end
 
+    def list_fragments(prefix,extension)
+      if ::File.directory?("#{prefix}.d")
+        Dir["#{prefix}.d/*.#{extension}"]
+      end
+    end
+
     def read_from_file(fname)
       fpath = []
       fpath << options[:docroot] unless fname[0] == '/'
@@ -50,22 +57,17 @@ class Jerakia::Datasource
       diskname_prefix = "#{::File.join(fpath.flatten).gsub(/\/$/, '')}"
       diskname = "#{diskname_prefix}.#{extension}"
       
+      files = [ diskname ]
+      files << list_fragments(diskname_prefix, extension)
+      
+      raw_data=""
 
-      Jerakia.log.debug("read_from_file()  #{diskname}")
+      files.flatten.compact.each do |f|
+        Jerakia.log.debug("read_from_file()  #{f}")
+        raw_data << get_file_with_cache(f)
+      end
 
-     
-#      if options[:enable_caching]
-#        if cache.valid?(diskname) 
-#          Jerakia.log.debug("Returning cached data")
-#          cache.get(diskname)
-#        else
-#          Jerakia.log.debug("Adding contents of #{diskname} to cache")
-#          cache.add(diskname,@file_format.import_file(diskname))
-#        end
-#      else
-#        @file_format.import_file(diskname)
-#      end
-       @file_format.convert(get_file_with_cache(diskname))
+      file_format.convert(raw_data)
     end
 
 
