@@ -51,7 +51,7 @@ Jerakia is a policy based lookup system.  A lookup request consists of a key, a 
 
 ## Puppet ##
 
-For Puppet users wishing to test or migrate to Jerakia there are a number of options.  Jerakia ships with a Puppet data binding terminus that can be enabled with a simple configuration directive in Puppet's configuration file causing all data binding lookups from parameterised classes to Jerakia rather than Puppet's native Hiera.  Like Hiera, Jerakia supports a file based data source for looking up data in YAML or JSON source files.  By default, Jerakia has a slightly different filesystem layout and lookup format than hiera, however, if you wish to retain your existing data files this can be enabled using the _hiera_compat_ lookup plugin.  [Read more about Hiera compatability and integration here](./docs/quickstart_puppet.md).
+For Puppet users wishing to test or migrate to Jerakia there are a number of options.  Jerakia ships with a Puppet data binding terminus that can be enabled with a simple configuration directive in Puppet's configuration file causing all data binding lookups from parameterised classes to Jerakia rather than Puppet's native Hiera.  Like Hiera, Jerakia supports a file based data source for looking up data in YAML or JSON source files.  By default, Jerakia has a slightly different filesystem layout and lookup format than hiera, however, if you wish to retain your existing data files this can be enabled using the _hiera_compat_ lookup plugin.  [Read more about Hiera compatability and integration here](./doc/quickstart_puppet.md).
 
 ## Integration ##
 
