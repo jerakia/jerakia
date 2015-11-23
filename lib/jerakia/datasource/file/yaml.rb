@@ -5,13 +5,11 @@ class Jerakia::Datasource
       EXTENSION='yaml'
 
       class << self
-      require 'yaml'
-      def import_file(fname)
-        Jerakia.log.debug("scanning file #{fname}")
-        return {} unless ::File.exists?(fname)
-        data=::File.read(fname)
-        YAML.load(data)
-      end
+        require 'yaml'
+        def convert(data)
+          return {} if data.empty?
+          YAML.load(data)
+        end
       end
     end
   end

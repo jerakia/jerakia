@@ -19,11 +19,6 @@ describe Jerakia do
     context "a string" do
       before do
         @answer=@jerakia.lookup(Jerakia::Request.new(
-          :metadata => { :env => "dev", :hostname => "example" }
-        ))
-      end
-      before do
-        @answer=@jerakia.lookup(Jerakia::Request.new(
           :metadata    => { :env => "dev", :hostname => "example" },
           :key         => 'teststring',
           :namespace   => [ 'test' ],
