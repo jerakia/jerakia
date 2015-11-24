@@ -1,4 +1,3 @@
-#require 'faster_require'
 
 class Jerakia
   require 'jerakia/policy'

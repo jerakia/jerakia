@@ -12,5 +12,6 @@ Gem::Specification.new do |s|
   s.executables << 'jerakia'
   s.homepage    = 'http://github.com/crayfishx/jerakia'
   s.license     = 'Apache 2.0'
+  s.add_dependency 'thor', '~> 0.19'
   s.add_dependency('lookup_http', '>=1.0.0')
 end

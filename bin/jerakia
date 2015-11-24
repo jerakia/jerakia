@@ -1,71 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'jerakia'
-require 'json'
-require 'optparse'
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-options = {
-  :policy       => "default",
-  :config       => "/etc/jerakia/jerakia.yaml",
-  :scope        => nil,
-  :key          => nil,
-  :merge        => "array",
-  :lookup_type  => "first",
-  :namespace    => nil,
-  :metadata     => {},
-}
+require 'jerakia/cli'
 
-OptionParser.new do |opts|
-
-  opts.on("--config CONFIG","-c","Config file") do |c|
-    options[:config] = c
-  end
-
-  opts.on("--key KEY", "-k", "Lookup key") do |k|
-    options[:key] = k
-  end
-
-  opts.on("--policy POLICY", "-p", "Policy") do |p|
-    options[:policy] = p.to_sym
-  end
-
-  opts.on("--namespace NAMESPACE", "-n", "Namespace") do |n|
-    options[:namespace] = n.split(/::/)
-  end
-
-  opts.on("--type TYPE", "-t", "Lookup type") do |t|
-    options[:lookup_type] = t.to_sym
-  end
-
-  opts.on("--scope SCOPE", "-s", "Scope handler") do |s|
-    options[:scope] = s.to_sym
-  end
-
-  opts.on("--merge MERGE", "-m", "Merge type") do |m|
-    options[:merge] = m.to_sym
-  end
-end.parse!
-
-unless ARGV.empty?
-  ARGV.each do |arg|
-    meta=arg.split(':')
-    options[:metadata][meta[0]] = meta[1]
-  end
-end
-
-
-
-jac = Jerakia.new({:config => options[:config]})
-req = Jerakia::Request.new(
-  :key => options[:key],
-  :namespace => options[:namespace],
-  :policy => options[:policy].to_sym,
-  :lookup_type => options[:lookup_type].to_sym,
-  :merge       => options[:merge].to_sym,
-  :loglevel    => 'debug',
-  :metadata => options[:metadata]
-) 
-
-
-answer = jac.lookup(req)
-puts answer.payload.to_json
+Jerakia::CLI.start(ARGV)
