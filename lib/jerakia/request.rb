@@ -9,7 +9,7 @@ class Jerakia
     attr_accessor :lookup_type
     attr_accessor :scope
 
-    def initialize(**opts)
+    def initialize(opts={})
       options      = defaults.merge(opts)
       @key         = options[:key]
       @namespace   = options[:namespace]
