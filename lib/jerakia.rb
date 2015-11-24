@@ -8,6 +8,7 @@ class Jerakia
   require 'jerakia/config'
   require 'jerakia/launcher'
   require 'jerakia/cache'
+  require 'jerakia/version'
 
   def initialize(options={})
     configfile = options[:config] || '/etc/jerakia/jerakia.yaml'
