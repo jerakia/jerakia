@@ -49,8 +49,9 @@ class Jerakia
         :policy      => options[:policy].to_sym,
         :lookup_type => options[:type].to_sym,
         :merge       => options[:merge_type].to_sym,
+        :scope       => options[:scope].to_sym,
         :loglevel    => options[:log_level],
-        :metadata    => options[:metadata]
+        :metadata    => options[:metadata],
       )
 
       answer = jac.lookup(req)
