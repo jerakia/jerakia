@@ -56,5 +56,10 @@ class Jerakia
       answer = jac.lookup(req)
       puts answer.payload.to_json
     end
+
+    desc 'version', 'Version information'
+    def version
+      puts Jerakia::VERSION
+    end
   end
 end
