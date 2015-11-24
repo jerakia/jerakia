@@ -10,12 +10,9 @@ class Jerakia
   require 'jerakia/launcher'
   require 'jerakia/cache'
 
-
-
-
   def initialize(options={})
     configfile = options[:config] || '/etc/jerakia/jerakia.yaml'
-    @@config = Jerakia::Config.new(configfile)
+    @@config = Jerakia::Config.load_from_file(configfile)
 
     if @@config[:plugindir]
       $LOAD_PATH << @@config[:plugindir] unless $LOAD_PATH.include?(@@config[:plugindir])
@@ -25,18 +22,15 @@ class Jerakia
     loglevel = options[:loglevel] || @@config["loglevel"] || "info"
     @@log = Jerakia::Log.new(loglevel.to_sym)
     @@log.debug("Jerakia initialized")
-
   end
 
   def lookup(request)
-    res=Jerakia::Launcher.new(request)
-    return res.answer
+    Jerakia::Launcher.new(request).answer
   end
 
   def config
     @@config
   end
-
 
   def self.fatal(msg,e)
     stacktrace=e.backtrace.join("\n")
@@ -44,7 +38,7 @@ class Jerakia
     Jerakia.log.fatal "Full stacktrace output:\n#{$!}\n\n#{stacktrace}"
     puts "Fatal error, check log output for details"
     throw Exception
-  end 
+  end
 
   def self.filecache(name)
     @@filecache[name] ||= File.read(name)
@@ -59,20 +53,15 @@ class Jerakia
     @@config
   end
 
-
   def log
     @@log
   end
-  
 
   def self.log
     @@log
   end
 
   def self.crit(msg)
-    
-    puts msg
-    throw Exception
+    fail msg
   end
 end
-
