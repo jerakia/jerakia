@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/crayfishx/jerakia.svg?branch=master)](https://travis-ci.org/crayfishx/jerakia)
+[![Build Status](https://travis-ci.org/crayfishx/jerakia.svg?branch=master)](https://travis-ci.org/crayfishx/jerakia) [![Gem Version](https://badge.fury.io/rb/jerakia.svg)](https://badge.fury.io/rb/jerakia)
 
 
 jerakia
