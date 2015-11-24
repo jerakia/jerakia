@@ -1,4 +1,8 @@
-
+0.4.0:
+  - *BREAK* - CLI overhaul of the jerakia command line (David Danzilio)
+  - Feature: Fragments (.d) support for the file datasource
+  - Numerous testing enhancements
+  - Internal improvements
 
 0.3.0:
   - *BREAK* by default, jerakia will now use .yaml instead of .yml for all YAML files.
