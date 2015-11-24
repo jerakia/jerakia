@@ -4,7 +4,7 @@ class Hiera
 
       def initialize(config = nil)
         require 'jerakia'
-        @config = config || Hiera.config[:jerakia] || {}
+        @config = config || Hiera::Config[:jerakia] || {} 
         @policy = @config[:policy] || 'default'
         @jerakia = ::Jerakia.new(@config)
         Jerakia.log.debug("[hiera] hiera backend loaded with policy #{@policy}")
