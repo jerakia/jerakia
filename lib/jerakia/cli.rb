@@ -37,19 +37,36 @@ class Jerakia
            aliases: :l,
            type: :string,
            desc: 'Log level'
+    option :debug,
+           aliases: :D,
+           type: :boolean,
+           desc: 'Debug information to console, implies --log-level debug'
     option :metadata,
            aliases: :d,
            type: :hash,
            desc: 'Key/value pairs to be used as metadata for the lookup'
     def lookup(key)
-      jac = Jerakia.new({:config => options[:config]})
+
+      if options[:debug]
+        loglevel = "debug"
+        logfile = STDOUT
+      else
+        logfile = nil
+        loglevel = options[:log_level]
+      end
+
+      jac = Jerakia.new({
+        :config   => options[:config],
+        :loglevel => options[:log_level],
+        :logfile  => logfile,
+        :loglevel => loglevel,
+      })
       req = Jerakia::Request.new(
         :key         => key,
         :namespace   => options[:namespace].split(/::/),
         :policy      => options[:policy].to_sym,
         :lookup_type => options[:type].to_sym,
         :merge       => options[:merge_type].to_sym,
-        :loglevel    => options[:log_level],
         :metadata    => options[:metadata]
       )
 

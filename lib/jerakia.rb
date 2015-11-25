@@ -20,7 +20,8 @@ class Jerakia
 
     @@filecache = {}
     loglevel = options[:loglevel] || @@config["loglevel"] || "info"
-    @@log = Jerakia::Log.new(loglevel.to_sym)
+    logfile = options[:logfile] || @@config["logfile"] || "/var/log/jerakia.log"
+    @@log = Jerakia::Log.new(loglevel.to_sym, logfile)
     @@log.debug("Jerakia initialized")
   end
 

@@ -1,9 +1,8 @@
 class Jerakia::Log < Jerakia
 
   require 'logger'
-  def initialize(level=:info)
-    @@logfile ||= config[:logfile] || '/var/log/jerakia.log'
-    @@logger ||= Logger.new(@@logfile)
+  def initialize(level=:info,file='/var/log/jerakia.log')
+    @@logger ||= Logger.new(file)
     @@level ||= level
     case @@level
     when :info
