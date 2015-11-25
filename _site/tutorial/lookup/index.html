@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jerakia</title>
+    
+    <link rel="stylesheet" href="/css/minimal.css">
+    <link rel="stylesheet" href="/css/pygment_trac.css">
+    <script src="/js/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <headercontainer>
+        <header>
+        <h1>Jerakia</h1>
+        <p>A versatile data lookup system</p>
+        <ul>
+          <li><a href="https://rubygems.org/gems/jerakia/">Download <strong>Gem</strong></a></li>
+          <li><a href="https://github.com/crayfishx/jerakia">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://forge.puppetlabs.com/crayfishx/jerakia">Install with<strong>Puppet</strong></a></li>
+        </ul>
+        </header>
+        <menusection>
+        <li><a href="/">Home</a></li>
+        <br/>
+        <li><a href="/basics">Basics</a></li>
+        <ul>
+          <li><a href="/basics/config">Configuring</a></li>
+          <li><a href="/basics/lookups">Jerakia Lookups</a></li>
+        </ul>
+        <li><a href="/tutorial/">Quickstart Tutorial</a></li>
+        <ul>
+          <li><a href="/tutorial/installing">Installing Jerakia</a></li>
+          <li><a href="/tutorial/config">Configuring</a></li>
+          <li><a href="/tutorial/policy">Writing a policy</a></li>
+          <li><a href="/tutorial/lookup">Writing a lookup</a></li>
+          <li><a href="/tutorial/data">Populating data</a></li>
+          <li><a href="/tutorial/command1">Running the jerakia command</a></li>
+          <li><a href="/tutorial/override">Overriding data in the hierarchy</a></li>
+        </ul>
+        <li><a href="/lookups">Lookups</a></li>
+        <ul>
+          <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+          <li><a href="/lookup/output_handlers">Using output handlers</a></li>
+        </ul>
+        <li><a href="/datasources">Datasources</a></li>
+        <ul>
+          <li><a href="/datasources/file">File datasource</a></li>
+          <li><a href="/datasources/http">HTTP datasource</a></li>
+          <li><a href="/datasources/writing">Writing datasources</a></li>
+        </ul>
+        <li><a href="/plugins">Lookup plugins</a></li>
+        <ul>
+          <li><a href="/plugins/confine">Confine plugin</a></li>
+          <li><a href="/plugins/hiera">Hiera plugin</a></li>
+          <li><a href="/plugins/writing">Writing custom lookup plugins</a></li>
+        </ul>
+        <li><a href="/outputhandlers">Output Handlers</a></li>
+        <ul>
+          <li><a href="/outputhandlers/encryption">Encryption output handler (eyaml)</a></li>
+          <li><a href="/outputhandlers/substr">Substr output plugin</a></li>
+          <li><a href="/outputhandlers/writing">Writing your own output handlers</a></li>
+        </ul>
+
+
+
+        </menusection>
+        </headercontainer>
+      <section>
+        <h1 id="quick_start_tutorial">Quick start Tutorial</h1>
+
+<h2 id="create_a_lookup">Create a lookup</h2>
+
+<p>Jerakia policies contain lookups that run in order.</p>
+
+<p>A lookup must contain, at the very least, a name and a datasource to use for the lookup. The current datasources that ship with Jerakia are <code>file</code> and <code>http</code>. The file datasource takes several options, including format and searchpath to define how lookups should be processed. Within the lookup we have access to <code>scope[]</code> which contains all the information we need to determine what data should be returned. In Puppetspeak, the scope contains all facts and top-level variables passed from the agent</p>
+
+<p>We will start by using the <code>file</code> datasource, You can read more about the options available on the <a href="/docs/datasource/file">File datasource documentation</a></p>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> vim /etc/jerakia/policy.d/default.rb</code></pre></div>
+<p>Inside the policy block that we created earlier, we will now add our first lookup called <code>:main</code>.</p>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>policy</span> <span class='ss'>:default</span> <span class='k'>do</span>
+
+  <span class='n'>lookup</span> <span class='ss'>:main</span> <span class='k'>do</span>
+    <span class='n'>datasource</span> <span class='ss'>:file</span><span class='p'>,</span> <span class='p'>{</span>
+      <span class='ss'>:format</span> <span class='o'>=&gt;</span> <span class='ss'>:yaml</span><span class='p'>,</span>
+      <span class='ss'>:docroot</span> <span class='o'>=&gt;</span> <span class='s2'>&quot;/var/lib/jerakia&quot;</span><span class='p'>,</span>
+      <span class='ss'>:searchpath</span> <span class='o'>=&gt;</span> <span class='o'>[</span>
+        <span class='s2'>&quot;hostname/</span><span class='si'>#{</span><span class='n'>scope</span><span class='o'>[</span><span class='ss'>:fqdn</span><span class='si'>}</span><span class='s2'>&quot;</span><span class='p'>,</span>
+        <span class='s2'>&quot;environment/</span><span class='si'>#{</span><span class='n'>scope</span><span class='o'>[</span><span class='ss'>:environment</span><span class='o'>]</span><span class='si'>}</span><span class='s2'>&quot;</span><span class='p'>,</span>
+        <span class='s2'>&quot;common&quot;</span>
+      <span class='o'>]</span>
+    <span class='p'>}</span>
+  <span class='k'>end</span>
+
+<span class='k'>end</span></code></pre></div>
+<p>Here we have described the <code>:main</code> lookup to use the datasource <code>file</code>. <code>:format</code> refers to which data format to expect files to use, Jerakia can support a number of format handlers that plug into the file datasource, in this case we are using the <code>yaml</code> handler. <code>:docroot</code> refers to where we store our data files. The <code>searchpath</code> contains an array of locations, relative to the <code>:docroot</code> that represents a search hierarchy that will be searched in order for the lookup key</p>
+
+<p>The <code>scope</code> object contains information about the requestor that helps determine how we look up the data, in this case, we base the lookup o the <code>fqdn</code> and <code>environment</code> of the requestor. More on scope later.</p>
+
+<p>Next: <a href="/tutorial/data">Create some data</a></p>
+      </section>
+      <footer>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jerakia</title>
+    
+    <link rel="stylesheet" href="/css/minimal.css">
+    <link rel="stylesheet" href="/css/pygment_trac.css">
+    <script src="/js/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <headercontainer>
+        <header>
+        <h1>Jerakia</h1>
+        <p>A versatile data lookup system</p>
+        <ul>
+          <li><a href="https://rubygems.org/gems/jerakia/">Download <strong>Gem</strong></a></li>
+          <li><a href="https://github.com/crayfishx/jerakia">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://forge.puppetlabs.com/crayfishx/jerakia">Install with<strong>Puppet</strong></a></li>
+        </ul>
+        </header>
+        <menusection>
+        <li><a href="/">Home</a></li>
+        <br/>
+        <li><a href="/basics">Basics</a></li>
+        <ul>
+          <li><a href="/basics/config">Configuring</a></li>
+          <li><a href="/basics/lookups">Jerakia Lookups</a></li>
+        </ul>
+        <li><a href="/tutorial/">Quickstart Tutorial</a></li>
+        <ul>
+          <li><a href="/tutorial/installing">Installing Jerakia</a></li>
+          <li><a href="/tutorial/config">Configuring</a></li>
+          <li><a href="/tutorial/policy">Writing a policy</a></li>
+          <li><a href="/tutorial/lookup">Writing a lookup</a></li>
+          <li><a href="/tutorial/data">Populating data</a></li>
+          <li><a href="/tutorial/command1">Running the jerakia command</a></li>
+          <li><a href="/tutorial/override">Overriding data in the hierarchy</a></li>
+        </ul>
+        <li><a href="/lookups">Lookups</a></li>
+        <ul>
+          <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+          <li><a href="/lookup/output_handlers">Using output handlers</a></li>
+        </ul>
+        <li><a href="/datasources">Datasources</a></li>
+        <ul>
+          <li><a href="/datasources/file">File datasource</a></li>
+          <li><a href="/datasources/http">HTTP datasource</a></li>
+          <li><a href="/datasources/writing">Writing datasources</a></li>
+        </ul>
+        <li><a href="/plugins">Lookup plugins</a></li>
+        <ul>
+          <li><a href="/plugins/confine">Confine plugin</a></li>
+          <li><a href="/plugins/hiera">Hiera plugin</a></li>
+          <li><a href="/plugins/writing">Writing custom lookup plugins</a></li>
+        </ul>
+        <li><a href="/outputhandlers">Output Handlers</a></li>
+        <ul>
+          <li><a href="/outputhandlers/encryption">Encryption output handler (eyaml)</a></li>
+          <li><a href="/outputhandlers/substr">Substr output plugin</a></li>
+          <li><a href="/outputhandlers/writing">Writing your own output handlers</a></li>
+        </ul>
+
+
+
+        </menusection>
+        </headercontainer>
+      <section>
+        <h2 id="about_jerakia">About Jerakia</h2>
+
+<p>Jerakia is a pluggable hierarchical data lookup engine. It is not a database, Jerakia itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources. Jerakia is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jerakia is an attempt at a different way of approaching data lookup management. Jerakia started out as a prototype experiment to replace hiera in order to solve a number of complicated requirements for a particular project, over time it matured a bit and we decided to open source it and move it towards a standalone data lookup system.</p>
+
+<p>The main goals of Jerakia are:</p>
+
+<ul>
+<li>Extendable framework to solve even the most complex edge cases</li>
+
+<li>Decoupled from any particular configuration management system</li>
+
+<li>Pluggable framework to encourage community plugin development</li>
+</ul>
+
+<p>Features include:</p>
+
+<ul>
+<li>YAML and JSON data source nativly included</li>
+
+<li>HTTP REST API data source nativly included</li>
+
+<li>hiera-eyaml style decryption of data from any data source</li>
+
+<li>REST server API (experimental)</li>
+</ul>
+      </section>
+      <footer>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>

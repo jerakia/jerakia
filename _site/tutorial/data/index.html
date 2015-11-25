@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jerakia</title>
+    
+    <link rel="stylesheet" href="/css/minimal.css">
+    <link rel="stylesheet" href="/css/pygment_trac.css">
+    <script src="/js/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <headercontainer>
+        <header>
+        <h1>Jerakia</h1>
+        <p>A versatile data lookup system</p>
+        <ul>
+          <li><a href="https://rubygems.org/gems/jerakia/">Download <strong>Gem</strong></a></li>
+          <li><a href="https://github.com/crayfishx/jerakia">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://forge.puppetlabs.com/crayfishx/jerakia">Install with<strong>Puppet</strong></a></li>
+        </ul>
+        </header>
+        <menusection>
+        <li><a href="/">Home</a></li>
+        <br/>
+        <li><a href="/basics">Basics</a></li>
+        <ul>
+          <li><a href="/basics/config">Configuring</a></li>
+          <li><a href="/basics/lookups">Jerakia Lookups</a></li>
+        </ul>
+        <li><a href="/tutorial/">Quickstart Tutorial</a></li>
+        <ul>
+          <li><a href="/tutorial/installing">Installing Jerakia</a></li>
+          <li><a href="/tutorial/config">Configuring</a></li>
+          <li><a href="/tutorial/policy">Writing a policy</a></li>
+          <li><a href="/tutorial/lookup">Writing a lookup</a></li>
+          <li><a href="/tutorial/data">Populating data</a></li>
+          <li><a href="/tutorial/command1">Running the jerakia command</a></li>
+          <li><a href="/tutorial/override">Overriding data in the hierarchy</a></li>
+        </ul>
+        <li><a href="/lookups">Lookups</a></li>
+        <ul>
+          <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+          <li><a href="/lookup/output_handlers">Using output handlers</a></li>
+        </ul>
+        <li><a href="/datasources">Datasources</a></li>
+        <ul>
+          <li><a href="/datasources/file">File datasource</a></li>
+          <li><a href="/datasources/http">HTTP datasource</a></li>
+          <li><a href="/datasources/writing">Writing datasources</a></li>
+        </ul>
+        <li><a href="/plugins">Lookup plugins</a></li>
+        <ul>
+          <li><a href="/plugins/confine">Confine plugin</a></li>
+          <li><a href="/plugins/hiera">Hiera plugin</a></li>
+          <li><a href="/plugins/writing">Writing custom lookup plugins</a></li>
+        </ul>
+        <li><a href="/outputhandlers">Output Handlers</a></li>
+        <ul>
+          <li><a href="/outputhandlers/encryption">Encryption output handler (eyaml)</a></li>
+          <li><a href="/outputhandlers/substr">Substr output plugin</a></li>
+          <li><a href="/outputhandlers/writing">Writing your own output handlers</a></li>
+        </ul>
+
+
+
+        </menusection>
+        </headercontainer>
+      <section>
+        <h1 id="quick_start_tutorial">Quick start Tutorial</h1>
+
+<h2 id="understanding_jerakia_lookups">Understanding Jerakia lookups</h2>
+
+<p>Using the <code>file</code> datasource as configured earlier we can add our data to YAML files under the directory specified in <code>:docroot</code>, which we set to <code>/var/lib/jerakia</code></p>
+
+<p>There are three important things that are contained within a Jerakia lookup, these are ;</p>
+
+<h4 id="the_lookup_key">The lookup <em>key</em></h4>
+
+<p>The key is the item that we are looking up and contains the value</p>
+
+<h4 id="the_lookup_namespace">The lookup <em>namespace</em></h4>
+
+<p>In Jerakia, each key is stored within a namespace. A namespace can itself be a hierarchy and is sent within the lookup as an array. When using Jerakia with Puppet, the namespace is built from the Puppet class that is requesting the lookup. Hiera users will be familar with the concept of <code>$port</code> in the <code>apache</code> class being configured in Hiera as a single key called <code>apache::port</code>. In Jerakia, this data would be stored as the <em>key</em> <code>port</code> in the <em>namespace</em> <code>apache</code>.</p>
+
+<h4 id="the_lookup_scope">The lookup <em>scope</em></h4>
+
+<p>The scope is key/value information sent by the requestor and is used by the datasource to determine how to lookup the data. Scope may contain any information such as environments, locations, names or roles of the requestor. When using Jerakia with Puppet in it’s default mode, the scope would contain all of the facts and top-level variables of the agent.</p>
+
+<h2 id="understanding_the_file_datasource">Understanding the file datasource</h2>
+
+<p>When using the <code>file</code> datasource, the <code>:searchpath</code> is evaluated to determine which files to scan and elements of the scope object can be interpolated into the file paths. By default, Jerakia will search for the key in a filename corresponding to the namespace. So, lets review our lookup object from earlier, it has the following settings configured</p>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>:format =&gt; :yaml,</span>
+<span class='go'>:docroot =&gt; &quot;/var/lib/jerakia&quot;,</span>
+<span class='go'>:searchpath =&gt; [</span>
+<span class='go'>  &quot;hostname/#{scope[:fqdn}&quot;,</span>
+<span class='go'>  &quot;environment/#{scope[:environment]}&quot;,</span>
+<span class='go'>  &quot;common&quot;</span>
+<span class='go'> ]</span></code></pre></div>
+<p>If our scope contains the following</p>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;environment&quot; =&gt; &quot;development&quot;,</span>
+<span class='go'>&quot;fqdn&quot;        =&gt; &quot;host011.example.com&quot;</span></code></pre></div>
+<p>Then when we search for the key <code>port</code> in the <code>apache</code> namespace (eg: apache::port) then Jerakia will scan the following files until it encounters the key <code>port:</code></p>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>/var/lib/jerakia/hostname/host011.example.com/apache.yaml</span>
+<span class='go'>/var/lib/jerakia/environment/development/apache.yaml</span>
+<span class='go'>/var/lib/jerakia/environment/common/apache.yaml</span></code></pre></div>
+<h2 id="add_data_to_the_searchpath">Add data to the searchpath</h2>
+
+<p>Let’s start off by adding the port value to our searchpath</p>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> mkdir -p /var/lib/jerakia/common
+<span class='gp'>$</span> vim /var/lib/jerakia/common/apache.yaml</code></pre></div><div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='nn'>---</span>
+<span class='l-Scalar-Plain'>port</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>8080</span></code></pre></div>
+<p>Next: <a href="/tutorial/command1">Running Jerakia from the command line</a></p>
+      </section>
+      <footer>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
