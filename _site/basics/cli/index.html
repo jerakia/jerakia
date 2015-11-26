@@ -82,23 +82,72 @@
       </footer>
         </headercontainer>
       <section>
-        <h1 id="quick_start_tutorial">Quick start Tutorial</h1>
+        <h1 id="the__command">The <code>jerakia</code> command</h1>
 
-<h2 id="overriding_data">Overriding data</h2>
+<h2 id="usage">Usage</h2>
 
-<h3 id="populate_the_data_in_the_hierarchy">Populate the data in the hierarchy</h3>
+<p><code>jerakia &lt;subcommand&gt; [OPTIONS]</code></p>
 
-<p>Now let’s provide some different data further up in our hierarchy, for example, we shall override <code>port</code> to be <code>8099</code> in our dev environment.</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> mkdir -p /var/lib/jerakia/environment/dev
-<span class='gp'>$</span> vim /var/lib/jerakia/environment/dev/apache.yaml</code></pre></div><div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='nn'>---</span>
-<span class='l-Scalar-Plain'>port</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>8099</span></code></pre></div>
-<h3 id="query_from_the_command_line">Query from the command line</h3>
+<h2 id="subcommands">Subcommands</h2>
 
-<p>If we run the same query command as before, we expect to get the same output</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8080&quot;</span></code></pre></div>
-<p>Remember that the <code>searchpath</code> gets evaluated from the scope, and since we haven’t provided any scope data there is nothing to match. Let’s repeat this lookup by providing some scope data, in this case, ensuring that the environment is <code>dev</code></p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache --metadata environment:dev</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8099&quot;</span></code></pre></div>
-<p>Next: <a href="/tutorial/puppet">Integration with Puppet</a></p>
+<h3 id="help">help</h3>
+
+<p>Display help information</p>
+
+<h3 id="version">version</h3>
+
+<p>Display jerakia version information</p>
+
+<h3 id="lookup">lookup</h3>
+
+<p>The lookup subcommands take a third argument as the key followed by options</p>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>jerakia lookup &lt;key&gt; [options]</span></code></pre></div>
+<h4 id="options">options</h4>
+
+<h5 id=""><code>c, [--config=CONFIG]</code></h5>
+
+<p>Specify a different configuration file from the default (<code>/etc/jerakia/jerakia.yaml</code>)</p>
+
+<h5 id="_2"><code>p, [--policy=POLICY]</code></h5>
+
+<p>Specify a policy to use for the lookup, default: default</p>
+
+<h5 id="_3"><code>n, [--namespace=NAMESPACE]</code></h5>
+
+<p>Namespace of the request key being looked up</p>
+
+<h5 id="_4"><code>t, [--type=TYPE]</code></h5>
+
+<p>The type of lookup, the default type of <code>first</code> will cause Jerakia to return the first value it finds. Setting this option to <code>cascade</code> will cause Jerakia to continue through the hierarchy and return merged results. (see –merge-type)</p>
+
+<h5 id="_5"><code>s, [--scope=SCOPE]</code></h5>
+
+<p>Specify an alternative scope handler (default: metadata)</p>
+
+<h5 id="_6"><code>m, [--merge-type=MERGE_TYPE]</code></h5>
+
+<p>When using <code>--type=cascade</code> this option specifies how the results should be merged, valid values are <code>array</code> and <code>hash</code></p>
+
+<h5 id="_7"><code>l, [--log-level=LOG_LEVEL]</code></h5>
+
+<p>Specify a different log level (default configured in jerakia.yaml)</p>
+
+<h5 id="_8"><code>D, [--debug], [--no-debug]</code></h5>
+
+<p>Enable debugging mode to the console. Setting this option overrides <code>--log-level</code></p>
+
+<h5 id="_9"><code>d, [--metadata=key:value]</code></h5>
+
+<p>Metadata to send with the request as a space spearated list of command delimited key value pairs</p>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="looking_up_data">Looking up data</h3>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache</code></pre></div>
+<h3 id="providing_metadata_scope">Providing metadata scope</h3>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache <span class='se'>\</span>
+<span class='go'>  --metadata fqdn:localhost.example.com \</span>
+<span class='go'>  environment:dev</span></code></pre></div>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->

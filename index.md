@@ -2,7 +2,7 @@
 layout: minimal
 ---
 
-## About Jerakia
+# About Jerakia
 
 Jerakia is a pluggable hierarchical data lookup engine.  It is not a database, Jerakia itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jerakia is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jerakia is an attempt at a different way of approaching data lookup management.  Jerakia started out as a prototype experiment to replace hiera in order to solve a number of complicated requirements for a particular project, over time it matured a bit and we decided to open source it and move it towards a standalone data lookup system.
 
@@ -19,4 +19,6 @@ Features include:
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
 
-
+# Latest News
+## Jerakia 0.4 released.
+Jerakia 0.4 series ships with a number of bug fixes and enhancements.  Also included is the _fragments_ feature for the file datasource allowing large files to be split up into _.d_ style structures making them easier to manage.

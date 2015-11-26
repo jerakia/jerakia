@@ -82,23 +82,29 @@
       </footer>
         </headercontainer>
       <section>
-        <h1 id="quick_start_tutorial">Quick start Tutorial</h1>
+        <h1 id="lookup_plugins">Lookup Plugins</h1>
 
-<h2 id="overriding_data">Overriding data</h2>
+<h2 id="introduction">Introduction</h2>
 
-<h3 id="populate_the_data_in_the_hierarchy">Populate the data in the hierarchy</h3>
+<p>Lookup plugins are a way to extend the functionality of <a href="/lookups">Jerakia lookups</a>.</p>
 
-<p>Now let’s provide some different data further up in our hierarchy, for example, we shall override <code>port</code> to be <code>8099</code> in our dev environment.</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> mkdir -p /var/lib/jerakia/environment/dev
-<span class='gp'>$</span> vim /var/lib/jerakia/environment/dev/apache.yaml</code></pre></div><div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='nn'>---</span>
-<span class='l-Scalar-Plain'>port</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>8099</span></code></pre></div>
-<h3 id="query_from_the_command_line">Query from the command line</h3>
+<p>Within a lookup we have access to both the request and all scope data sent by the requestor. Having access to read and modify these gives us a great deal of flexibility. Jerakia policies are written in Ruby DSL so there is nothing stopping you from putting any amount of functionality directly in the lookup. However, that makes for rather long and complex policies and isn’t easy to share or re-use. The recommended way therefore to add extra functionality to a lookup is to use the plugin mechanism.</p>
 
-<p>If we run the same query command as before, we expect to get the same output</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8080&quot;</span></code></pre></div>
-<p>Remember that the <code>searchpath</code> gets evaluated from the scope, and since we haven’t provided any scope data there is nothing to match. Let’s repeat this lookup by providing some scope data, in this case, ensuring that the environment is <code>dev</code></p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache --metadata environment:dev</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8099&quot;</span></code></pre></div>
-<p>Next: <a href="/tutorial/puppet">Integration with Puppet</a></p>
+<p>Custom lookup plugins are installed into the <code>plugindir</code> location in the <a href="/basics/configure">configuration</a> and are searched relative to this path as <code>jerakia/lookup/plugin/&lt;name&gt;.rb</code>. Core plugins are installed with the main code base but used in the same way.</p>
+
+<p>To use a plugin in a lookup it must be loaded using the :use parameter to the lookup block, for example to load the <a href="/plugins/hiera"><code>hiera</code> plugin</a> into your lookup you need to format your lookup block as;</p>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>lookup</span> <span class='ss'>:default</span><span class='p'>,</span> <span class='ss'>:use</span> <span class='o'>=&gt;</span> <span class='ss'>:hiera</span> <span class='k'>do</span>
+  <span class='o'>.</span><span class='n'>.</span><span class='o'>.</span>
+<span class='k'>end</span></code></pre></div>
+<p>If you want to use more than one plugin, the argument to :use can also be an array</p>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>lookup</span> <span class='ss'>:default</span><span class='p'>,</span> <span class='ss'>:use</span> <span class='o'>=&gt;</span> <span class='o'>[</span> <span class='ss'>:hiera</span><span class='p'>,</span> <span class='ss'>:mystuff</span> <span class='o'>]</span> <span class='k'>do</span>
+  <span class='o'>.</span><span class='n'>.</span><span class='o'>.</span>
+<span class='k'>end</span></code></pre></div>
+<p>Once a plugin is loaded into the lookup, it exposes it’s methods in the plugin.name namespace. For example, the hiera plugin has a method called rewrite_lookup which rewrites the lookup key and drops the namespace from the request, as described above. So to implement this functionality we would call the method using the plugin mechanism;</p>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>lookup</span> <span class='ss'>:default</span><span class='p'>,</span> <span class='ss'>:use</span> <span class='o'>=&gt;</span> <span class='ss'>:hiera</span> <span class='k'>do</span>
+  <span class='o'>.</span><span class='n'>.</span><span class='o'>.</span>
+  <span class='n'>plugin</span><span class='o'>.</span><span class='n'>hiera</span><span class='o'>.</span><span class='n'>rewrite_lookup</span>
+<span class='k'>end</span></code></pre></div>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->

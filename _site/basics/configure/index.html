@@ -82,23 +82,46 @@
       </footer>
         </headercontainer>
       <section>
-        <h1 id="quick_start_tutorial">Quick start Tutorial</h1>
+        <h1 id="configuring_jerakia">Configuring Jerakia</h1>
 
-<h2 id="overriding_data">Overriding data</h2>
+<h2 id=""><code>jerakia.yaml</code></h2>
 
-<h3 id="populate_the_data_in_the_hierarchy">Populate the data in the hierarchy</h3>
+<p>Jerakia has a small core configuration in <code>jerakia.yaml</code>. The default location for the configuration file is <code>/etc/jerakia</code></p>
 
-<p>Now let’s provide some different data further up in our hierarchy, for example, we shall override <code>port</code> to be <code>8099</code> in our dev environment.</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> mkdir -p /var/lib/jerakia/environment/dev
-<span class='gp'>$</span> vim /var/lib/jerakia/environment/dev/apache.yaml</code></pre></div><div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='nn'>---</span>
-<span class='l-Scalar-Plain'>port</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>8099</span></code></pre></div>
-<h3 id="query_from_the_command_line">Query from the command line</h3>
+<h3 id="example">Example:</h3>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='o'>---</span>
+<span class='ss'>policydir</span><span class='p'>:</span> <span class='sr'>/etc/</span><span class='n'>jerakia</span><span class='o'>/</span><span class='n'>policy</span><span class='o'>.</span><span class='n'>d</span>
+<span class='ss'>plugindir</span><span class='p'>:</span> <span class='sr'>/etc/</span><span class='n'>jerakia</span><span class='o'>/</span><span class='n'>lib</span>
+<span class='ss'>loglevel</span><span class='p'>:</span> <span class='n'>info</span>
+<span class='ss'>logfile</span><span class='p'>:</span> <span class='sr'>/var/</span><span class='n'>log</span><span class='o'>/</span><span class='n'>jerakia</span><span class='o'>.</span><span class='n'>log</span></code></pre></div>
+<h3 id="configuration_directives">Configuration directives</h3>
 
-<p>If we run the same query command as before, we expect to get the same output</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8080&quot;</span></code></pre></div>
-<p>Remember that the <code>searchpath</code> gets evaluated from the scope, and since we haven’t provided any scope data there is nothing to match. Let’s repeat this lookup by providing some scope data, in this case, ensuring that the environment is <code>dev</code></p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache --metadata environment:dev</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8099&quot;</span></code></pre></div>
-<p>Next: <a href="/tutorial/puppet">Integration with Puppet</a></p>
+<p><code>jerakia.yaml</code> can be configured with the following configuration directives.</p>
+
+<h4 id="_2"><code>policydir</code></h4>
+
+<p>The location of Jerakia policy files. Policies should be named <code>&lt;name&gt;.rb</code> and be installed into this directory</p>
+
+<h4 id="_3"><code>plugindir</code></h4>
+
+<p>The location where Jerakia will search for lookup plugins. Plugins will be searched in <code>jerakia/lookup/plugin</code> relative to this directory</p>
+
+<h4 id="_4"><code>loglevel</code></h4>
+
+<p>The log level, can be <code>info</code> or <code>debug</code></p>
+
+<h4 id="_5"><code>logfile</code></h4>
+
+<p>The logfile Jerakia uses to write to</p>
+
+<h3 id="optional_configuration_directives">Optional configuration directives</h3>
+
+<h4 id="_6"><code>eyaml</code></h4>
+
+<p>If you are using the encryption response filter you need to configure Jerakia with the locations of your SSL keys for eyaml. This option is a hash containing <code>private_key</code> and <code>public_key</code>. Eg:</p>
+<div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='l-Scalar-Plain'>eyaml</span><span class='p-Indicator'>:</span>
+  <span class='l-Scalar-Plain'>public_key</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>/etc/jerakia/secure/public_key.pem</span>
+  <span class='l-Scalar-Plain'>private_key</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>/etc/jerakia/secure/private_key.pem</span></code></pre></div>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->

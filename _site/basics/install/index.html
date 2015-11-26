@@ -82,23 +82,21 @@
       </footer>
         </headercontainer>
       <section>
-        <h1 id="quick_start_tutorial">Quick start Tutorial</h1>
+        <h1 id="installing_jerakia">Installing Jerakia</h1>
 
-<h2 id="overriding_data">Overriding data</h2>
+<p><br /></p>
 
-<h3 id="populate_the_data_in_the_hierarchy">Populate the data in the hierarchy</h3>
+<h2 id="puppet_module_">Puppet module <code>crayfishx/jerakia</code></h2>
 
-<p>Now let’s provide some different data further up in our hierarchy, for example, we shall override <code>port</code> to be <code>8099</code> in our dev environment.</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> mkdir -p /var/lib/jerakia/environment/dev
-<span class='gp'>$</span> vim /var/lib/jerakia/environment/dev/apache.yaml</code></pre></div><div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='nn'>---</span>
-<span class='l-Scalar-Plain'>port</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>8099</span></code></pre></div>
-<h3 id="query_from_the_command_line">Query from the command line</h3>
+<p>Installing Jerakia with Puppet is the easiest way to get up and running quckly.</p>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> puppet module install crayfishx/jerakia</code></pre></div>
+<p>See the <a href="https://forge.puppetlabs.com/crayfishx/jerakia">Puppet Forge page</a> for more information configuring Jerakia using Puppet</p>
 
-<p>If we run the same query command as before, we expect to get the same output</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8080&quot;</span></code></pre></div>
-<p>Remember that the <code>searchpath</code> gets evaluated from the scope, and since we haven’t provided any scope data there is nothing to match. Let’s repeat this lookup by providing some scope data, in this case, ensuring that the environment is <code>dev</code></p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache --metadata environment:dev</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8099&quot;</span></code></pre></div>
-<p>Next: <a href="/tutorial/puppet">Integration with Puppet</a></p>
+<h2 id="as_a_gem"> As a gem</h2>
+
+<p>Jerakia is available as a rubygem and can be installed with</p>
+<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> gem install jerakia</code></pre></div>
+<p>After installing the gem, proceed to <a href="/basics/configure">configure Jerakia</a></p>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->

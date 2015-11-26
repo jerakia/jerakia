@@ -30,8 +30,10 @@
         <br/>
         <li><a href="/basics">Basics</a></li>
         <ul>
-          <li><a href="/basics/config">Configuring</a></li>
-          <li><a href="/basics/lookups">Jerakia Lookups</a></li>
+          <li><a href="/basics/install">Installing</a></li>
+          <li><a href="/basics/configure">Configuring</a></li>
+          <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
+          <li><a href="/basics/cli">Command line interface</a></li>
         </ul>
         <li><a href="/tutorial/">Quickstart Tutorial</a></li>
         <ul>
@@ -46,33 +48,41 @@
         <li><a href="/lookups">Lookups</a></li>
         <ul>
           <li><a href="/lookups/plugins">Using lookup plugins</a></li>
-          <li><a href="/lookup/output_handlers">Using output handlers</a></li>
         </ul>
         <li><a href="/datasources">Datasources</a></li>
         <ul>
           <li><a href="/datasources/file">File datasource</a></li>
-          <li><a href="/datasources/http">HTTP datasource</a></li>
-          <li><a href="/datasources/writing">Writing datasources</a></li>
+          <li><a class=pending href="/pending">HTTP datasource</a></li>
+          <li><a href="/datasources/dummy">Dummy datasource</a></li>
+          <li><a class="pending" href="/pending">Writing datasources</a></li>
         </ul>
-        <li><a href="/plugins">Lookup plugins</a></li>
+        <li><a href="/pending">Lookup plugins</a></li>
         <ul>
-          <li><a href="/plugins/confine">Confine plugin</a></li>
-          <li><a href="/plugins/hiera">Hiera plugin</a></li>
-          <li><a href="/plugins/writing">Writing custom lookup plugins</a></li>
+          <li><a class="pending" href="/pending">Hiera plugin</a></li>
+          <li><a class="pending" href="/pending">Writing custom lookup plugins</a></li>
         </ul>
-        <li><a href="/outputhandlers">Output Handlers</a></li>
+        <li><a href="/pending">Response Filters</a></li>
         <ul>
-          <li><a href="/outputhandlers/encryption">Encryption output handler (eyaml)</a></li>
-          <li><a href="/outputhandlers/substr">Substr output plugin</a></li>
-          <li><a href="/outputhandlers/writing">Writing your own output handlers</a></li>
+          <li><a class="pending" href="/pending">Encryption response filter (eyaml)</a></li>
+          <li><a class="pending" href="/pending">Substr response filter</a></li>
+          <li><a class="pending" href="/pending">Writing your own reponse filters</a></li>
         </ul>
 
 
 
         </menusection>
+      <footer>
+      <br/><br/>
+      <p>Sponsored by</p>
+      <p><a href="http://www.enviatics.com"><img src="/images/logo_enviatics.png" alt="Enviatics"></a></p>
+      <p><a href="http://baloise.github.io"><img src="/images/logo_baloise_Fotor.png" alt="baloise open source"></a></p>
+      <br><br><br>
+      <p><small>Hosted by <a href="https://pages.github.io">GitHub Pages</a></small></p>
+      <p><small>Theme adapted from <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
         </headercontainer>
       <section>
-        <h2 id="about_jerakia">About Jerakia</h2>
+        <h1 id="about_jerakia">About Jerakia</h1>
 
 <p>Jerakia is a pluggable hierarchical data lookup engine. It is not a database, Jerakia itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources. Jerakia is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jerakia is an attempt at a different way of approaching data lookup management. Jerakia started out as a prototype experiment to replace hiera in order to solve a number of complicated requirements for a particular project, over time it matured a bit and we decided to open source it and move it towards a standalone data lookup system.</p>
 
@@ -97,9 +107,13 @@
 
 <li>REST server API (experimental)</li>
 </ul>
+
+<h1 id="latest_news">Latest News</h1>
+
+<h2 id="jerakia_04_released">Jerakia 0.4 released.</h2>
+
+<p>Jerakia 0.4 series ships with a number of bug fixes and enhancements. Also included is the <em>fragments</em> feature for the file datasource allowing large files to be split up into <em>.d</em> style structures making them easier to manage.</p>
       </section>
-      <footer>
-      </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
   </body>

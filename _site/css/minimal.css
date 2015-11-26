@@ -105,16 +105,35 @@ menusection li a {
   font-weight: bold;
 }
 
+menusection ul li a.pending {
+  color: #c2c2c2;
+}
+
+menusection li a:hover {
+  text-decoration: underline;
+}
+
+
 menusection ul li a {
   color: #000000;
   font-size: 12px;
   font-weight: normal;
 }
 
+menusection ul li a:hover {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+
 menusection ul {
   padding-left: 15px;
 }
 
+
+header h1 {
+  font-size: 48px;
+}
 
 headercontainer {
   width:270px;
@@ -185,6 +204,15 @@ section {
   padding-bottom:50px;
 }
 
+section a {
+    color: #AF72E8;
+}
+
+section a:hover {
+  text-decoration: underline;
+}
+
+
 small {
   font-size:11px;
 }
@@ -199,7 +227,6 @@ hr {
 footer {
   width:270px;
   float:left;
-  position:fixed;
   bottom:50px;
 }
 

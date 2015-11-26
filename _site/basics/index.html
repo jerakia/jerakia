@@ -82,23 +82,31 @@
       </footer>
         </headercontainer>
       <section>
-        <h1 id="quick_start_tutorial">Quick start Tutorial</h1>
+        <h1 id="jerakia_basics">Jerakia Basics</h1>
 
-<h2 id="overriding_data">Overriding data</h2>
+<p>Jerakia is a lookup application. It is not itself a database, rather an entry point and routing mechanism to provide one point of entry for lookup up data from a variety of sources, which may include databases.</p>
 
-<h3 id="populate_the_data_in_the_hierarchy">Populate the data in the hierarchy</h3>
+<p>We use the following terminology</p>
 
-<p>Now let’s provide some different data further up in our hierarchy, for example, we shall override <code>port</code> to be <code>8099</code> in our dev environment.</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> mkdir -p /var/lib/jerakia/environment/dev
-<span class='gp'>$</span> vim /var/lib/jerakia/environment/dev/apache.yaml</code></pre></div><div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='nn'>---</span>
-<span class='l-Scalar-Plain'>port</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>8099</span></code></pre></div>
-<h3 id="query_from_the_command_line">Query from the command line</h3>
+<h3 id="requestor">Requestor</h3>
 
-<p>If we run the same query command as before, we expect to get the same output</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8080&quot;</span></code></pre></div>
-<p>Remember that the <code>searchpath</code> gets evaluated from the scope, and since we haven’t provided any scope data there is nothing to match. Let’s repeat this lookup by providing some scope data, in this case, ensuring that the environment is <code>dev</code></p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> jerakia lookup port --namespace apache --metadata environment:dev</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>&quot;8099&quot;</span></code></pre></div>
-<p>Next: <a href="/tutorial/puppet">Integration with Puppet</a></p>
+<p>The requestor is the process, application or server sending the lookup request. The requestor sends a lookup key and a namespace (see below) to Jerakia and waits for a response containing the matched data.</p>
+
+<h3 id="policy">Policy</h3>
+
+<p>When the requestor sends a lookup request to Jerakia, it is passed to a policy. A Jerakia policy acts as a container for lookups that are called in order</p>
+
+<h3 id="lookup">Lookup</h3>
+
+<p>A lookup is defined within a policy. In the lookup we can model how, and from where, the data should be looked up. Lookups can employ plugins to read and modify the lookup request, and define a datasource responsible for performing the actual lookup</p>
+
+<h3 id="datasources">Datasources</h3>
+
+<p>A datasource is configured in a lookup. Datasources are pluggable, Jerakia ships with two datasources; <code>file</code> and <code>http</code>.</p>
+
+<h3 id="scope">Scope</h3>
+
+<p>The scope object contains key/value information used by the lookup to determine how to handle the lookup request. Scopes are pluggable and the scope can be sourced from any scope plugin. By default, Jerakia ships with the <code>metadata</code> scope handler which builds the scope data from metadata sent in the request object. For example, when using Jerakia with Puppet, the scope contains the facts and top-level variables of the agent, which are passed to Jerakia as metadata in the request. Future scope handlers may include things such as PuppetDB or MCollective to allow Jerakia lookups to source their scope from different places.</p>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->

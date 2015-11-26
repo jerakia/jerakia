@@ -4,20 +4,9 @@ layout: minimal
 
 # Quick start Tutorial
 
-## Understanding Jerakia lookups
-
 Using the `file` datasource as configured earlier we can add our data to YAML files under the directory specified in `:docroot`, which we set to `/var/lib/jerakia`
 
-There are three important things that are contained within a Jerakia lookup, these are ;
-
-#### The lookup _key_
-The key is the item that we are looking up and contains the value
-
-#### The lookup _namespace_
-In Jerakia, each key is stored within a namespace.  A namespace can itself be a hierarchy and is sent within the lookup as an array.  When using Jerakia with Puppet, the namespace is built from the Puppet class that is requesting the lookup.  Hiera users will be familar with the concept of `$port` in the `apache` class being configured in Hiera as a single key called `apache::port`.  In Jerakia, this data would be stored as the _key_ `port` in the _namespace_ `apache`.
-
-#### The lookup _scope_
-The scope is key/value information sent by the requestor and is used by the datasource to determine how to lookup the data.  Scope may contain any information such as environments, locations, names or roles of the requestor.  When using Jerakia with Puppet in it's default mode, the scope would contain all of the facts and top-level variables of the agent.
+It's recommended that you read [Jerakia Lookup Basics](/basics/lookups) to understand the structure and behaviour of a Jerakia lookup
 
 ## Understanding the file datasource
 
@@ -48,6 +37,8 @@ Then when we search for the key `port` in the `apache` namespace (eg: apache::po
 /var/lib/jerakia/environment/development/apache.yaml
 /var/lib/jerakia/environment/common/apache.yaml
 {% endhighlight %}
+
+[Read more about the File datasource](/datasources/file)
 
 ## Add data to the searchpath
 

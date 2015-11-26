@@ -4,14 +4,6 @@ layout: minimal
 
 # Quick start Tutorial
 
-## Installation
+This tutorial is intended as a quick guide to get set up and familar with Jerakia.
 
-First we need to install Jerakia and it's dependencies using the Rubygem
-
-{% highlight console %}
-% gem install jerakia
-{% endhighlight %}
-
-Note: The tutorial guides you through some stuff that the [Forge Module](https://forge.puppetlabs.com/crayfishx/jerakia) would do for you.
-
-Next: [Configuring Jerakia](/tutorial/config)
+[Begin here](/tutorial/installing)
