@@ -19,6 +19,10 @@ Features include:
 * hiera-eyaml style decryption of data from any data source
 * REST server API (experimental)
 
+# References
+[Blog post: Solving real world problems with Jerakia](http://www.craigdunn.org/2015/09/solving-real-world-problems-with-jerakia/)
+[Blog post: Extending Jerakia with lookup plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/)
+
 # Latest News
 ## Jerakia 0.4 released.
 Jerakia 0.4 series ships with a number of bug fixes and enhancements.  Also included is the _fragments_ feature for the file datasource allowing large files to be split up into _.d_ style structures making them easier to manage.
