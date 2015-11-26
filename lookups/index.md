@@ -48,7 +48,7 @@ lookup :main do
 end
 {% endhighlight %}
 
-The lookup method also supports the `:use` flag to [load plugins](/lookup/plugins)
+The lookup method also supports the `:use` flag to [load plugins](/lookups/plugins)
 
 {% highlight ruby %}
 lookup :main, :use => :hiera do
