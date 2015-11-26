@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.files       = [ 'bin/jerakia', Rake::FileList["lib/**/*"].to_a ].flatten
   s.bindir      = 'bin'
   s.executables << 'jerakia'
-  s.homepage    = 'http://github.com/crayfishx/jerakia'
+  s.homepage    = 'http://jerakia.io'
   s.license     = 'Apache 2.0'
   s.add_dependency 'thor', '~> 0.19'
   s.add_dependency('lookup_http', '>=1.0.0')

@@ -1,3 +1,6 @@
+## [http://jerakia.io](http://jerakia.io)
+
+
 [![Build Status](https://travis-ci.org/crayfishx/jerakia.svg?branch=master)](https://travis-ci.org/crayfishx/jerakia) [![Gem Version](https://badge.fury.io/rb/jerakia.svg)](https://badge.fury.io/rb/jerakia)
 
 
@@ -35,9 +38,7 @@ Features include:
 
 ## Usage and Documentation ##
 
-It is recommended you [read the documentation here](./doc/index.md) before continuing.
-
-Documentation is ongoing, but for the impatient, and for people already familar with Hiera See the [Puppet users tutorial](doc/getting_started.md) page for a quick start guide!
+# Documentation is kept on the [Official Website](http://jerakia.io)
 
 ## Other documentation ##
 

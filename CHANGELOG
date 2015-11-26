@@ -1,3 +1,6 @@
+0.4.3:
+  - --debug feature added to the CLI to log to stdout
+
 0.4.2:
   - Bugfix: hiera backend throwing errors with unresolvable 'config' method
 
