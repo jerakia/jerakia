@@ -38,7 +38,7 @@ Features include:
 
 ## Usage and Documentation ##
 
-# Documentation is kept on the [Official Website](http://jerakia.io)
+Documentation is kept on the [Official Website](http://jerakia.io)
 
 ## Other documentation ##
 
@@ -49,10 +49,6 @@ Features include:
 ## Architecture ##
 
 Jerakia is a policy based lookup system.  A lookup request consists of a key, a namespace and a scope.  The scope sets a list of key value pairs used for determining how the request is handled (eg: environment => development).  Scopes are also pluggable and Jerakia can set the scope data in a variety of ways, by default it is passed as metadata information within the request, but other future options include PuppetDB, MCollective...etc.  Each search request is passed to a pre-determined policy.  The policy dictates a series of lookups that should be performed and in what order.  Each lookup uses a configurable and pluggable data source to search for the lookup key.  Lookups support various plugins to control and manipulate lookup requests and the final result returned from the back end data source is then optionally passed through a number of response filters before the data is finally serialized in a common format (JSON) and returned to the requestor.
-
-## Puppet ##
-
-For Puppet users wishing to test or migrate to Jerakia there are a number of options.  Jerakia ships with a Puppet data binding terminus that can be enabled with a simple configuration directive in Puppet's configuration file causing all data binding lookups from parameterised classes to Jerakia rather than Puppet's native Hiera.  Like Hiera, Jerakia supports a file based data source for looking up data in YAML or JSON source files.  By default, Jerakia has a slightly different filesystem layout and lookup format than hiera, however, if you wish to retain your existing data files this can be enabled using the _hiera_compat_ lookup plugin.  [Read more about Hiera compatability and integration here](./doc/quickstart_puppet.md).
 
 ## Integration ##
 
