@@ -91,7 +91,7 @@
 
 <p>A lookup must contain, at the very least, a name and a datasource to use for the lookup. The current datasources that ship with Jerakia are <code>file</code> and <code>http</code>. The file datasource takes several options, including format and searchpath to define how lookups should be processed. Within the lookup we have access to <code>scope[]</code> which contains all the information we need to determine what data should be returned. In Puppetspeak, the scope contains all facts and top-level variables passed from the agent</p>
 
-<p>We will start by using the <code>file</code> datasource, You can read more about the options available on the <a href="/docs/datasource/file">File datasource documentation</a></p>
+<p>We will start by using the <code>file</code> datasource, You can read more about the options available on the <a href="/datasources/file">File datasource documentation</a></p>
 <div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> vim /etc/jerakia/policy.d/default.rb</code></pre></div>
 <p>Inside the policy block that we created earlier, we will now add our first lookup called <code>:main</code>.</p>
 <div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>policy</span> <span class='ss'>:default</span> <span class='k'>do</span>

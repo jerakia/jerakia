@@ -10,7 +10,7 @@ Jerakia policies contain lookups that run in order.
 
 A lookup must contain, at the very least, a name and a datasource to use for the lookup. The current datasources that ship with Jerakia are  `file` and `http`. The file datasource takes several options, including format and searchpath to define how lookups should be processed. Within the lookup we have access to `scope[]` which contains all the information we need to determine what data should be returned. In Puppetspeak, the scope contains all facts and top-level variables passed from the agent 
 
-We will start by using the `file` datasource, You can read more about the options available on the [File datasource documentation](/docs/datasource/file)
+We will start by using the `file` datasource, You can read more about the options available on the [File datasource documentation](/datasources/file)
 
 
 {% highlight console %}
