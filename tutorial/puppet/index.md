@@ -16,7 +16,7 @@ $ vim /etc/puppet/hiera.yaml
 
 {% highlight yaml %}
 ---
-backends: [ 'jerakia' ]
+:backends: [ 'jerakia' ]
 {% endhighlight %}
 
 ### As a Puppet data binding terminus
