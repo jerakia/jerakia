@@ -2,17 +2,49 @@
 layout: minimal
 ---
 
-# About Jerakia
+# Jerakia
 
-Jerakia is a pluggable hierarchical data lookup engine.  It is not a database, Jerakia itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jerakia is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jerakia is an attempt at a different way of approaching data lookup management.  Jerakia started out as a prototype experiment to replace hiera in order to solve a number of complicated requirements for a particular project, over time it matured a bit and we decided to open source it and move it towards a standalone data lookup system.
+## About Jerakia
 
-The main goals of Jerakia are:
+Jerakia is a pluggable hierarchical data lookup engine.  It is not a database, Jerakia itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jerakia is inspired by Hiera, and can be used an additional backend or as a complete drop in replacement. 
 
-* Extendable framework to solve even the most complex edge cases
-* Decoupled from any particular configuration management system
-* Pluggable framework to encourage community plugin development
+## Data Separation
 
-Features include:
+Managing data can be a complex task.  With tools such as Puppet deployed to configure your entire software stack across multiple locations and environments, deciding on what configuration options and other site specific data should be configured where becomes cumbersome within your code.  Data separation refers to splitting out your site specific data from your code.  You gain the ability to write and use generic modules from the public domian without needing to modify them, and complex conditional logic in your code to determine what configuration values should be in a given environment is a thing of the past.
+
+## Why Jerakia
+
+Jerakia is built on one core principle: flexibility.  When you go beyond small-scale, single-customer orientated implementations into larger, more complex and diverse environments the role of modelling your data can become challenging.  Some examples of these challenges include;
+
+* Using a different data source for one particular application.
+* Giving a team a separate hierarchy just for their application.
+* Giving access to a subset of data to a particular user or team.
+* Enjoy the benefits of eyaml encryption without having to use YAML.
+* Dynamic hierarchy rather than hard coded it in config.
+* Separation of configuration between applications.
+
+Jerakia is a policy driven model.  Policies are written in Ruby DSL which gives a high degree of flexibility in solving complex edge cases.  An example of a simple Jerakia policy is;
+
+{% highlight ruby %}
+policy :default do
+  lookup :main do
+    datasource :file, {
+      :format => :yaml,
+      :docroot => '/var/lib/jerakia/data',
+      :searchpath => [
+        "hostname/#{scope[:certname]}",
+        "environment/#{scope[:environment]}",
+        'common',
+      ]
+    },
+  end
+end
+{% endhighlight %}     
+
+Nearly everything in Jerakia is extendable and pluggable making it very easy to write and share your own extensions to Jerakia, from lookup plugins, data sources, scope handlers, output filters and more.
+
+
+Features of Jerakia also include:
 
 * YAML and JSON data source nativly included
 * HTTP REST API data source nativly included

@@ -80,18 +80,92 @@
       </footer>
         </headercontainer>
       <section>
-        <h1 id="datasources">Datasources</h1>
+        <h2 id="http_datasource">HTTP Datasource</h2>
 
-<h2 id="the_dummy_datasource">The Dummy datasource</h2>
-
-<p>The dummy datasource is for testing purposes, it has one optional parameter of <code>return</code> which is the answer it will always return</p>
+<p>The HTTP datasource can be used to lookup data from any REST API such as CouchDB. The http datasource uses the <a href="https://github.com/crayfishx/lookup_http">lookup_http library</a>.</p>
 
 <h3 id="example">Example</h3>
-<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>lookup</span> <span class='ss'>:default</span> <span class='k'>do</span>
-  <span class='n'>datasource</span> <span class='ss'>:dummy</span><span class='p'>,</span> <span class='p'>{</span>
-    <span class='ss'>:return</span> <span class='o'>=&gt;</span> <span class='s2'>&quot;hello world&quot;</span>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>lookup</span> <span class='ss'>:foo</span> <span class='k'>do</span>
+  <span class='n'>datasource</span> <span class='ss'>:http</span><span class='p'>,</span> <span class='p'>{</span>
+    <span class='ss'>:host</span>    <span class='o'>=&gt;</span> <span class='s2'>&quot;127.0.0.1&quot;</span><span class='p'>,</span>
+    <span class='ss'>:port</span>    <span class='o'>=&gt;</span> <span class='mi'>5984</span><span class='p'>,</span>
+    <span class='ss'>:output</span>  <span class='o'>=&gt;</span> <span class='s2'>&quot;json&quot;</span><span class='p'>,</span>
+    <span class='ss'>:paths</span>  <span class='o'>=&gt;</span> <span class='o'>[</span>
+      <span class='s2'>&quot;/configuration/#[scope[:environment]&quot;</span><span class='p'>,</span>
+      <span class='s2'>&quot;/configuration/global&quot;</span><span class='p'>,</span>
+    <span class='o'>]</span>
   <span class='p'>}</span>
 <span class='k'>end</span></code></pre></div>
+<h2 id="options">Options</h2>
+
+<h3 id="global_options">Global Options</h3>
+
+<h4 id=""><code>host</code></h4>
+
+<p>Hostname to connect to</p>
+
+<h4 id="_2"><code>port</code></h4>
+
+<p>Port to connect to</p>
+
+<h4 id="_3"><code>paths</code></h4>
+
+<p>An array containing a list of paths that will be called in order. Eg:</p>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='ss'>:paths</span>  <span class='o'>=&gt;</span> <span class='o'>[</span>
+      <span class='s2'>&quot;/configuration/#[scope[:environment]&quot;</span><span class='p'>,</span>
+      <span class='s2'>&quot;/configuration/global&quot;</span><span class='p'>,</span>
+    <span class='o'>]</span></code></pre></div>
+<h4 id="_4"><code>output</code></h4>
+
+<p>Specify what handler to use for the output of the request. Currently supported outputs are plain, which will just return the whole document, or YAML and JSON which parse the data and try to look up the key</p>
+
+<h4 id="_5"><code>failure</code></h4>
+
+<p>When set to <code>graceful</code> will stop hiera-http from throwing an exception in the event of a connection error, timeout or invalid HTTP response and move on. Without this option set hiera-http will throw an exception in such circumstances</p>
+
+<h4 id="_6"><code>ignore_404</code></h4>
+
+<p>If <code>failure</code> is <em>not</em> set to <code>graceful</code> then any error code received from the HTTP response will throw an exception. This option makes 404 responses exempt from exceptions. This is useful if you expect to get 404’s for data items not in a certain part of the hierarchy and need to fall back to the next level in the hierarchy, but you still want to bomb out on other errors.</p>
+
+<h4 id="_7"><code>headers</code></h4>
+
+<p>Hash of headers to send in the request</p>
+
+<h3 id="ssl_options">SSL Options</h3>
+
+<h4 id="_8"><code>use_ssl</code></h4>
+
+<p>When set to true, enable SSL (default: false)</p>
+
+<h4 id="_9"><code>ssl_ca_cert</code></h4>
+
+<p>Specify a CA cert to use with SSL</p>
+
+<h4 id="_10"><code>ssl_cert</code></h4>
+
+<p>Specify location of SSL certificate</p>
+
+<h4 id="_11"><code>ssl_hey</code></h4>
+
+<p>Specify the location of SSL key</p>
+
+<h4 id="_12"><code>ssl_verify</code></h4>
+
+<p>Whether to verify SSL connections (default: true)</p>
+
+<h3 id="http_auth_options">HTTP AUTH options</h3>
+
+<h4 id="_13"><code>use_auth</code></h4>
+
+<p>When set to true, enable basic auth (default: false)</p>
+
+<h4 id="_14"><code>auth_user</code></h4>
+
+<p>The user to use for basic auth</p>
+
+<h3 id="_15"><code>auth_pass</code></h3>
+
+<p>The password to use for basic auth</p>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->

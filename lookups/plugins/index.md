@@ -37,3 +37,7 @@ lookup :default, :use => :hiera do
   plugin.hiera.rewrite_lookup
 end
 {% endhighlight %}
+
+## Further reading
+
+See the blog post [Extending Jerakia with Lookup Plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/) for more information on building lookup plugins.

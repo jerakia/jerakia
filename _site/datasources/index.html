@@ -80,21 +80,30 @@
       </footer>
         </headercontainer>
       <section>
-        <h1 id="quick_start_tutorial">Quick start Tutorial</h1>
+        <h1 id="datasources">Datasources</h1>
 
-<h2 id="integration_with_puppet">Integration with Puppet</h2>
+<h2 id="introduction">Introduction</h2>
 
-<h3 id="as_a_hiera_backend">As a Hiera backend</h3>
+<p>Datasources define where and how our data is looked up. A datasource can interact with a variety of sources, from files, databases, REST API’s and more. Jerakia will pass the lookup request and any options off to the datasource defined in the lookup. A lookup can only specify one datasource but different lookups can implement different datasources.</p>
 
-<p>Jerakia can be configured as a Hiera backend</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> vim /etc/puppet/hiera.yaml</code></pre></div><div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='nn'>---</span>
-<span class='l-Scalar-Plain'>:backends</span><span class='p-Indicator'>:</span> <span class='p-Indicator'>[</span> <span class='s'>&#39;jerakia&#39;</span> <span class='p-Indicator'>]</span></code></pre></div>
-<h3 id="as_a_puppet_data_binding_terminus">As a Puppet data binding terminus</h3>
+<h2 id="usage">Usage</h2>
 
-<p>If you are migrating an existing, or unknown code base we would recommend you keep Hiera configured as a backend to catch any lookups that are made with the <code>hiera</code>, <code>hiera_hash</code> or <code>hiera_array</code> functions. But for all other lookups you can route them straight to Puppet by bypassing Hiera altogether and using Jerakia as a data binding terminus</p>
-<div class='highlight'><pre><code class='language-console' data-lang='console'><span class='gp'>$</span> vim /etc/puppet/puppet.conf</code></pre></div><div class='highlight'><pre><code class='language-console' data-lang='console'><span class='go'>[master]</span>
-<span class='go'>  ...</span>
-<span class='go'>  data_binding_terminus = jerakia</span></code></pre></div>
+<p>Datasources are defined in the lookup block using the <code>datasource</code> method. The method takes the datasource name (prefixed with <code>:</code>) as the first argument, followed by a hash of options</p>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>datasource</span> <span class='ss'>:name</span><span class='p'>,</span> <span class='p'>{</span> <span class='ss'>:option</span> <span class='o'>=&gt;</span> <span class='s2'>&quot;value&quot;</span><span class='o'>.</span><span class='n'>.</span><span class='o'>.</span> <span class='p'>}</span></code></pre></div>
+<p>Jerakia ships with the <a href="/datasources/file">file</a>, <a href="/datasources/http">http</a> and <a href="/datasources/dummy">dummy</a> datasources. It is also easy to extend Jerakia with other data sources.</p>
+
+<h2 id="example">Example</h2>
+
+<p>Here is an example of using the <a href="/datasources/file">file datasource</a> in a fairly standard YAML search hierarchy.</p>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>datasource</span> <span class='ss'>:file</span><span class='p'>,</span> <span class='p'>{</span>
+  <span class='ss'>:format</span>     <span class='o'>=&gt;</span> <span class='ss'>:yaml</span><span class='p'>,</span>
+  <span class='ss'>:docroot</span>    <span class='o'>=&gt;</span> <span class='s2'>&quot;/var/lib/jerakia&quot;</span><span class='p'>,</span>
+  <span class='ss'>:searchpath</span> <span class='o'>[</span>
+    <span class='s2'>&quot;hostname/</span><span class='si'>#{</span><span class='n'>scope</span><span class='o'>[</span><span class='ss'>:hostname</span><span class='si'>}</span><span class='s2'>&quot;</span><span class='p'>,</span>
+    <span class='s2'>&quot;env/</span><span class='si'>#{</span><span class='n'>scope</span><span class='o'>[</span><span class='ss'>:environment</span><span class='o'>]</span><span class='si'>}</span><span class='s2'>&quot;</span><span class='p'>,</span>
+    <span class='s2'>&quot;common&quot;</span>
+  <span class='o'>]</span>
+<span class='p'>}</span></code></pre></div>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->

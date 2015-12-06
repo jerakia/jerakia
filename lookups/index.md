@@ -80,6 +80,8 @@ datasource :file, {
 },
 {% endhighlight %}
 
+[Learn more about datasources](/datasources)
+
 #### `confine` and `exclude`
 
 The `confine` and `exclude` lookup methods allow you to specify when a lookup should be run or should be skipped. When you have multiple lookups defined in a policy you may not want to always run all lookups.
@@ -139,5 +141,47 @@ scope[:value]
 
 
 
+## Further examples
+
+Here is an example of a much more complex policy that contains a dedicated lookup via an HTTP datasource that is used when configuring PHP or Apache, but a default file based lookup for everything else.
+
+{%highlight ruby%}
+policy :default do
+
+  lookup :webserver do
+    datasource :http, {
+      :host   => '127.0.0.1',
+      :port   => 5984,
+      :output => "json",
+      :paths  => [
+        "/configuration/#[scope[:environment]",
+        "/configuration/global",
+      ]
+    }
+ 
+    confine request.namespace[0], [
+      "apache",
+      "php",
+    ]
+ 
+    stop
+  end
+ 
+  lookup :main, do
+    datasource :file, {
+      :format     => :yaml,
+      :docroot    => "/var/lib/jerakia",
+      :searchpath => [
+        "hostname/#{scope[:fqdn]}",
+        "environment/#{scope[:environment]}",
+        "common"
+      ],
+    }
+  end
+end
+
+{% endhighlight %}
+
+In this example, the first lookup will be evaluated for any lookup that is in the `apache` or `php` namespace.  The `stop` method tells Jerakia to only use this lookup if the criteria of `confine` deem this to be a valid lookup.  If the namespace does not match, then this lookup is ignored and the next lookup, `main`, will be used. 
 
 

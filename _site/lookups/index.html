@@ -49,18 +49,15 @@
         <li><a href="/lookups">Lookups</a></li>
         <ul>
           <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+          <li><a class="pending" href="/pending">Hiera lookup plugin</a></li>
+          <li><a class="pending" href="/pending">Writing custom lookup plugins</a></li>
         </ul>
         <li><a href="/datasources">Datasources</a></li>
         <ul>
           <li><a href="/datasources/file">File datasource</a></li>
-          <li><a class=pending href="/pending">HTTP datasource</a></li>
+          <li><a href="/datasources/http">HTTP datasource</a></li>
           <li><a href="/datasources/dummy">Dummy datasource</a></li>
           <li><a class="pending" href="/pending">Writing datasources</a></li>
-        </ul>
-        <li><a href="/pending">Lookup plugins</a></li>
-        <ul>
-          <li><a class="pending" href="/pending">Hiera plugin</a></li>
-          <li><a class="pending" href="/pending">Writing custom lookup plugins</a></li>
         </ul>
         <li><a href="/pending">Response Filters</a></li>
         <ul>
@@ -148,6 +145,8 @@
     <span class='s1'>&#39;global&#39;</span><span class='p'>,</span>
   <span class='o'>]</span>
 <span class='p'>},</span></code></pre></div>
+<p><a href="/datasources">Learn more about datasources</a></p>
+
 <h4 id="_and_"><code>confine</code> and <code>exclude</code></h4>
 
 <p>The <code>confine</code> and <code>exclude</code> lookup methods allow you to specify when a lookup should be run or should be skipped. When you have multiple lookups defined in a policy you may not want to always run all lookups.</p>
@@ -189,6 +188,43 @@
 
 <p>The scope method returns the key/value scope data from the requestor as a hash.</p>
 <div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>scope</span><span class='o'>[</span><span class='ss'>:value</span><span class='o'>]</span></code></pre></div>
+<h2 id="further_examples">Further examples</h2>
+
+<p>Here is an example of a much more complex policy that contains a dedicated lookup via an HTTP datasource that is used when configuring PHP or Apache, but a default file based lookup for everything else.</p>
+<div class='highlight'><pre><code class='language-ruby' data-lang='ruby'><span class='n'>policy</span> <span class='ss'>:default</span> <span class='k'>do</span>
+
+  <span class='n'>lookup</span> <span class='ss'>:webserver</span> <span class='k'>do</span>
+    <span class='n'>datasource</span> <span class='ss'>:http</span><span class='p'>,</span> <span class='p'>{</span>
+      <span class='ss'>:host</span>   <span class='o'>=&gt;</span> <span class='s1'>&#39;127.0.0.1&#39;</span><span class='p'>,</span>
+      <span class='ss'>:port</span>   <span class='o'>=&gt;</span> <span class='mi'>5984</span><span class='p'>,</span>
+      <span class='ss'>:output</span> <span class='o'>=&gt;</span> <span class='s2'>&quot;json&quot;</span><span class='p'>,</span>
+      <span class='ss'>:paths</span>  <span class='o'>=&gt;</span> <span class='o'>[</span>
+        <span class='s2'>&quot;/configuration/#[scope[:environment]&quot;</span><span class='p'>,</span>
+        <span class='s2'>&quot;/configuration/global&quot;</span><span class='p'>,</span>
+      <span class='o'>]</span>
+    <span class='p'>}</span>
+ 
+    <span class='n'>confine</span> <span class='n'>request</span><span class='o'>.</span><span class='n'>namespace</span><span class='o'>[</span><span class='mi'>0</span><span class='o'>]</span><span class='p'>,</span> <span class='o'>[</span>
+      <span class='s2'>&quot;apache&quot;</span><span class='p'>,</span>
+      <span class='s2'>&quot;php&quot;</span><span class='p'>,</span>
+    <span class='o'>]</span>
+ 
+    <span class='n'>stop</span>
+  <span class='k'>end</span>
+ 
+  <span class='n'>lookup</span> <span class='ss'>:main</span><span class='p'>,</span> <span class='k'>do</span>
+    <span class='n'>datasource</span> <span class='ss'>:file</span><span class='p'>,</span> <span class='p'>{</span>
+      <span class='ss'>:format</span>     <span class='o'>=&gt;</span> <span class='ss'>:yaml</span><span class='p'>,</span>
+      <span class='ss'>:docroot</span>    <span class='o'>=&gt;</span> <span class='s2'>&quot;/var/lib/jerakia&quot;</span><span class='p'>,</span>
+      <span class='ss'>:searchpath</span> <span class='o'>=&gt;</span> <span class='o'>[</span>
+        <span class='s2'>&quot;hostname/</span><span class='si'>#{</span><span class='n'>scope</span><span class='o'>[</span><span class='ss'>:fqdn</span><span class='o'>]</span><span class='si'>}</span><span class='s2'>&quot;</span><span class='p'>,</span>
+        <span class='s2'>&quot;environment/</span><span class='si'>#{</span><span class='n'>scope</span><span class='o'>[</span><span class='ss'>:environment</span><span class='o'>]</span><span class='si'>}</span><span class='s2'>&quot;</span><span class='p'>,</span>
+        <span class='s2'>&quot;common&quot;</span>
+      <span class='o'>]</span><span class='p'>,</span>
+    <span class='p'>}</span>
+  <span class='k'>end</span>
+<span class='k'>end</span></code></pre></div>
+<p>In this example, the first lookup will be evaluated for any lookup that is in the <code>apache</code> or <code>php</code> namespace. The <code>stop</code> method tells Jerakia to only use this lookup if the criteria of <code>confine</code> deem this to be a valid lookup. If the namespace does not match, then this lookup is ignored and the next lookup, <code>main</code>, will be used.</p>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
