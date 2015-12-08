@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Jerakia do
-  let(:subject) { Jerakia.new(config: "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
+  let(:subject) { Jerakia.new(:config =>  "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
   let(:request) { Jerakia::Request.new }
   let(:answer) { subject.lookup(request) }
 

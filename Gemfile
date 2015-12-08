@@ -5,3 +5,6 @@ gem 'psych'
 gem 'rspec-core'
 gem 'rspec'
 gem 'mocha'
+gem 'lookup_http'
+gem 'thor'
+
