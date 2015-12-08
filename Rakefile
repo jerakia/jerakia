@@ -2,6 +2,7 @@ require 'rake'
 require 'rspec/core/rake_task'
 
 @top_dir=Dir.pwd
+ENV['RUBYLIB'] = "#{@top_dir}/lib"
 
 RSpec::Core::RakeTask.new(:spec)
 
