@@ -4,3 +4,14 @@ rvm:
   - 2.0
   - 2.1
   - 2.2
+env:
+  - PUPPET_GEM_VERSION="~> 3.7.0"
+  - PUPPET_GEM_VERSION="~> 3.8.0"
+  - PUPPET_GEM_VERSION="~> 4.1.0"
+  - PUPPET_GEM_VERSION="~> 4.2.0"
+matrix:
+  exclude:
+    - rvm: 2.2
+      env: PUPPET_GEM_VERSION="~> 3.7.0"
+    - rvm: 2.2
+      env: PUPPET_GEM_VERSION="~> 3.8.0"
