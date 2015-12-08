@@ -7,4 +7,4 @@ gem 'rspec'
 gem 'mocha'
 gem 'lookup_http'
 gem 'thor'
-
+gem 'puppet'
