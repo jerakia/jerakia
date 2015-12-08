@@ -1,0 +1,5 @@
+---
+:backends: ['jerakia']
+
+:jerakia:
+  :config: test/fixtures/etc/jerakia/jerakia.yaml
