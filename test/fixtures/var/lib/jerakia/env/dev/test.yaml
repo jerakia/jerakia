@@ -5,3 +5,8 @@ accounts:
   oracle:
     uid: 500
 
+
+beers:
+  - cruzcampo
+  - sanmiguel
+

@@ -1,4 +1,9 @@
 ---
+
+beers:
+  - estrella
+  - victoria
+
 users:
   - joshua
   - craig
