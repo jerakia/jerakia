@@ -8,16 +8,20 @@ class Jerakia
     attr_accessor :metadata
     attr_accessor :lookup_type
     attr_accessor :scope
+    attr_accessor :scope_options
 
     def initialize(opts={})
-      options      = defaults.merge(opts)
-      @key         = options[:key]
-      @namespace   = options[:namespace]
-      @merge       = options[:merge]
-      @policy      = options[:policy]
-      @metadata    = options[:metadata]
-      @lookup_type = options[:lookup_type]
-      @scope       = options[:scope]
+      options        = defaults.merge(opts)
+      @key           = options[:key]
+      @namespace     = options[:namespace]
+      @merge         = options[:merge]
+      @policy        = options[:policy]
+      @metadata      = options[:metadata]
+      @lookup_type   = options[:lookup_type]
+      @scope         = options[:scope]
+      @scope_options = options[:scope_options] || {}
+
+      Jerakia.log.debug("Request initialized with #{options}")
     end
 
     private
@@ -30,7 +34,7 @@ class Jerakia
         policy: 'default',
         metadata: {},
         lookup_type: :first,
-        scope: nil
+        scope: nil,
       }
     end
   end

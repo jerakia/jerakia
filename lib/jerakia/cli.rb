@@ -27,7 +27,11 @@ class Jerakia
     option :scope,
            aliases: :s,
            type: :string,
-           desc: 'Scope handler'
+           desc: 'Scope handler',
+           default: "metadata"
+    option :scope_options,
+           type: :hash,
+           desc: "Key/value pairs to be passed to the scope handler"
     option :merge_type,
            aliases: :m,
            type: :string,
@@ -49,6 +53,7 @@ class Jerakia
            aliases: :d,
            type: :hash,
            desc: 'Key/value pairs to be used as metadata for the lookup'
+
     def lookup(key)
 
       case true
@@ -70,12 +75,14 @@ class Jerakia
         :loglevel => loglevel,
       })
       req = Jerakia::Request.new(
-        :key         => key,
-        :namespace   => options[:namespace].split(/::/),
-        :policy      => options[:policy].to_sym,
-        :lookup_type => options[:type].to_sym,
-        :merge       => options[:merge_type].to_sym,
-        :metadata    => options[:metadata] || {},
+        :key           => key,
+        :namespace     => options[:namespace].split(/::/),
+        :policy        => options[:policy].to_sym,
+        :lookup_type   => options[:type].to_sym,
+        :merge         => options[:merge_type].to_sym,
+        :metadata      => options[:metadata] || {},
+        :scope         => options[:scope].to_sym,
+        :scope_options => options[:scope_options],
       )
 
       answer = jac.lookup(req)
