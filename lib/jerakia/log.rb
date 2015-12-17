@@ -5,11 +5,17 @@ class Jerakia::Log < Jerakia
     @@logger ||= Logger.new(file)
     @@level ||= level
     case @@level
+    when :verbose
+      @@logger.level = Logger::INFO
     when :info
       @@logger.level = Logger::INFO
     when :debug
       @@logger.level = Logger::DEBUG
     end
+  end
+
+  def verbose(msg)
+    @@logger.info msg if @@level == :verbose
   end
 
   def info(msg)

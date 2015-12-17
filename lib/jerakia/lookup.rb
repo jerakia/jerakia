@@ -116,6 +116,7 @@ class Jerakia::Lookup
       
 
   def run
+    Jerakia.log.verbose("lookup: #{@name} key: #{@request.key} namespace: #{@request.namespace.join('/')}")
     @datasource.run
     response=@datasource.response
     @output_filters.each do |filter|

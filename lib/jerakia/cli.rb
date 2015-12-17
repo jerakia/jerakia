@@ -37,6 +37,10 @@ class Jerakia
            aliases: :l,
            type: :string,
            desc: 'Log level'
+    option :verbose,
+           aliases: :v,
+           type: :boolean,
+           desc: "Print verbose information"
     option :debug,
            aliases: :D,
            type: :boolean,
@@ -47,9 +51,13 @@ class Jerakia
            desc: 'Key/value pairs to be used as metadata for the lookup'
     def lookup(key)
 
-      if options[:debug]
+      case true
+      when options[:verbose]
+        loglevel = "verbose"
+        logfile  = STDOUT
+      when options[:debug]
         loglevel = "debug"
-        logfile = STDOUT
+        logfile  = STDOUT
       else
         logfile = nil
         loglevel = options[:log_level]
