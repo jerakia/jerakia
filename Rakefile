@@ -6,11 +6,19 @@ ENV['RUBYLIB'] = "#{@top_dir}/lib"
 
 RSpec::Core::RakeTask.new(:spec)
 
-task :puppet_test do
+task :hiera_test do
   ENV['FACTER_env'] = 'dev'
   sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test'
     )
 end
 
-task :default => [:puppet_test, :spec]
+task :puppet_test do
+  ENV['FACTER_env'] = 'dev'
+  ENV['JERAKIA_CONFIG'] = "#{@top_dir}/test/fixtures/etc/jerakia/jerakia.yaml"
+  sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
+     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::binding'
+    )
+end
+
+task :default => [:hiera_test, :puppet_test, :spec]

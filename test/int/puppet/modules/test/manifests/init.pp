@@ -10,7 +10,7 @@ class test (
   #
   notify { $teststring: }
   if $teststring != 'valid_string' {
-    fail ('Puppet data binding failed')
+    fail ('puppet data binding failed')
   } else {
     notice("PASS: $teststring == 'valid_string'")
   }
