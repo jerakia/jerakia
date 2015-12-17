@@ -14,7 +14,11 @@ class Jerakia::Launcher
     policy_name=request.policy.to_s
     Jerakia.log.debug "Invoked lookup for #{@@request.key} using policy #{policy_name}"
     filename=File.join(Jerakia.config.policydir, "#{policy_name}.rb")
-    policydata=Jerakia.filecache(filename)
+    begin
+      policydata=Jerakia.filecache(filename)
+    rescue Exception => e
+      Jerakia.crit("Problem loading policy from #{filename}")
+    end
     instance_eval policydata
   end
 
