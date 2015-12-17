@@ -6,7 +6,7 @@ class Jerakia::Datasource
       # Do the lookup
 
       Jerakia.log.debug("Searching key #{lookup.request.key} in dummy datasource")
-      option :return, { :type => String, :default => "Returned data" }  
+      option :return, { :type => [ String, Hash, Array ], :default => "Returned data" }  
       response.submit options[:return]
       
 
