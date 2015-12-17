@@ -63,6 +63,7 @@ class Jerakia
   end
 
   def self.crit(msg)
+    Jerakia.log.error msg
     fail msg
   end
 end
