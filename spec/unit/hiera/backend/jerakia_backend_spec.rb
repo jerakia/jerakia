@@ -30,7 +30,7 @@ describe Hiera::Backend::Jerakia_backend do
       let(:lookup) do
         subject.lookup(
           'test::teststring',
-          { jerakia_policy: 'dummy', env: 'dev', hostname: 'example' },
+          { "jerakia_policy" =>  'dummy', env: 'dev', hostname: 'example' },
           {},
           nil
         )
