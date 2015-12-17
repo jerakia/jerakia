@@ -20,7 +20,7 @@ class Puppet::DataBinding::Jerakia < Puppet::Indirector::Code
     key=lookupdata.pop
     namespace=lookupdata
     metadata =  request.options[:variables].to_hash
-    policy=metadata[:jerakia_policy] || @default_policy
+    policy=metadata["jerakia_policy"] || @default_policy
     jacreq = Jerakia::Request.new(
       :key => key,
       :namespace => namespace,
