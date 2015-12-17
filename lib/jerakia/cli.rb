@@ -67,7 +67,7 @@ class Jerakia
         :policy      => options[:policy].to_sym,
         :lookup_type => options[:type].to_sym,
         :merge       => options[:merge_type].to_sym,
-        :metadata    => options[:metadata]
+        :metadata    => options[:metadata] || {},
       )
 
       answer = jac.lookup(req)
