@@ -1,3 +1,13 @@
+0.4.4:
+  - --verbose feature added to show lookup keys
+  - Fixed issues with declaring alternative scope handlers
+  - Added YAML scope handler
+  - Policy can be overriden using request metadata
+  - Data sources can define multiple types for their options 
+  - Integration tests added for data bindings, hiera lookups and puppet runs
+  - JERAKIA_CONFIG environment variable can be used to set the jerakia.yaml location
+  - internal minor bug fixes
+
 0.4.3:
   - --debug feature added to the CLI to log to stdout
 
