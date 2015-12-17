@@ -11,7 +11,7 @@ class Jerakia
   require 'jerakia/version'
 
   def initialize(options={})
-    configfile = options[:config] || '/etc/jerakia/jerakia.yaml'
+    configfile = options[:config] || ENV['JERAKIA_CONFIG'] ||  '/etc/jerakia/jerakia.yaml'
     @@config = Jerakia::Config.load_from_file(configfile)
 
     if @@config[:plugindir]
