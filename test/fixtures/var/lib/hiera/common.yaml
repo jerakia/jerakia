@@ -1,0 +1,7 @@
+---
+
+hiera::first_level: "hiera_first"
+
+hiera::subclass::second_level: "hiera_second"
+
+
