@@ -15,6 +15,7 @@ task :hiera_test do
   sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::binding'
     )
+  ENV['FACTER_env']=nil
 end
 
 task :hiera_compat_test do
@@ -31,6 +32,7 @@ task :hiera_compat_test do
   sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera::subclass'
     )
+  ENV['FACTER_jerakia_policy'] = nil
 end
 
 
@@ -39,6 +41,7 @@ task :puppet_test do
   sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::binding'
     )
+  ENV['FACTER_env']=nil
 end
 
 task :policy_override_test do
