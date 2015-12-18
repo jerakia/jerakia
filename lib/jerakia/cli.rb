@@ -8,7 +8,6 @@ class Jerakia
     option :config,
            aliases: :c,
            type: :string,
-           default: '/etc/jerakia/jerakia.yaml',
            desc: 'Configuration file'
     option :policy,
            aliases: :p,
