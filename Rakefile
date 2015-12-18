@@ -7,53 +7,48 @@ ENV['JERAKIA_CONFIG'] = "#{@top_dir}/test/fixtures/etc/jerakia/jerakia.yaml"
 
 RSpec::Core::RakeTask.new(:spec)
 
-task :hiera_test do
-  ENV['FACTER_env'] = 'dev'
-  sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test'
-    )
-  sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::binding'
-    )
-  ENV['FACTER_env']=nil
-end
+def run_puppet (type, modulename, facts={})
+  args = [ 'puppet', 'apply', '--debug' ]
+  case type
+  when :hiera
+    args << '--hiera_config'
+    args << "#{@top_dir}/test/int/puppet/hiera.yaml"
+  when :databinding
+    args << '--data_binding_terminus'
+    args << 'jerakia'
+  end
+  args << [ '--modulepath', "#{@top_dir}/test/int/puppet/modules",'-e', "include #{modulename}" ]
 
-task :hiera_compat_test do
-  ENV['FACTER_jerakia_policy'] = 'hiera'
-  sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera'
-    )
-  sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera::subclass'
-    )
-  sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera'
-    )
-  sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera::subclass'
-    )
-  ENV['FACTER_jerakia_policy'] = nil
+  facts.each { |fact,val| ENV["FACTER_#{fact}"] = val }
+  sh(*args.flatten)
+  facts.keys.each { |fact| ENV["FACTER_#{fact}"]=nil }
 end
 
 
-task :puppet_test do
-  ENV['FACTER_env'] = 'dev'
-  sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::binding'
-    )
-  ENV['FACTER_env']=nil
+task :test_hiera do
+  run_puppet(:hiera, "test", { "env" => "dev" })
+  run_puppet(:hiera, "test::binding", { "env" => "dev" })
 end
 
-task :policy_override_test do
-  ENV['FACTER_jerakia_policy'] = 'dummy'
-  sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::dummy'
-    )
-  sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
-     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::dummy'
-    )
+task :test_hiera_compat do
+  facts={ "jerakia_policy" => "hiera" }
+  run_puppet(:hiera, "hiera", facts)
+  run_puppet(:hiera, "hiera::subclass", facts)
+  run_puppet(:databinding, "hiera", facts)
+  run_puppet(:databinding, "hiera::subclass", facts)
+end
+
+task :test_data_binding do
+  run_puppet(:databinding, "test::binding", { "env" => "dev" })
+end
+
+task :test_policy_override do
+  facts={ "jerakia_policy" => "dummy" }
+  run_puppet(:hiera, "test::dummy", facts)
+  run_puppet(:databinding, "test::dummy", facts)
 end
 
 
-task :integration_tests => [:hiera_test, :hiera_compat_test, :puppet_test, :policy_override_test]
+
+task :integration_tests => [:test_hiera, :test_hiera_compat, :test_data_binding, :test_policy_override]
 task :default => [:integration_tests, :spec]
