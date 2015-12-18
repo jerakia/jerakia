@@ -17,6 +17,7 @@ class Jerakia
     option :namespace,
            aliases: :n,
            type: :string,
+           default: '',
            desc: 'Lookup namespace'
     option :type,
            aliases: :t,
