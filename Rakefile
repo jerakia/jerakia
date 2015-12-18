@@ -3,6 +3,7 @@ require 'rspec/core/rake_task'
 
 @top_dir=Dir.pwd
 ENV['RUBYLIB'] = "#{@top_dir}/lib"
+ENV['JERAKIA_CONFIG'] = "#{@top_dir}/test/fixtures/etc/jerakia/jerakia.yaml"
 
 RSpec::Core::RakeTask.new(:spec)
 
@@ -17,7 +18,6 @@ task :hiera_test do
 end
 
 task :hiera_compat_test do
-  ENV['FACTER_env'] = 'dev'
   ENV['FACTER_jerakia_policy'] = 'hiera'
   sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera'
@@ -25,12 +25,17 @@ task :hiera_compat_test do
   sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera::subclass'
     )
+  sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
+     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera'
+    )
+  sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
+     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera::subclass'
+    )
 end
 
 
 task :puppet_test do
   ENV['FACTER_env'] = 'dev'
-  ENV['JERAKIA_CONFIG'] = "#{@top_dir}/test/fixtures/etc/jerakia/jerakia.yaml"
   sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::binding'
     )
@@ -41,7 +46,6 @@ task :policy_override_test do
   sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::dummy'
     )
-  ENV['JERAKIA_CONFIG'] = "#{@top_dir}/test/fixtures/etc/jerakia/jerakia.yaml"
   sh('puppet','apply','--debug','--data_binding_terminus',"jerakia",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::dummy'
     )
