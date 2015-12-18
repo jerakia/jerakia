@@ -52,4 +52,5 @@ task :policy_override_test do
 end
 
 
-task :default => [:hiera_test, :puppet_test, :spec]
+task :integration_tests => [:hiera_test, :hiera_compat_test, :puppet_test, :policy_override_test]
+task :default => [:integration_tests, :spec]
