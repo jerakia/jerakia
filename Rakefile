@@ -11,7 +11,22 @@ task :hiera_test do
   sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
      '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test'
     )
+  sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
+     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include test::binding'
+    )
 end
+
+task :hiera_compat_test do
+  ENV['FACTER_env'] = 'dev'
+  ENV['FACTER_jerakia_policy'] = 'hiera'
+  sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
+     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera'
+    )
+  sh('puppet','apply','--debug','--hiera_config',"#{@top_dir}/test/int/puppet/hiera.yaml",
+     '--modulepath',"#{@top_dir}/test/int/puppet/modules",'-e','include hiera::subclass'
+    )
+end
+
 
 task :puppet_test do
   ENV['FACTER_env'] = 'dev'

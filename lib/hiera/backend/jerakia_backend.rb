@@ -27,8 +27,8 @@ class Hiera
 
         if key.include?('::')
            lookup_key = key.split('::')
-           namespace << lookup_key.shift
-           key = lookup_key.join('::')
+           key = lookup_key.pop
+           namespace = lookup_key
         end
 
         Jerakia.log.debug("[hiera] backend invoked for key #{key} using namespace #{namespace}")
