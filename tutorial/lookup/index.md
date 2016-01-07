@@ -29,7 +29,7 @@ policy :default do
       :format => :yaml,
       :docroot => "/var/lib/jerakia",
       :searchpath => [
-        "hostname/#{scope[:fqdn}",
+        "hostname/#{scope[:fqdn]}",
         "environment/#{scope[:environment]}",
         "common"
       ]
