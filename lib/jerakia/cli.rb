@@ -70,7 +70,6 @@ class Jerakia
 
       jac = Jerakia.new({
         :config   => options[:config],
-        :loglevel => options[:log_level],
         :logfile  => logfile,
         :loglevel => loglevel,
       })
