@@ -15,6 +15,10 @@ class Jerakia::Lookup::PluginFactory
      create_plugin_method(name) do
        plugin
      end
+     if plugin.respond_to?('autorun')
+       Jerakia.log.debug("Found autorun method for plugin #{name}, executing")
+       plugin.autorun
+     end
    end
 
 end

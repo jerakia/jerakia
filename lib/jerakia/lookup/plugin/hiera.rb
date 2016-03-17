@@ -8,6 +8,11 @@
 #
 class Jerakia::Lookup::Plugin
   module Hiera
+
+    def autorun
+      rewrite_lookup
+    end
+
     def rewrite_lookup
       request.key.prepend("#{request.namespace.join('::')}::")
       request.namespace=[]
