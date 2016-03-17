@@ -1,0 +1,34 @@
+---
+
+beers:
+  - estrella
+  - victoria
+
+users:
+  - joshua
+  - craig
+  - karina
+  - max
+
+
+accounts:
+  admin:
+    uid: 99
+
+hash:
+  key0:
+    element0: common
+  key1:
+    element1: common
+  key2:
+    element1: common
+    element2:
+      subelement2: common
+  
+
+admins:
+  - bill
+  - susan
+  - fred
+  - bob
+

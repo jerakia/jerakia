@@ -1,0 +1,11 @@
+{
+  "test": {
+    "keys": {
+      "admins": {
+        "cascade": true,
+        "merge": "array"
+      }
+    }
+  }
+}
+

@@ -1,0 +1,9 @@
+---
+keys:
+  users:
+    type: string
+    recurse: true
+    merge: hash
+ 
+
+
