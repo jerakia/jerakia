@@ -52,11 +52,13 @@ class Jerakia::Policy < Jerakia::Launcher
         end
       end
 
-      if request.lookup_type == :cascade && @answer.payload.is_a?(Array) && request.merge == :array
-        @answer.flatten_payload!
-      end
-      if request.lookup_type == :cascade && @answer.payload.is_a?(Array) && request.merge == :hash
-        @answer.merge_payload!
+      if request.lookup_type == :cascade && @answer.payload.is_a?(Array)
+        case request.merge
+        when :array
+          @answer.flatten_payload!
+        when :hash,:deep_hash
+          @answer.merge_payload!(request.merge)
+        end
       end
 
     end
