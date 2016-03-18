@@ -26,7 +26,7 @@ class Jerakia
   end
 
   def lookup(request)
-    Jerakia::Launcher.new(request).answer
+    Jerakia::Launcher.new(request) { invoke_from_file }.answer
   end
 
   def config

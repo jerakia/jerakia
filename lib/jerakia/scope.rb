@@ -1,11 +1,13 @@
-class Jerakia::Scope < Jerakia::Policy
+class Jerakia::Scope
 
   attr_reader :value
   attr_reader :handler
+  attr_reader :request
 
-  def initialize(handler=nil)
+  def initialize(req)
     @value = {}
-    @handler ||= request.scope || :metadata
+    @handler ||= req.scope || :metadata
+    @request = req
     Jerakia::Util.autoload('scope', @handler)
     instance_eval "extend Jerakia::Scope::#{@handler.to_s.capitalize}"
     create
