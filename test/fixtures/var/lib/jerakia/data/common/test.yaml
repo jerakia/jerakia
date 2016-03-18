@@ -36,3 +36,9 @@ admins:
 jewels:
   - quartz
   - topaz
+
+cities:
+  france: paris
+  argentina: buenos aires
+  spain: malaga
+

@@ -17,7 +17,6 @@ class Jerakia::Policy
       schema_config = Jerakia.config[:schema] || {}
       @schema = Jerakia::Schema.new(req, schema_config)
     end
-    p req
     @lookups=[]
     @routes={}
     @request=req

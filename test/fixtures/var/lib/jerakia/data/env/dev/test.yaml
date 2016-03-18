@@ -30,3 +30,7 @@ jewels:
   - ruby
   - opal
   - diamond
+
+cities:
+  uk: london
+  spain: madrid
