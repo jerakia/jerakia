@@ -13,10 +13,11 @@ class Jerakia::Policy
 
   def initialize(name, opts={}, req, &block)
 
-    if req.use_schema
+    if req.use_schema and Jerakia.config[:enable_schema]
       schema_config = Jerakia.config[:schema] || {}
       @schema = Jerakia::Schema.new(req, schema_config)
     end
+    p req
     @lookups=[]
     @routes={}
     @request=req

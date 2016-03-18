@@ -1,7 +1,7 @@
 {
   "jewels": {
     "cascade": true,
-    "merge": "deep_hash"
+    "merge": "array"
   }
 
 }

@@ -17,9 +17,10 @@ class Jerakia::Config
 
   def defaults
     {
-      'policydir' => '/etc/jerakia/policy.d',
-      'logfile'   => '/var/log/jerakia.log',
-      'loglevel'  => 'info'
+      'policydir'     => '/etc/jerakia/policy.d',
+      'logfile'       => '/var/log/jerakia.log',
+      'loglevel'      => 'info',
+      'enable_schema' => true,
     }
   end
 

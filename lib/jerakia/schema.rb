@@ -26,7 +26,7 @@ class Jerakia::Schema
     end
 
     if ["array", "hash", "deep_hash"].include?(@schema_data["merge"])
-      request.merge = @schema_data["merge"]
+      request.merge = @schema_data["merge"].to_sym
     end
 
   end
