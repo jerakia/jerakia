@@ -2,7 +2,7 @@
 layout: minimal
 ---
 
-# Jerakia Release log
+# Jerakia Release Notes
 
 ## 0.5
 
