@@ -52,6 +52,9 @@ Specify a different log level (default configured in jerakia.yaml)
 #####  `D, [--debug], [--no-debug]`
 Enable debugging mode to the console.  Setting this option overrides `--log-level`
 
+#####  `S, [--schema], [--no-schema]`
+Enable or disable [schema lookup](/schema/).  Enabled by default
+
 #####  `d, [--metadata=key:value]` 
 Metadata to send with the request as a space spearated list of command delimited key value pairs
 

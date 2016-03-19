@@ -68,6 +68,7 @@
           <li><a class="pending" href="/pending">Writing your own reponse filters</a></li>
         </ul>
 
+        <li><a href="/releasenotes">Release Notes</a></li>
 
 
         </menusection>
@@ -114,9 +115,20 @@
 
 <p>The logfile Jerakia uses to write to</p>
 
-<h3 id="optional_configuration_directives">Optional configuration directives</h3>
+<h4 id="_6"><code>enable_schemas</code></h4>
 
-<h4 id="_6"><code>eyaml</code></h4>
+<p>Set to <code>true</code> or <code>false</code>, whether to enable schema lookups. Default is <code>true</code> (version 0.5.0+)</p>
+
+<h4 id="_7"><code>schema</code></h4>
+
+<p>version 0.5.0+</p>
+
+<p>A hash containing optional overrides for the schema lookup, supported values are <code>docroot</code>, <code>format</code> and <code>enable_caching</code> eg:</p>
+<div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='l-Scalar-Plain'>schema</span><span class='p-Indicator'>:</span>
+  <span class='l-Scalar-Plain'>docroot</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>/var/schema_data</span>
+  <span class='l-Scalar-Plain'>enable_caching</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>false</span>
+  <span class='l-Scalar-Plain'>format</span><span class='p-Indicator'>:</span> <span class='l-Scalar-Plain'>yaml</span></code></pre></div>
+<h4 id="_8"><code>eyaml</code></h4>
 
 <p>If you are using the encryption response filter you need to configure Jerakia with the locations of your SSL keys for eyaml. This option is a hash containing <code>private_key</code> and <code>public_key</code>. Eg:</p>
 <div class='highlight'><pre><code class='language-yaml' data-lang='yaml'><span class='l-Scalar-Plain'>eyaml</span><span class='p-Indicator'>:</span>

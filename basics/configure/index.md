@@ -39,7 +39,22 @@ The log level, can be `info` or `debug`
 #### `logfile`
 The logfile Jerakia uses to write to
 
-### Optional configuration directives
+
+#### `enable_schemas`
+Set to `true` or `false`, whether to enable schema lookups.  Default is `true` (version 0.5.0+)
+
+#### `schema`
+version 0.5.0+
+
+A hash containing optional overrides for the schema lookup, supported values are `docroot`, `format` and `enable_caching`
+eg:
+{% highlight yaml %}
+schema:
+  docroot: /var/schema_data
+  enable_caching: false
+  format: yaml
+{% endhighlight %}
+
 
 #### `eyaml`
 If you are using the encryption response filter you need to configure Jerakia with the locations of your SSL keys for eyaml. This option is a hash containing `private_key` and `public_key`.  Eg:
