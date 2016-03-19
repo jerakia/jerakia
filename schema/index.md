@@ -10,6 +10,8 @@ Schemas are available in Jerakia 0.5.0+
 
 A schema is a set of data that defined various aspects about data contained within the source.  A schema can be used to alter the lookup behaviour of Jerakia for a particular key, such as making it a cascading array lookup.  Schemas also support aliasing giving them the ability to expose pseuedo data that maps to a different namespace and key within your data.
 
+Schemas are looked up internally using the file datasource, they can currently be defined in JSON or YAML format (default JSON).  The design allows for the use of other more customizable schema lookup functionality using custom written policies in future releases.
+
 ## Using Schemas
 
 Jerakia uses the file datasource to search for a schema JSON file matching the namespace of the lookup.  Currently JSON and YAML can be supported (see configuration below) and the roadmap for this feature allows for a number of other backends to be used for sourcing schema data in the future.
@@ -130,5 +132,23 @@ You can also mix lookup behaviour directives with aliases to create different ps
 
 Now we have two pseudo keys, `people::sysadmins` and `people::all_sysadmins`, both pull data from the `users::accounts`, so this data is only declared once, but depending on which pseudo lookup key we use the results will be different.
 
+## Configuration
 
+### Enabling and disabling schemas
 
+Schemas are enabled by default in 0.5.0 but can be completely disabled by setting `enable_schemas` to `false` in `jerakia.yaml` see [configuring Jerakia](/basics/configure/) for more information.
+
+### Customizing schema lookups
+
+Schemas use the file datasource to perform a lookup using the key and namespace in the original request.  The behaviour of the lookup can be controlled by configuring a hash called `schema` in `jerakia.yaml`.  Supported configuration options are:
+
+`docroot`: set the document root of Jerakia schema lookups
+`format`: Defaults to "json", set the lookup format for schemas ("yaml" or "json")
+`enable_caching`: Defaults to true, whether or not to cache schema lookups
+
+Example:
+
+{% highlight yaml %}
+schema:
+  docroot: /etc/jerakia/schemas
+{% endhighlight %}
