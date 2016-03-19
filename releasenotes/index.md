@@ -14,6 +14,6 @@ layout: minimal
 * [Issue #33](https://github.com/crayfishx/jerakia/issues/33): Use default values for jerakia.yaml options so file is not mandatory
 * [Issue #36](https://github.com/crayfishx/jerakia/issues/36): Plugins now support an `autorun` method to run upon use without needing to call plugin methods
 * [Issue #37](https://github.com/crayfishx/jerakia/issues/37): Configuration can now be passed to Jerakia plugins from `jerakia.yaml` in a `plugins` hash.
-* [Misc]: `plugin.hiera.rewrite_lookup` is now deprecated (currently warns), this feature is now run using the autorun method
-* [Misc]: File data source now supports a JSON file handler
+* Misc: `plugin.hiera.rewrite_lookup` is now deprecated (currently warns), this feature is now run using the autorun method
+* Misc: File data source now supports a JSON file handler
 
