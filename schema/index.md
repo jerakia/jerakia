@@ -28,7 +28,7 @@ By default, Jerakia will search for schema data in `/var/lib/jerakia/schema` and
 {
   "users": {
     "cascade": true,
-    "merge": "hash",
+    "merge": "hash"
   }
 }
 {% endhighlight %}
