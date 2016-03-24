@@ -53,6 +53,11 @@ class Jerakia
            aliases: :d,
            type: :hash,
            desc: 'Key/value pairs to be used as metadata for the lookup'
+    option :schema,
+           aliases: :S,
+           type: :boolean,
+           desc: 'Enable/disable schema lookup, default true',
+           default: true
 
     def lookup(key)
 
@@ -82,6 +87,7 @@ class Jerakia
         :metadata      => options[:metadata] || {},
         :scope         => options[:scope].to_sym,
         :scope_options => options[:scope_options],
+        :use_schema    => options[:schema],
       )
 
       answer = jac.lookup(req)

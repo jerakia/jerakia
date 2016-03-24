@@ -5,14 +5,14 @@ class Jerakia::Launcher
 
   attr_reader :request
   attr_reader :answer
-  def initialize(req)
-    @@request = req
-    invoke
+  def initialize(req, &block)
+    @request = req
+    instance_eval &block
   end
 
-  def invoke
+  def invoke_from_file
     policy_name=request.policy.to_s
-    Jerakia.log.debug "Invoked lookup for #{@@request.key} using policy #{policy_name}"
+    Jerakia.log.debug "Invoked lookup for #{@request.key} using policy #{policy_name}"
     filename=File.join(Jerakia.config.policydir, "#{policy_name}.rb")
     begin
       policydata=Jerakia.filecache(filename)
@@ -22,13 +22,8 @@ class Jerakia::Launcher
     instance_eval policydata
   end
 
-  def request
-    @@request
-  end
-
-
-  def policy(name, opts={},  &block)
-    policy = Jerakia::Policy.new(name, opts, &block)
+  def policy(name, opts={}, req=@request, &block)
+    policy = Jerakia::Policy.new(name, opts, req, &block)
     policy.fire!
     @answer = policy.answer
   end

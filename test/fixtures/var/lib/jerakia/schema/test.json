@@ -1,0 +1,12 @@
+{
+  "jewels": {
+    "cascade": true,
+    "merge": "array"
+  },
+
+  "cities": {
+    "cascade": true,
+    "merge": "hash"
+  }
+}
+

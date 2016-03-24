@@ -1,25 +1,38 @@
 require 'jerakia/launcher'
 
-class Jerakia::Policy < Jerakia::Launcher
+class Jerakia::Policy 
   require 'jerakia/answer'
+  require 'jerakia/schema'
 
   attr_accessor :lookups
   attr_reader   :routes
   attr_reader   :answer
   attr_reader   :scope
   attr_reader   :lookup_proceed
+  attr_reader   :schema
 
-  def initialize(name, opts, &block)
+  def initialize(name, opts={}, req, &block)
+
+    if req.use_schema and Jerakia.config[:enable_schema]
+      schema_config = Jerakia.config[:schema] || {}
+      @schema = Jerakia::Schema.new(req, schema_config)
+    end
     @lookups=[]
     @routes={}
-    @answer=Jerakia::Answer.new(request.lookup_type)
-    @scope=Jerakia::Scope.new
+    @request=req
+    @answer=Jerakia::Answer.new(req.lookup_type)
+    @scope=Jerakia::Scope.new(req)
     @lookup_proceed = true    
     begin
       instance_eval &block
     rescue => e
       Jerakia.fatal "Error processing policy file", e
     end
+  end
+
+
+  def request
+    @request
   end
 
   def clone_request
@@ -52,11 +65,13 @@ class Jerakia::Policy < Jerakia::Launcher
         end
       end
 
-      if request.lookup_type == :cascade && @answer.payload.is_a?(Array) && request.merge == :array
-        @answer.flatten_payload!
-      end
-      if request.lookup_type == :cascade && @answer.payload.is_a?(Array) && request.merge == :hash
-        @answer.merge_payload!
+      if request.lookup_type == :cascade && @answer.payload.is_a?(Array)
+        case request.merge
+        when :array
+          @answer.flatten_payload!
+        when :hash,:deep_hash
+          @answer.merge_payload!(request.merge)
+        end
       end
 
     end

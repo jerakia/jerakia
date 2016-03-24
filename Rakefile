@@ -38,6 +38,14 @@ task :test_hiera_compat do
   run_puppet(:databinding, "hiera::subclass", facts)
 end
 
+task :test_hiera_compat_with_autorun do
+  facts={ "jerakia_policy" => "autorun" }
+  run_puppet(:hiera, "hiera", facts)
+  run_puppet(:hiera, "hiera::subclass", facts)
+  run_puppet(:databinding, "hiera", facts)
+  run_puppet(:databinding, "hiera::subclass", facts)
+end
+
 task :test_data_binding do
   run_puppet(:databinding, "test::binding", { "env" => "dev" })
 end
@@ -50,5 +58,5 @@ end
 
 
 
-task :integration_tests => [:test_hiera, :test_hiera_compat, :test_data_binding, :test_policy_override]
+task :integration_tests => [:test_hiera, :test_hiera_compat, :test_hiera_compat_with_autorun, :test_data_binding, :test_policy_override]
 task :default => [:integration_tests, :spec]

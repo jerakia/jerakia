@@ -1,5 +1,7 @@
 class Jerakia::Answer
 
+  require 'deep_merge'
+
   attr_accessor :payload
   attr_accessor :datatype
   attr_reader :lookup_type
@@ -18,11 +20,16 @@ class Jerakia::Answer
     @payload.flatten!
   end
 
-  def merge_payload!
+  def merge_payload!(method = :hash)
     payload_hash={}
     @payload.each do |p|
       if p.is_a?(Hash)
-        payload_hash.merge!(p)
+        case method
+        when :hash
+          payload_hash = p.merge(payload_hash)
+        when :deep_hash
+          payload_hash = p.deep_merge!(payload_hash)
+        end
       end
     end
     @payload=payload_hash

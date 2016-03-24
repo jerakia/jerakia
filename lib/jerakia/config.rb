@@ -5,14 +5,23 @@ class Jerakia::Config
   attr_reader :server_url
 
   def self.load_from_file(file = '/etc/jerakia/jerakia.yaml')
-    Jerakia.crit("Config file #{file} not found") unless File.exists?(file)
     new YAML.load_file(file)
   end
 
-  def initialize(config)
-    @policydir = config['policydir']
-    @server_url = config['server_url']
-    @configdata = config
+  def initialize(config = {})
+    config_with_defaults = defaults.merge(config)
+    @policydir = config_with_defaults['policydir']
+    @server_url = config_with_defaults['server_url']
+    @configdata = config_with_defaults
+  end
+
+  def defaults
+    {
+      'policydir'     => '/etc/jerakia/policy.d',
+      'logfile'       => '/var/log/jerakia.log',
+      'loglevel'      => 'info',
+      'enable_schema' => true,
+    }
   end
 
   def [](key)

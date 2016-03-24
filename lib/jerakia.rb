@@ -11,8 +11,8 @@ class Jerakia
   require 'jerakia/version'
 
   def initialize(options={})
-    configfile = options[:config] || ENV['JERAKIA_CONFIG'] ||  '/etc/jerakia/jerakia.yaml'
-    @@config = Jerakia::Config.load_from_file(configfile)
+    configfile = options[:config] || ENV['JERAKIA_CONFIG'] || '/etc/jerakia/jerakia.yaml'
+    @@config = File.exist?(configfile) ? Jerakia::Config.load_from_file(configfile) : Jerakia::Config.new
 
     if @@config[:plugindir]
       $LOAD_PATH << @@config[:plugindir] unless $LOAD_PATH.include?(@@config[:plugindir])
@@ -26,7 +26,7 @@ class Jerakia
   end
 
   def lookup(request)
-    Jerakia::Launcher.new(request).answer
+    Jerakia::Launcher.new(request) { invoke_from_file }.answer
   end
 
   def config
