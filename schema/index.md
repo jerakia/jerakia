@@ -10,8 +10,6 @@ Schemas are available in Jerakia 0.5.0+
 
 A schema is a set of data that defined various aspects about data contained within the source.  A schema can be used to alter the lookup behaviour of Jerakia for a particular key, such as making it a cascading array lookup.  Schemas also support aliasing giving them the ability to expose pseuedo data that maps to a different namespace and key within your data.
 
-Schemas are looked up internally using the file datasource, they can currently be defined in JSON or YAML format (default JSON).  The design allows for the use of other more customizable schema lookup functionality using custom written policies in future releases.
-
 ## Using Schemas
 
 Jerakia uses the file datasource to search for a schema JSON file matching the namespace of the lookup.  Currently JSON and YAML can be supported (see configuration below) and the roadmap for this feature allows for a number of other backends to be used for sourcing schema data in the future.
