@@ -1,6 +1,7 @@
 require 'thor'
 require 'jerakia'
 require 'json'
+require 'yaml'
 
 class Jerakia
   class CLI < Thor
@@ -58,6 +59,12 @@ class Jerakia
            type: :boolean,
            desc: 'Enable/disable schema lookup, default true',
            default: true
+    option :output,
+           aliases: :o,
+           type: :string,
+           default: 'json',
+           desc: 'Output format, yaml or json'
+
 
     def lookup(key)
 
@@ -91,7 +98,12 @@ class Jerakia
       )
 
       answer = jac.lookup(req)
-      puts answer.payload.to_json
+      case options[:output]
+      when 'json'
+        puts answer.payload.to_json
+      when 'yaml'
+        puts answer.payload.to_yaml
+      end
     end
 
     desc 'version', 'Version information'
