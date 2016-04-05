@@ -14,5 +14,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://jerakia.io'
   s.license     = 'Apache 2.0'
   s.add_dependency 'thor', '~> 0.19'
+  s.add_dependency 'deep_merge', '~> 1.0'
   s.add_dependency('lookup_http', '>=1.0.0')
 end
