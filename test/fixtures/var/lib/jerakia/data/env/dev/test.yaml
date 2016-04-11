@@ -34,3 +34,10 @@ jewels:
 cities:
   uk: london
   spain: madrid
+
+databases:
+  mdb:
+    syncrepl:
+      foo: bar
+      taz: tango
+
