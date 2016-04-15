@@ -1,3 +1,6 @@
+0.5.2
+- Bug fix release to fix boolean false being returned as nil (issue #41)
+
 0.5.1
 - Bug fix to gemspec file (missing deep_merge gem)
 - Added yaml output feature to CLI
