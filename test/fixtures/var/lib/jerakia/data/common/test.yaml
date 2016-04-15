@@ -1,5 +1,8 @@
 ---
 
+booltrue: true
+boolfalse: false
+
 beers:
   - estrella
   - victoria
@@ -41,4 +44,18 @@ cities:
   france: paris
   argentina: buenos aires
   spain: malaga
+
+databases:
+  other_database:
+    foo:
+      bar:
+
+
+
+  mdb:
+    otherstuff:
+      yea: man
+
+    boo:
+      bear: baz
 

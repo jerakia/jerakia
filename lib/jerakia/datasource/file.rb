@@ -88,7 +88,7 @@ class Jerakia::Datasource
         return unless response.want?
         data=read_from_file(path)
         Jerakia.log.debug("Datasource provided #{data} looking for key #{lookup.request.key}")
-        if data[lookup.request.key]
+        unless data[lookup.request.key].nil?
           Jerakia.log.debug("Found data #{data[lookup.request.key]}")
           response.submit data[lookup.request.key]
         end
