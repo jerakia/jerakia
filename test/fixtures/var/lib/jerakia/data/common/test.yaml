@@ -1,5 +1,8 @@
 ---
 
+booltrue: true
+boolfalse: false
+
 beers:
   - estrella
   - victoria
