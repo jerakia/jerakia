@@ -6,6 +6,13 @@ layout: minimal
 
 ## 0.5
 
+### 0.5.2
+* Bugfix: Issue #41, fixes problem where the boolean false is returned as nil.
+
+### 0.5.1
+* Bugfix: deep_merge gem missing from Gem dependancies
+* Feature: added yaml output (--output yaml) for the command line 
+
 ### 0.5.0
 
 * [Issue #9](https://github.com/crayfishx/jerakia/issues/9) : Added [data schema](/schema/) feature
