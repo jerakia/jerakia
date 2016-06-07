@@ -29,8 +29,8 @@ class Jerakia::Datasource
       Jerakia.crit "#{opt} must be configured in #{whoami}" if data[:mandatory]
     else 
       if data[:type]
-        unless Array(data[:type]).include?(@options[opt].class)
-          Jerakia.crit "#{opt} is a #{opt.class} but must be a #{data[:type].to_s} in #{whoami}"
+        if Array(data[:type]).select { |t| @options[opt].is_a?(t) }.empty?
+          Jerakia.crit "#{opt} is a #{@options[opt].class} but must be a #{data[:type].to_s} in #{whoami}"
         end
       end
     end
