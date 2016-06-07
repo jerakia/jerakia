@@ -1,3 +1,6 @@
+0.5.3
+- Bug fix: better handling of datasource option type validation
+
 0.5.2
 - Bug fix release to fix boolean false being returned as nil (issue #41)
 
