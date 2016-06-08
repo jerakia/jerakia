@@ -10,7 +10,9 @@ class Jerakia::Lookup::Plugin
   module Hiera
 
     def autorun
-      request.key.prepend("#{request.namespace.join('::')}::")
+      if request.namespace.length > 0
+        request.key.prepend("#{request.namespace.join('::')}::")
+      end
       request.namespace=[]
     end
 
@@ -27,5 +29,3 @@ class Jerakia::Lookup::Plugin
     end
   end
 end
-
-
