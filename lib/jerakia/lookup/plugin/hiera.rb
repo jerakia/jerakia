@@ -21,11 +21,7 @@ class Jerakia::Lookup::Plugin
     end
 
     def calling_module
-      if request.namespace.length > 0
-        request.namespace[0]
-      else
-        Jerakia.log.error("hiera_compat plugin tried to use calling_module but there is no namespace declared.  Ensure that calling_module is called before hiera_compat in the policy")
-      end
+      request.key.split('::')[0]
     end
   end
 end
