@@ -154,19 +154,19 @@ policy :default do
       :port   => 5984,
       :output => "json",
       :paths  => [
-        "/configuration/#[scope[:environment]",
+        "/configuration/#{scope[:environment]}",
         "/configuration/global",
       ]
     }
- 
+
     confine request.namespace[0], [
       "apache",
       "php",
     ]
- 
+
     stop
   end
- 
+
   lookup :main, do
     datasource :file, {
       :format     => :yaml,
@@ -182,6 +182,4 @@ end
 
 {% endhighlight %}
 
-In this example, the first lookup will be evaluated for any lookup that is in the `apache` or `php` namespace.  The `stop` method tells Jerakia to only use this lookup if the criteria of `confine` deem this to be a valid lookup.  If the namespace does not match, then this lookup is ignored and the next lookup, `main`, will be used. 
-
-
+In this example, the first lookup will be evaluated for any lookup that is in the `apache` or `php` namespace.  The `stop` method tells Jerakia to only use this lookup if the criteria of `confine` deem this to be a valid lookup.  If the namespace does not match, then this lookup is ignored and the next lookup, `main`, will be used.
