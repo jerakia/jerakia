@@ -7,7 +7,7 @@ layout: minimal
 The HTTP datasource can be used to lookup data from any REST API such as CouchDB.  The http datasource uses the [lookup_http library](https://github.com/crayfishx/lookup_http).
 
 
-### Example 
+### Example
 
 {% highlight ruby %}
 lookup :foo do
@@ -16,7 +16,7 @@ lookup :foo do
     :port    => 5984,
     :output  => "json",
     :paths  => [
-      "/configuration/#[scope[:environment]",
+      "/configuration/#{scope[:environment]}",
       "/configuration/global",
     ]
   }
@@ -38,7 +38,7 @@ An array containing a list of paths that will be called in order. Eg:
 
 {%highlight ruby%}
     :paths  => [
-      "/configuration/#[scope[:environment]",
+      "/configuration/#{scope[:environment]}",
       "/configuration/global",
     ]
 {% endhighlight %}
