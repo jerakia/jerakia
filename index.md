@@ -52,9 +52,18 @@ Features of Jerakia also include:
 * REST server API (experimental)
 
 # References
+
+* [Craig Dunn's slides from Config Management Camp introducing Jerakia](http://www.slideshare.net/CraigDunn3/solving-real-world-data-problems-with-jerakia?qid=f858521d-cb0e-41a4-a1ce-cc42accbb726&v=&b=&from_search=1)
 * [Blog post: Solving real world problems with Jerakia](http://www.craigdunn.org/2015/09/solving-real-world-problems-with-jerakia/)
 * [Blog post: Extending Jerakia with lookup plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/)
 
 # Latest News
+
+## Jerakia goes 1.0.0
+
+Jerakia is now officially 1.0.0.  It's been running in production for several large projects for nearly a year now and we feel that it's time to mature it.  This also means (unlike the 0.x series) we will now be adhering strictly to semver (semantic versioning) giving extra quality assurance around our releases.  Thank you to our users and our sponsors.
+
+
 ## Jerakia 0.4 released.
+
 Jerakia 0.4 series ships with a number of bug fixes and enhancements.  Also included is the _fragments_ feature for the file datasource allowing large files to be split up into _.d_ style structures making them easier to manage.
