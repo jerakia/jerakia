@@ -4,6 +4,6 @@ class Jerakia
   #
   # This should be updated when a new gem is released and it is read from the gemspec file
   #
-  VERSION = "0.5.3"
+  VERSION = "1.0.0"
 
 end
