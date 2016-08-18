@@ -5,16 +5,17 @@ class Jerakia::Lookup
   require 'jerakia/lookup/pluginfactory'
 
   attr_accessor :request
-  attr_reader :datasource
-  attr_reader :valid
+  attr_accessor :datasource
+  attr_accessor :valid
+  attr_accessor :proceed
   attr_reader :lookuptype
   attr_reader :scope_object
   attr_reader :output_filters
   attr_reader :name
-  attr_reader :proceed
   attr_reader :pluginfactory
+  attr_reader :datasource
 
-  def initialize(name,opts,req,scope,&block)
+  def initialize(name,opts,req,scope)
     
     @name=name
     @request=req
@@ -29,18 +30,15 @@ class Jerakia::Lookup
         plugin_load(plugin)
       end
     end
-
-    instance_eval &block
-    
   end
  
   def plugin_load(plugin)
     Jerakia.log.debug("Loading plugin #{plugin}")
-    @pluginfactory.register(plugin, Jerakia::Lookup::Plugin.new(self))
+    pluginfactory.register(plugin, Jerakia::Lookup::Plugin.new(self))
   end
 
   def plugin
-    @pluginfactory
+    pluginfactory
   end
 
   def datasource(source, opts={})
@@ -52,7 +50,7 @@ class Jerakia::Lookup
   #
 
   def scope
-    @scope_object.value
+    scope_object.value
   end
 
 
@@ -61,7 +59,7 @@ class Jerakia::Lookup
   end
     
   def proceed?
-    @proceed
+    proceed
   end
 
   ## lookup function: stop
@@ -88,11 +86,11 @@ class Jerakia::Lookup
   # Setting invalidate will mean this lookup will be skipped in the policy
   #
   def invalidate
-    @valid=false
+    @valid = false
   end
 
   def valid?
-    return @valid
+    valid
   end
 
 
@@ -125,6 +123,8 @@ class Jerakia::Lookup
     return response
   end
 
+
+  private
 
 end
 

@@ -9,7 +9,8 @@ class Jerakia::Schema
       :use_schema => false,
     )
 
-    schema_lookup = Jerakia::Launcher.new(schema_request) do
+    schema_lookup = Jerakia::Launcher.new(schema_request) 
+    schema_lookup.evaluate do
       policy :schema do
         lookup :schema do
           datasource *schema_datasource
