@@ -37,28 +37,32 @@ class Jerakia::Policy
   end
 
   def fire!
-    lookups.each do |l|
+    response_entries = []
+
+    @lookups.each do |l|
       responses = l.run
-      responses.entries.each do |res|
-        case request.lookup_type
-        when :first
-          answer.payload ||= res[:value]
-          answer.datatype ||= res[:datatype]
-        when :cascade
-          answer.payload << res[:value]
-        end
-      end
-
-      if request.lookup_type == :cascade && answer.payload.is_a?(Array)
-        case request.merge
-        when :array
-          answer.flatten_payload!
-        when :hash,:deep_hash
-          answer.merge_payload!(request.merge)
-        end
-      end
-
+      response_entries = responses.entries.map { |r| r }
     end
+
+    response_entries.each do |res|
+      case request.lookup_type
+      when :first
+          @answer.payload ||= res[:value]
+          @answer.datatype ||= res[:datatype]
+      when :cascade
+          @answer.payload << res[:value]
+      end
+    end
+
+    if request.lookup_type == :cascade && @answer.payload.is_a?(Array)
+      case request.merge
+      when :array
+        @answer.flatten_payload!
+      when :hash,:deep_hash
+        @answer.merge_payload!(request.merge)
+      end
+    end
+
   end
 end
 
