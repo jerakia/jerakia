@@ -17,7 +17,7 @@ def run_puppet (type, modulename, facts={})
     args << '--data_binding_terminus'
     args << 'jerakia'
   end
-  args << [ '--modulepath', "#{@top_dir}/test/int/puppet/modules",'-e', "include #{modulename}" ]
+  args << [ '--modulepath', "#{@top_dir}/test/int/puppet/modules",'-e', " class barz() {} class { 'barz': } class { '#{modulename}': before => Class['barz'] }" ]
 
   facts.each { |fact,val| ENV["FACTER_#{fact}"] = val }
   sh(*args.flatten)

@@ -1,55 +1,39 @@
 require 'jerakia/launcher'
+require 'jerakia/answer'
+require 'jerakia/schema'
 
 class Jerakia::Policy 
-  require 'jerakia/answer'
-  require 'jerakia/schema'
 
   attr_accessor :lookups
-  attr_reader   :routes
   attr_reader   :answer
   attr_reader   :scope
   attr_reader   :lookup_proceed
   attr_reader   :schema
+  attr_reader   :request
 
-  def initialize(name, opts={}, req, &block)
+  def initialize(name, opts={}, req)
 
     if req.use_schema and Jerakia.config[:enable_schema]
       schema_config = Jerakia.config[:schema] || {}
       @schema = Jerakia::Schema.new(req, schema_config)
     end
+
+
     @lookups=[]
     @routes={}
     @request=req
     @answer=Jerakia::Answer.new(req.lookup_type)
     @scope=Jerakia::Scope.new(req)
     @lookup_proceed = true    
-    begin
-      instance_eval &block
-    rescue => e
-      Jerakia.fatal "Error processing policy file", e
-    end
-  end
-
-
-  def request
-    @request
   end
 
   def clone_request
-    Marshal.load(Marshal.dump(request))
+    request.clone
   end
 
-
-  def lookup(name,opts={},&block)
-    # We specifically clone the request object to allow plugins to modify the
-    # request payload for the scope of this lookup only.
-    #
-    lookup = Jerakia::Lookup.new(name,opts,clone_request,scope,&block)
-    Jerakia.log.debug("Proceed to next lookup #{lookup.proceed?}")
-   
+  def submit_lookup(lookup)
     @lookups << lookup if lookup.valid? and @lookup_proceed
     @lookup_proceed = false if !lookup.proceed? and lookup.valid?
-
   end
 
   def fire!
