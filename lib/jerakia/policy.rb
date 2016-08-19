@@ -36,7 +36,7 @@ class Jerakia::Policy
   end
 
   def clone_request
-    Marshal.load(Marshal.dump(request))
+    request.clone
   end
 
 
