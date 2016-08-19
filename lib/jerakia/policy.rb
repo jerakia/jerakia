@@ -28,7 +28,8 @@ class Jerakia::Policy
   end
 
   def clone_request
-    request.clone
+    copy_request = request.clone
+    return copy_request
   end
 
   def submit_lookup(lookup)

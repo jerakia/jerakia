@@ -3,13 +3,14 @@ class Jerakia
     class Lookup
 
       attr_reader :policy
+      attr_reader :request
       attr_accessor :lookup
 
       def initialize(name, policy, opts={})
         @policy = policy
-        request = policy.clone_request
+        @request =  policy.clone_request
         scope   = policy.scope
-        @lookup = Jerakia::Lookup.new(name, opts, request, scope)
+        @lookup = Jerakia::Lookup.new(name, opts, @request, scope)
       end
 
       def self.evaluate(name, policy, opts, &block)
@@ -18,21 +19,21 @@ class Jerakia
         policy.submit_lookup(lookup_block.lookup)
       end
 
+      # define the data source for the lookup
+      # @api: public
       def datasource(name, opts={})
         datasource = Jerakia::Datasource.new(name, lookup, opts)
         lookup.datasource=(datasource)
       end
 
-      def request
-        policy.request
-      end
-
+      # give access to the lookup scope object
+      # @api: public
       def scope
         lookup.scope
       end
 
       # pass through exposed functions from the main lookup object
-      #
+      # @api: public
       def confine(*args)
         lookup.confine(*args)
       end

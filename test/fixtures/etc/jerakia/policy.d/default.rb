@@ -9,6 +9,13 @@ policy :default do
         "invalid",
     ],
     }
+
+    # delieratley break the request object.  This is to ensure
+    # that clone_request in lib/jerakia/policy.rb really does
+    # give the next lookup a clean request to work with
+    request.key = 'bad'
+    request.namespace = [ 'bad' ]
+
   end
 
   lookup :default do
