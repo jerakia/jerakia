@@ -1,3 +1,6 @@
+1.0.1
+- Changed clone_request to use .clone() instead of Marshal.dump, this fixes some very strange behaviour under specific circumstances in Puppet. https://github.com/crayfishx/jerakia/pull/53
+
 1.0.0
 - Stable release, no functional changes since 0.5.3
 - Some bug fixes to the hiera plugin
