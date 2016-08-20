@@ -9,10 +9,16 @@ class Jerakia
   require 'jerakia/launcher'
   require 'jerakia/cache'
   require 'jerakia/version'
+  require 'jerakia/error'
+
+  attr_reader :trace
 
   def initialize(options={})
+    @trace = options[:trace] || false
+
     configfile = options[:config] || ENV['JERAKIA_CONFIG'] || '/etc/jerakia/jerakia.yaml'
     @@config = File.exist?(configfile) ? Jerakia::Config.load_from_file(configfile) : Jerakia::Config.new
+
 
     if @@config[:plugindir]
       $LOAD_PATH << @@config[:plugindir] unless $LOAD_PATH.include?(@@config[:plugindir])
@@ -21,30 +27,48 @@ class Jerakia
     @@filecache = {}
     loglevel = options[:loglevel] || @@config["loglevel"] || "info"
     logfile = options[:logfile] || @@config["logfile"] || "/var/log/jerakia.log"
-    @@log = Jerakia::Log.new(loglevel.to_sym, logfile)
+
+    begin
+      @@log = Jerakia::Log.new(loglevel.to_sym, logfile)
+    rescue Jerakia::Error => e
+      STDERR.puts e.message
+      STDERR.puts e.backtrace.join("\n") if trace
+      exit 1
+    end
+
     @@log.debug("Jerakia initialized")
   end
 
   def lookup(request)
-    lookup_instance = Jerakia::Launcher.new(request)
-    lookup_instance.invoke_from_file
-    lookup_instance.answer
+    begin
+      lookup_instance = Jerakia::Launcher.new(request)
+      lookup_instance.invoke_from_file
+      lookup_instance.answer
+    rescue Jerakia::Error => e
+      Jerakia.fatal(e.message, e, trace)
+    end
+
   end
 
   def config
     @@config
   end
 
-  def self.fatal(msg,e)
+  def self.fatal(msg,e, trace=false)
     stacktrace=e.backtrace.join("\n")
     Jerakia.log.fatal msg
     Jerakia.log.fatal "Full stacktrace output:\n#{$!}\n\n#{stacktrace}"
-    puts "Fatal error, check log output for details"
-    throw Exception
+    STDERR.puts "Error: #{msg}" 
+    STDERR.puts stacktrace if trace
+    exit 1
   end
 
   def self.filecache(name)
-    @@filecache[name] ||= File.read(name)
+    begin
+      @@filecache[name] ||= File.read(name)
+    rescue Errno::ENOENT => e
+      raise Jerakia::Error, "Could not read file #{name}, #{e.message}"
+    end
     return @@filecache[name]
   end
 

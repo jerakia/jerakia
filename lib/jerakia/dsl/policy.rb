@@ -22,7 +22,11 @@ class Jerakia
       end
 
       def evaluate_file(filename)
-        policydata=Jerakia.filecache(filename)
+        begin
+          policydata=Jerakia.filecache(filename)
+        rescue Jerakia::Error => e
+          raise Jerakia::PolicyError, "Could not load policy file, #{e.message}"
+        end
         instance_eval policydata
       end
 
