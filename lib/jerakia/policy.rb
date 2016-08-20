@@ -20,7 +20,6 @@ class Jerakia::Policy
 
 
     @lookups=[]
-    @routes={}
     @request=req
     @answer=Jerakia::Answer.new(req.lookup_type)
     @scope=Jerakia::Scope.new(req)
