@@ -11,7 +11,6 @@ class Jerakia
   require 'jerakia/version'
   require 'jerakia/error'
 
-  attr_reader :trace
 
   def initialize(options={})
 
@@ -37,7 +36,7 @@ class Jerakia
       lookup_instance.invoke_from_file
       lookup_instance.answer
     rescue Jerakia::Error => e
-      Jerakia.fatal(e.message, e, trace)
+      Jerakia.fatal(e.message, e)
     end
 
   end
@@ -46,7 +45,7 @@ class Jerakia
     @@config
   end
 
-  def self.fatal(msg,e, trace=false)
+  def self.fatal(msg,e)
     stacktrace=e.backtrace.join("\n")
     Jerakia.log.fatal msg
     Jerakia.log.fatal "Full stacktrace output:\n#{$!}\n\n#{stacktrace}"
@@ -78,7 +77,4 @@ class Jerakia
     @@log
   end
 
-  def self.crit(msg)
-    fail msg
-  end
 end
