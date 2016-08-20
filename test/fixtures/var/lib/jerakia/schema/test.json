@@ -4,6 +4,7 @@
     "merge": "array"
   },
 
+
   "cities": {
     "cascade": true,
     "merge": "hash"
