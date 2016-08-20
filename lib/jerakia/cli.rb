@@ -50,6 +50,9 @@ class Jerakia
            aliases: :D,
            type: :boolean,
            desc: 'Debug information to console, implies --log-level debug'
+    option :trace,
+           type: :boolean,
+           desc: 'Output stacktrace to stdout'
     option :metadata,
            aliases: :d,
            type: :hash,
@@ -84,6 +87,7 @@ class Jerakia
         :config   => options[:config],
         :logfile  => logfile,
         :loglevel => loglevel,
+        :trace    => options[:trace],
       })
       req = Jerakia::Request.new(
         :key           => key,

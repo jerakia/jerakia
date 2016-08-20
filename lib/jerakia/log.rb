@@ -2,7 +2,12 @@ class Jerakia::Log < Jerakia
 
   require 'logger'
   def initialize(level=:info,file='/var/log/jerakia.log')
-    @@logger ||= Logger.new(file)
+    begin
+      @@logger ||= Logger.new(file)
+    rescue Errno::EACCES => e
+      raise Jerakia::Error, "Error opening log file, #{e.message}"
+    end
+
     @@level ||= level
     case @@level
     when :verbose
