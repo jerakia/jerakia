@@ -25,6 +25,18 @@ class Jerakia::Lookup
     @proceed=true
     @pluginfactory = Jerakia::Lookup::PluginFactory.new
 
+
+    # Validate options passed to the lookup
+    #
+    valid_opts = [ :use ]
+
+    opts.keys.each do |opt_key|
+      unless valid_opts.include?(opt_key)
+        raise Jerakia::PolicyError, "Unknown option #{opt_key} for lookup #{name}"
+      end
+    end
+
+
     if opts[:use]
        Array(opts[:use]).flatten.each do |plugin|
         plugin_load(plugin)
@@ -39,6 +51,10 @@ class Jerakia::Lookup
 
   def plugin
     pluginfactory
+  end
+
+  def get_datasource
+    @datasource
   end
 
   def datasource(source, opts={})

@@ -33,6 +33,7 @@ class Jerakia::Policy
   end
 
   def submit_lookup(lookup)
+    raise Jerakia::PolicyError, "Lookup #{lookup.name} has no datasource defined" unless lookup.get_datasource
     @lookups << lookup if lookup.valid? and @lookup_proceed
     @lookup_proceed = false if !lookup.proceed? and lookup.valid?
   end

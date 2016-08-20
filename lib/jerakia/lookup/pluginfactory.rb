@@ -11,7 +11,13 @@ class Jerakia::Lookup::PluginFactory
    end
 
    def register(name,plugin)
-     require "jerakia/lookup/plugin/#{name}"
+     begin
+       require "jerakia/lookup/plugin/#{name}"
+     rescue LoadError => e
+       raise Jerakia::Error, "Cannot load plugin #{name}, #{e.message}"
+     end
+
+     
      plugin.activate(name)
      create_plugin_method(name) do
        plugin

@@ -11,9 +11,12 @@ class Jerakia::Datasource
     @options = opts
     @lookup = lookup
     @name = name
-    require "jerakia/datasource/#{name.to_s}"
-    # rescue loaderrer
-    eval "extend Jerakia::Datasource::#{name.to_s.capitalize}"
+    begin
+      require "jerakia/datasource/#{name.to_s}"
+      eval "extend Jerakia::Datasource::#{name.to_s.capitalize}"
+    rescue LoadError => e
+      raise Jerakia::Error, "Cannot load datasource #{name.to_s} in lookup #{lookup.name}, #{e.message}"
+    end
   end
 
 
@@ -26,11 +29,12 @@ class Jerakia::Datasource
     @options[opt] ||= data[:default] || nil
     Jerakia.log.debug("[#{whoami}]: options[#{opt}] to #{options[opt]} [#{options[opt].class}]")
     if @options[opt].nil?
-      Jerakia.crit "#{opt} must be configured in #{whoami}" if data[:mandatory]
+      raise Jerakia::PolicyError, "#{opt} option must be supplied for datasource #{@name} in lookup #{lookup.name}" if data[:mandatory]
     else 
       if data[:type]
         if Array(data[:type]).select { |t| @options[opt].is_a?(t) }.empty?
-          Jerakia.crit "#{opt} is a #{@options[opt].class} but must be a #{data[:type].to_s} in #{whoami}"
+          raise Jerakia::PolicyError, 
+            "#{opt} is a #{@options[opt].class} but must be a #{data[:type].to_s}  for datasource #{@name} in lookup #{lookup.name}"
         end
       end
     end
