@@ -14,7 +14,6 @@ class Jerakia
   attr_reader :trace
 
   def initialize(options={})
-    @trace = options[:trace] || false
 
     configfile = options[:config] || ENV['JERAKIA_CONFIG'] || '/etc/jerakia/jerakia.yaml'
     @@config = File.exist?(configfile) ? Jerakia::Config.load_from_file(configfile) : Jerakia::Config.new
@@ -28,14 +27,7 @@ class Jerakia
     loglevel = options[:loglevel] || @@config["loglevel"] || "info"
     logfile = options[:logfile] || @@config["logfile"] || "/var/log/jerakia.log"
 
-    begin
-      @@log = Jerakia::Log.new(loglevel.to_sym, logfile)
-    rescue Jerakia::Error => e
-      STDERR.puts e.message
-      STDERR.puts e.backtrace.join("\n") if trace
-      exit 1
-    end
-
+    @@log = Jerakia::Log.new(loglevel.to_sym, logfile)
     @@log.debug("Jerakia initialized")
   end
 
@@ -58,9 +50,7 @@ class Jerakia
     stacktrace=e.backtrace.join("\n")
     Jerakia.log.fatal msg
     Jerakia.log.fatal "Full stacktrace output:\n#{$!}\n\n#{stacktrace}"
-    STDERR.puts "Error: #{msg}" 
-    STDERR.puts stacktrace if trace
-    exit 1
+    raise e
   end
 
   def self.filecache(name)

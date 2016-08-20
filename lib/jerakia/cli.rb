@@ -83,30 +83,38 @@ class Jerakia
         loglevel = options[:log_level]
       end
 
-      jac = Jerakia.new({
-        :config   => options[:config],
-        :logfile  => logfile,
-        :loglevel => loglevel,
-        :trace    => options[:trace],
-      })
-      req = Jerakia::Request.new(
-        :key           => key,
-        :namespace     => options[:namespace].split(/::/),
-        :policy        => options[:policy].to_sym,
-        :lookup_type   => options[:type].to_sym,
-        :merge         => options[:merge_type].to_sym,
-        :metadata      => options[:metadata] || {},
-        :scope         => options[:scope].to_sym,
-        :scope_options => options[:scope_options],
-        :use_schema    => options[:schema],
-      )
+      begin
 
-      answer = jac.lookup(req)
-      case options[:output]
-      when 'json'
-        puts answer.payload.to_json
-      when 'yaml'
-        puts answer.payload.to_yaml
+        jac = Jerakia.new({
+          :config   => options[:config],
+          :logfile  => logfile,
+          :loglevel => loglevel,
+          :trace    => options[:trace],
+        })
+        req = Jerakia::Request.new(
+          :key           => key,
+          :namespace     => options[:namespace].split(/::/),
+          :policy        => options[:policy].to_sym,
+          :lookup_type   => options[:type].to_sym,
+          :merge         => options[:merge_type].to_sym,
+          :metadata      => options[:metadata] || {},
+          :scope         => options[:scope].to_sym,
+          :scope_options => options[:scope_options],
+          :use_schema    => options[:schema],
+        )
+
+
+        answer = jac.lookup(req)
+        case options[:output]
+        when 'json'
+          puts answer.payload.to_json
+        when 'yaml'
+          puts answer.payload.to_yaml
+        end
+      rescue Jerakia::Error => e
+        STDERR.puts "Error #{e.message}"
+        STDERR.puts e.backtrace.join("\n") if options[:trace]
+        exit 1
       end
     end
 
