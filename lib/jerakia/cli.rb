@@ -112,7 +112,7 @@ class Jerakia
           puts answer.payload.to_yaml
         end
       rescue Jerakia::Error => e
-        STDERR.puts "Error #{e.message}"
+        STDERR.puts "Error(#{e.class}): #{e.message}"
         STDERR.puts e.backtrace.join("\n") if options[:trace]
         exit 1
       end
