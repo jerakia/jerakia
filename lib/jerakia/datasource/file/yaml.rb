@@ -8,7 +8,11 @@ class Jerakia::Datasource
         require 'yaml'
         def convert(data)
           return {} if data.empty?
-          YAML.load(data)
+          begin
+            YAML.load(data)
+          rescue Psych::SyntaxError => e
+            raise Jerakia::FileParseError, "Error parsing YAML document: #{e.message}"
+          end
         end
       end
     end

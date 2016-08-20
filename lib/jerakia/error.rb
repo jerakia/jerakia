@@ -11,5 +11,11 @@ class Jerakia
 
   class PolicyError < Jerakia::Error
   end
+
+  class SchemaError < Jerakia::Error
+  end
+
+  class FileParseError < Jerakia::Error
+  end
 end
 

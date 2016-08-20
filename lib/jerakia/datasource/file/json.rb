@@ -8,7 +8,11 @@ class Jerakia::Datasource
         require 'json'
         def convert(data)
           return {} if data.empty?
-          JSON.load(data)
+          begin
+            JSON.load(data)
+          rescue JSON::ParserError => e
+            raise Jerakia::FileParseError, "Could not parse JSON content, #{e.message}"
+          end
         end
       end
     end

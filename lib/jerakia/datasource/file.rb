@@ -67,7 +67,12 @@ class Jerakia::Datasource
         raw_data << get_file_with_cache(f)
       end
 
-      file_format.convert(raw_data)
+      begin
+        file_format.convert(raw_data)
+      rescue Jerakia::FileParseError => e
+        raise Jerakia::FileParseError, "While parsing #{diskname}: #{e.message}"
+      end
+
     end
 
 
