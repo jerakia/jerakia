@@ -1,3 +1,4 @@
+ENV['SPEC_OPTS'] = '--format documentation'
 require 'rake'
 require 'rspec/core/rake_task'
 
