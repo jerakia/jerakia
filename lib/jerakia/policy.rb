@@ -42,10 +42,12 @@ class Jerakia::Policy
 
     @lookups.each do |l|
       responses = l.run
-      response_entries = responses.entries.map { |r| r }
+      lookup_answers = responses.entries.map { |r| r }
+      response_entries << lookup_answers if lookup_answers
     end
 
-    response_entries.each do |res|
+
+    response_entries.flatten.each do |res|
       case request.lookup_type
       when :first
           @answer.payload ||= res[:value]
