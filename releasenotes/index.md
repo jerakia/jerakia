@@ -14,7 +14,7 @@ ups. Fixed.
 
 ### 1.0.1
 
-* Changed clone_request to use .clone() instead of Marshal.dump, this fixes some very strange behaviour under specific circumstances in Puppet. https://github.com/crayfishx/jerakia/pull/53
+* Changed clone_request to use .clone() instead of Marshal.dump, this fixes some very strange behaviour under specific circumstances in Puppet. [see #53]](https://github.com/crayfishx/jerakia/pull/53)
 
 # 1.0.0
 
