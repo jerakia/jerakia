@@ -6,7 +6,7 @@ layout: minimal
 
 ## 1.1.0
 
-* Fix for https://github.com/crayfishx/jerakia/pull/54, multiple lookups in a policy sometimes cause exceptions with cascading look
+* Fix for [#54](https://github.com/crayfishx/jerakia/pull/54), multiple lookups in a policy sometimes cause exceptions with cascading look
 ups. Fixed.
 * Enhanced error handling
 * Internal refactor of DSL parser and other code cleanups
