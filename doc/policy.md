@@ -67,7 +67,7 @@ Optionally, you can specify one or more output handlers.  Output handlers are pa
 
 ### Ordering ###
 
-The ordering of lookups is important - they will be perormed in the order that they are read.  Since plugins have the ability to rewrite and modify the lookup request, ordering may be important for those too and you should consult the relevant plugin docs.
+The ordering of lookups is important - they will be performed in the order that they are read.  Since plugins have the ability to rewrite and modify the lookup request, ordering may be important for those too and you should consult the relevant plugin docs.
 
 ## Example ##
 
