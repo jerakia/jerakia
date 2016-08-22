@@ -28,6 +28,8 @@ class Jerakia
 
     @@log = Jerakia::Log.new(loglevel.to_sym, logfile)
     @@log.debug("Jerakia initialized")
+
+    Jerakia.log.verbose("Jerakia started. Version #{Jerakia::VERSION}")
   end
 
   def lookup(request)
