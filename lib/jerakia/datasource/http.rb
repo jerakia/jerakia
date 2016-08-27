@@ -67,7 +67,7 @@ class Jerakia::Datasource
           unless options[:output] == 'plain' or options[:failure] == 'graceful'
             raise Jerakia::Error, "HTTP request did not return a hash for #{lookup.request.key} #{whoami}"
           end
-          return data
+          response.submit data
         end
 
       end
