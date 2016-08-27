@@ -54,14 +54,23 @@ class Jerakia::Datasource
       options[:paths].flatten.each do |path|
         Jerakia.log.debug("Attempting to load data from #{path}")
         return unless response.want?
+
         data=http_lookup.get_parsed(path)
-        Jerakia.log.debug("Datasource provided #{data} looking for key #{lookup.request.key}")
-        unless data[lookup.request.key].nil?
-          Jerakia.log.debug("Found data #{data[lookup.request.key]}")
-          response.submit data[lookup.request.key]
+        Jerakia.log.debug("Datasource provided #{data} (#{data.class}) looking for key #{lookup.request.key}")
+
+        if data.is_a?(Hash)
+          unless data[lookup.request.key].nil?
+            Jerakia.log.debug("Found data #{data[lookup.request.key]}")
+            response.submit data[lookup.request.key]
+          end
+        else
+          unless options[:output] == 'plain' or options[:failure] == 'graceful'
+            raise Jerakia::Error, "HTTP request did not return a hash for #{lookup.request.key} #{whoami}"
+          end
+          return data
         end
+
       end
-      
     end
   end
 end
