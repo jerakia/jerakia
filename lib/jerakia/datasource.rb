@@ -26,7 +26,10 @@ class Jerakia::Datasource
   end
 
   def option(opt, data={})
-    @options[opt] ||= data[:default] || nil
+    if @options[opt].nil? and data.key?(:default)
+      @options[opt] = data[:default]
+    end
+    
     Jerakia.log.debug("[#{whoami}]: options[#{opt}] to #{options[opt]} [#{options[opt].class}]")
     if @options[opt].nil?
       raise Jerakia::PolicyError, "#{opt} option must be supplied for datasource #{@name} in lookup #{lookup.name}" if data[:mandatory]
