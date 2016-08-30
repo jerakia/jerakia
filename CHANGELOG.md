@@ -1,5 +1,11 @@
 # Jerakia Release Notes
 
+### 1.1.1
+
+* Fix for [#58](https://github.com/crayfishx/jerakia/pull/58), boolean options for data sources with true as a default not overridable.
+* Fix for [#59](https://github.com/crayfishx/jerakia/pull/59), HTTP datasource incorrectly parsing nil return  (ref: https://github.com/crayfishx/lookup_http/issues/2)
+
+
 ## 1.1.0
 
 * Fix for [#54](https://github.com/crayfishx/jerakia/pull/54), multiple lookups in a policy sometimes cause exceptions with cascading look
