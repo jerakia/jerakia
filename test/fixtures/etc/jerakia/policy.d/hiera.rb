@@ -1,5 +1,10 @@
 policy :hiera do
 
+  lookup :skip, :use => :hiera do
+    datasource :dummy, { :return => 'foo'}
+    confine request.key, 'never' # never use this lookup
+  end
+
   lookup :default, :use => :hiera do
     datasource :file, {
       :format => :yaml,

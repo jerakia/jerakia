@@ -27,8 +27,7 @@ class Jerakia::Policy
   end
 
   def clone_request
-    copy_request = request.clone
-    return copy_request
+    Marshal.load(Marshal.dump(request))
   end
 
   def submit_lookup(lookup)
