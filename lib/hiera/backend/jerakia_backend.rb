@@ -1,3 +1,6 @@
+require 'puppet'
+require 'puppet/resource'
+
 class Hiera
   module Backend
     class Jerakia_backend
