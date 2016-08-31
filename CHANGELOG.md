@@ -1,5 +1,9 @@
 # Jerakia Release Notes
 
+### 1.1.2
+
+* Various bugfixes around resource cloning between lookups, and from the CLI (https://github.com/crayfishx/jerakia/pull/61).
+
 ### 1.1.1
 
 * Fix for [#58](https://github.com/crayfishx/jerakia/pull/58), boolean options for data sources with true as a default not overridable.
