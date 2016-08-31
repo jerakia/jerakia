@@ -35,9 +35,9 @@ class Hiera
 
         metadata={}
         if scope.is_a?(Hash)
-          metadata=scope
+          metadata=scope.reject { |k, v| v.is_a?(Puppet::Resource) }
         else
-          metadata = scope.real.to_hash
+          metadata = scope.real.to_hash.reject { |k, v| v.is_a?(Puppet::Resource) }
         end
 
         request = Jerakia::Request.new(
