@@ -70,6 +70,11 @@ class Jerakia
 
 
     def lookup(key)
+      # Thor by default now returns a frozen options hash so we 
+      # need to dup this here to prevent problems later with
+      # modifying the request object
+      #
+      options_copy = options.dup
 
       case true
       when options[:verbose]
@@ -92,15 +97,15 @@ class Jerakia
           :trace    => options[:trace],
         })
         req = Jerakia::Request.new(
-          :key           => key,
-          :namespace     => options[:namespace].split(/::/),
-          :policy        => options[:policy].to_sym,
-          :lookup_type   => options[:type].to_sym,
-          :merge         => options[:merge_type].to_sym,
-          :metadata      => options[:metadata] || {},
-          :scope         => options[:scope].to_sym,
-          :scope_options => options[:scope_options],
-          :use_schema    => options[:schema],
+          :key           => key.dup,
+          :namespace     => options_copy[:namespace].split(/::/),
+          :policy        => options_copy[:policy].to_sym,
+          :lookup_type   => options_copy[:type].to_sym,
+          :merge         => options_copy[:merge_type].to_sym,
+          :metadata      => options_copy[:metadata] || {},
+          :scope         => options_copy[:scope].to_sym,
+          :scope_options => options_copy[:scope_options],
+          :use_schema    => options_copy[:schema],
         )
 
 
