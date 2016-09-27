@@ -1,9 +1,9 @@
 class Jerakia
   module Util
     class << self
-      def autoload(path,mod)
+      def autoload(path, mod)
         Jerakia.log.debug "autoloading #{path} #{mod}"
-        require "jerakia/#{path}/#{mod.to_s}"
+        require "jerakia/#{path}/#{mod}"
       end
 
       def walk(data)
@@ -21,7 +21,7 @@ class Jerakia
       end
 
       def walk_hash(data)
-        data.inject({}) do |h,(k,v)|
+        data.each_with_object({}) do |(_k, v), h|
           if v.is_a?(Hash)
             walk_hash(v) { |x| yield x }
           elsif v.is_a?(Array)
@@ -29,9 +29,9 @@ class Jerakia
           else
             yield v
           end
-        h
+          h
         end
-        return data
+        data
       end
 
       def walk_array(data)
@@ -44,9 +44,8 @@ class Jerakia
             yield element
           end
           element
-          end
+        end
       end
     end
   end
 end
-

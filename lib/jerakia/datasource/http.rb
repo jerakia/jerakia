@@ -1,34 +1,30 @@
 require 'lookup_http'
 
-
 class Jerakia::Datasource
   module Http
-
     def run
       #
       # Do the lookup
 
       Jerakia.log.debug("Searching key #{lookup.request.key} using the http datasource (#{whoami})")
 
-
-      option :host,                { :type => String,  :mandatory => true }
-      option :port,                { :type => Integer, :default => 80 }
-      option :output,              { :type => String,  :default => 'json' }
-      option :failure,             { :type => String,  :default => 'graceful' }
-      option :ignore_404,          { :default => true }
-      option :headers,             { :type => Hash }
-      option :http_read_timeout,   { :type => Integer }
+      option :host,                :type => String,  :mandatory => true
+      option :port,                :type => Integer, :default => 80
+      option :output,              :type => String,  :default => 'json'
+      option :failure,             :type => String,  :default => 'graceful'
+      option :ignore_404,          :default => true
+      option :headers,             :type => Hash
+      option :http_read_timeout,   :type => Integer
       option :use_ssl
-      option :ssl_ca_cert,         { :type => String }
-      option :ssl_cert,            { :type => String }
-      option :ssl_key,             { :type => String }
+      option :ssl_ca_cert,         :type => String
+      option :ssl_cert,            :type => String
+      option :ssl_key,             :type => String
       option :ssl_verify
       option :use_auth
-      option :auth_user,           { :type => String }
-      option :auth_pass,           { :type => String }
-      option :http_connect_timeout,{ :type => Integer }
-      option :paths,               { :type => Array, :mandatory => true }
-
+      option :auth_user,           :type => String
+      option :auth_pass,           :type => String
+      option :http_connect_timeout, :type => Integer
+      option :paths, :type => Array, :mandatory => true
 
       lookup_supported_params = [
         :host,
@@ -46,7 +42,7 @@ class Jerakia::Datasource
         :ssl_verify,
         :use_auth,
         :auth_user,
-        :auth_pass,
+        :auth_pass
       ]
       lookup_params = options.select { |p| lookup_supported_params.include?(p) }
       http_lookup = LookupHttp.new(lookup_params)
@@ -55,7 +51,7 @@ class Jerakia::Datasource
         Jerakia.log.debug("Attempting to load data from #{path}")
         return unless response.want?
 
-        data=http_lookup.get_parsed(path)
+        data = http_lookup.get_parsed(path)
         Jerakia.log.debug("Datasource provided #{data} (#{data.class}) looking for key #{lookup.request.key}")
 
         if data.is_a?(Hash)
@@ -64,14 +60,12 @@ class Jerakia::Datasource
             response.submit data[lookup.request.key]
           end
         else
-          unless options[:output] == 'plain' or options[:failure] == 'graceful'
+          unless options[:output] == 'plain' || options[:failure] == 'graceful'
             raise Jerakia::Error, "HTTP request did not return a hash for #{lookup.request.key} #{whoami}"
           end
           response.submit data
         end
-
       end
     end
   end
 end
-

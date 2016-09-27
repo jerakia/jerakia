@@ -10,37 +10,35 @@ require 'jerakia'
 require 'json'
 
 class Puppet::DataBinding::Jerakia_rest < Puppet::Indirector::Code
-  desc "Data binding for Jerakia"
+  desc 'Data binding for Jerakia'
 
   attr_reader :jerakia
   attr_reader :jerakia_url
   attr_reader :policy
 
   def initialize(*args)
-    @jerakia=::Jerakia.new
-    @jerakia_url=@jerakia.config.server_url
-    @policy = "puppet"
+    @jerakia = ::Jerakia.new
+    @jerakia_url = @jerakia.config.server_url
+    @policy = 'puppet'
     super
   end
 
   def find(request)
+    lookupdata = request.key.split(/::/)
+    key = lookupdata.pop
+    namespace = lookupdata
 
-    lookupdata=request.key.split(/::/)
-    key=lookupdata.pop
-    namespace=lookupdata
+    # metadata =  request.options[:variables].to_hash
 
-    #metadata =  request.options[:variables].to_hash
- 
     metadata = {
-      :environment => request.options[:variables].environment,
+      :environment => request.options[:variables].environment
     }
-    payload={
+    payload = {
       :namespace => namespace,
       :lookup_type => :first,
-      :metadata => metadata,
+      :metadata => metadata
     }.to_json
     response = RestClient.get "#{jerakia_url}/#{policy}/#{key}", :params => { :payload => payload }
     response
   end
 end
-

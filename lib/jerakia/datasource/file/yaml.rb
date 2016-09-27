@@ -1,8 +1,7 @@
 class Jerakia::Datasource
   module File
     class Yaml
-
-      EXTENSION='yaml'
+      EXTENSION = 'yaml'.freeze
 
       class << self
         require 'yaml'
@@ -18,4 +17,3 @@ class Jerakia::Datasource
     end
   end
 end
-

@@ -5,11 +5,9 @@ class Jerakia::Config
   attr_reader :server_url
 
   def self.load_from_file(file = '/etc/jerakia/jerakia.yaml')
-    begin
-      new YAML.load_file(file)
-    rescue Psych::SyntaxError => e
-      raise Jerakia::FileParseError, "Could not parse config file #{file}, #{e.message}"
-    end
+    new YAML.load_file(file)
+  rescue Psych::SyntaxError => e
+    raise Jerakia::FileParseError, "Could not parse config file #{file}, #{e.message}"
   end
 
   def initialize(config = {})
@@ -24,7 +22,7 @@ class Jerakia::Config
       'policydir'     => '/etc/jerakia/policy.d',
       'logfile'       => '/var/log/jerakia.log',
       'loglevel'      => 'info',
-      'enable_schema' => true,
+      'enable_schema' => true
     }
   end
 

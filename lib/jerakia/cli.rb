@@ -29,10 +29,10 @@ class Jerakia
            aliases: :s,
            type: :string,
            desc: 'Scope handler',
-           default: "metadata"
+           default: 'metadata'
     option :scope_options,
            type: :hash,
-           desc: "Key/value pairs to be passed to the scope handler"
+           desc: 'Key/value pairs to be passed to the scope handler'
     option :merge_type,
            aliases: :m,
            type: :string,
@@ -45,7 +45,7 @@ class Jerakia
     option :verbose,
            aliases: :v,
            type: :boolean,
-           desc: "Print verbose information"
+           desc: 'Print verbose information'
     option :debug,
            aliases: :D,
            type: :boolean,
@@ -68,9 +68,8 @@ class Jerakia
            default: 'json',
            desc: 'Output format, yaml or json'
 
-
     def lookup(key)
-      # Thor by default now returns a frozen options hash so we 
+      # Thor by default now returns a frozen options hash so we
       # need to dup this here to prevent problems later with
       # modifying the request object
       #
@@ -78,10 +77,10 @@ class Jerakia
 
       case true
       when options[:verbose]
-        loglevel = "verbose"
+        loglevel = 'verbose'
         logfile  = STDOUT
       when options[:debug]
-        loglevel = "debug"
+        loglevel = 'debug'
         logfile  = STDOUT
       else
         logfile = nil
@@ -90,12 +89,10 @@ class Jerakia
 
       begin
 
-        jac = Jerakia.new({
-          :config   => options[:config],
-          :logfile  => logfile,
-          :loglevel => loglevel,
-          :trace    => options[:trace],
-        })
+        jac = Jerakia.new(:config => options[:config],
+                          :logfile  => logfile,
+                          :loglevel => loglevel,
+                          :trace    => options[:trace])
         req = Jerakia::Request.new(
           :key           => key.dup,
           :namespace     => options_copy[:namespace].split(/::/),
@@ -105,9 +102,8 @@ class Jerakia
           :metadata      => options_copy[:metadata] || {},
           :scope         => options_copy[:scope].to_sym,
           :scope_options => options_copy[:scope_options],
-          :use_schema    => options_copy[:schema],
+          :use_schema    => options_copy[:schema]
         )
-
 
         answer = jac.lookup(req)
         case options[:output]

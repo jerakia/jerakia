@@ -15,4 +15,3 @@ class Jerakia::Scope
     end
   end
 end
-

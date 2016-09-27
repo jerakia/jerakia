@@ -1,22 +1,15 @@
 require 'jerakia/cache'
 
 class Jerakia::Cache::File < Jerakia::Cache
-  
-  
   def initialize
     super
   end
 
-
   def state(filename)
-    if ::File.exists?(filename)
-      ::File.stat(filename).mtime
-    else
-      nil
-    end
+    ::File.stat(filename).mtime if ::File.exist?(filename)
   end
 
-  def add(index,data)
+  def add(index, data)
     @@bucket[index] ||= {}
     @@bucket[index][:state] = state(index)
     super
@@ -29,5 +22,4 @@ class Jerakia::Cache::File < Jerakia::Cache
       false
     end
   end
-
 end
