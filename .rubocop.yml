@@ -1,0 +1,8 @@
+Metrics/LineLength:
+  Max: 160
+
+Documentation:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
