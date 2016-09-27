@@ -29,9 +29,9 @@ Jerakia is a policy driven model.  Policies are written in Ruby DSL which gives 
 policy :default do
   lookup :main do
     datasource :file, {
-      :format => :yaml,
-      :docroot => '/var/lib/jerakia/data',
-      :searchpath => [
+      format:     :yaml,
+      docroot:    '/var/lib/jerakia/data',
+      searchpath: [
         "hostname/#{scope[:certname]}",
         "environment/#{scope[:environment]}",
         'common',
