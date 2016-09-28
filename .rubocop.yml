@@ -1,0 +1,17 @@
+Metrics/LineLength:
+  Max: 160
+
+Documentation:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/TrailingBlankLines:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false

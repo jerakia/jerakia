@@ -1,17 +1,16 @@
 class Jerakia::Response < Jerakia
-
   attr_accessor :entries
   attr_reader :lookup
 
   def initialize(lookup)
-    @entries=[]
-    @lookup=lookup
+    @entries = []
+    @lookup = lookup
     require 'jerakia/response/filter'
     extend Jerakia::Response::Filter
   end
 
   def want?
-    if lookup.request.lookup_type == :first && entries.length > 0
+    if lookup.request.lookup_type == :first && !entries.empty?
       return false
     else
       return true
@@ -20,14 +19,14 @@ class Jerakia::Response < Jerakia
 
   def submit(val)
     Jerakia.log.debug "Backend submitted #{val}"
-    unless want?
-      no_more_answers
-    else
+    if want?
       @entries << {
         :value => val,
         :datatype => val.class.to_s.downcase
       }
       Jerakia.log.debug "Added answer #{val}"
+    else
+      no_more_answers
     end
   end
 
@@ -44,14 +43,9 @@ class Jerakia::Response < Jerakia
       end
       entry
     end
-
   end
-      
-
 
   def no_more_answers
-    Jerakia.log.debug "warning: backend tried to submit too many answers"
+    Jerakia.log.debug 'warning: backend tried to submit too many answers'
   end
-
 end
-

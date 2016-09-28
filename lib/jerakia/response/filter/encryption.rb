@@ -17,30 +17,27 @@ require 'yaml'
 class Jerakia::Response
   module Filter
     module Encryption
-
-      def filter_encryption(opts={})
+      def filter_encryption(_opts = {})
         parse_values do |val|
-          if val.is_a?(String)
-            decrypt val
-          end
+          decrypt val if val.is_a?(String)
           val
         end
       end
 
       def decrypt(data)
         if encrypted?(data)
-          public_key = config["eyaml"]["public_key"]
-          private_key = config["eyaml"]["private_key"]
+          public_key = config['eyaml']['public_key']
+          private_key = config['eyaml']['private_key']
           Hiera::Backend::Eyaml::Options[:pkcs7_private_key] = private_key
           Hiera::Backend::Eyaml::Options[:pkcs7_public_key] = public_key
           parser = Hiera::Backend::Eyaml::Parser::ParserFactory.hiera_backend_parser
-          
+
           tokens = parser.parse(data)
-          decrypted = tokens.map{ |token| token.to_plain_text }
+          decrypted = tokens.map(&:to_plain_text)
           plaintext = decrypted.join
           Jerakia.log.debug(plaintext)
           plaintext.chomp!
-          data.clear.insert(0,plaintext)
+          data.clear.insert(0, plaintext)
         else
           data
         end
@@ -52,5 +49,3 @@ class Jerakia::Response
     end
   end
 end
-
-

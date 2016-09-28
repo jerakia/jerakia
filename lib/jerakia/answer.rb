@@ -1,29 +1,31 @@
-class Jerakia::Answer
+class Jerakia
+  class Answer
+    require 'deep_merge'
 
-  require 'deep_merge'
+    attr_accessor :payload
+    attr_accessor :datatype
+    attr_reader :lookup_type
 
-  attr_accessor :payload
-  attr_accessor :datatype
-  attr_reader :lookup_type
-
-  def initialize(lookup_type = :first)
-    case lookup_type
-    when :first
-      @payload=nil
-    when :cascade
-      @payload=[]
-      @datatype="array"
+    def initialize(lookup_type = :first)
+      case lookup_type
+      when :first
+        @payload = nil
+      when :cascade
+        @payload = []
+        @datatype = 'array'
+      end
     end
-  end
 
-  def flatten_payload!
-    @payload.flatten!
-  end
+    def flatten_payload!
+      @payload.flatten!
+    end
 
-  def merge_payload!(method = :hash)
-    payload_hash={}
-    @payload.each do |p|
-      if p.is_a?(Hash)
+    # TODO: consolidate this into less lines
+    #
+    def merge_payload!(method = :hash) # rubocop:disable Metrics/MethodLength
+      payload_hash = {}
+      @payload.each do |p|
+        next unless p.is_a?(Hash)
         case method
         when :hash
           payload_hash = p.merge(payload_hash)
@@ -31,13 +33,12 @@ class Jerakia::Answer
           payload_hash = p.deep_merge!(payload_hash)
         end
       end
+      @payload = payload_hash
+      set_data_type
     end
-    @payload=payload_hash
-    set_data_type
-  end
 
-  def set_data_type
-    @data_type=@payload.class.to_s.downcase
+    def set_data_type
+      @data_type = @payload.class.to_s.downcase
+    end
   end
 end
-

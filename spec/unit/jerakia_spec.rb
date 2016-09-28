@@ -1,6 +1,11 @@
 require 'spec_helper'
 
+
+
 describe Jerakia do
+
+  before(:each) { Jerakia.instance_variable_set :@config, nil }
+
   let(:subject) { Jerakia.new(config: "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
   let(:request) { Jerakia::Request.new }
   let(:answer) { subject.lookup(request) }

@@ -1,6 +1,5 @@
 class Jerakia
   class Request
-
     attr_accessor :key
     attr_accessor :namespace
     attr_accessor :merge
@@ -11,7 +10,7 @@ class Jerakia
     attr_accessor :scope_options
     attr_accessor :use_schema
 
-    def initialize(opts={})
+    def initialize(opts = {})
       options        = defaults.merge(opts)
       @key           = options[:key]
       @namespace     = options[:namespace]

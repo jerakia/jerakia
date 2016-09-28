@@ -15,20 +15,18 @@ class Jerakia::Lookup
   attr_reader :pluginfactory
   attr_reader :datasource
 
-  def initialize(name,opts,req,scope)
-    
-    @name=name
-    @request=req
-    @valid=true
-    @scope_object=scope
-    @output_filters=[]
-    @proceed=true
+  def initialize(name, opts, req, scope)
+    @name = name
+    @request = req
+    @valid = true
+    @scope_object = scope
+    @output_filters = []
+    @proceed = true
     @pluginfactory = Jerakia::Lookup::PluginFactory.new
-
 
     # Validate options passed to the lookup
     #
-    valid_opts = [ :use ]
+    valid_opts = [:use]
 
     opts.keys.each do |opt_key|
       unless valid_opts.include?(opt_key)
@@ -36,14 +34,13 @@ class Jerakia::Lookup
       end
     end
 
-
     if opts[:use]
-       Array(opts[:use]).flatten.each do |plugin|
+      Array(opts[:use]).flatten.each do |plugin|
         plugin_load(plugin)
       end
     end
   end
- 
+
   def plugin_load(plugin)
     Jerakia.log.debug("Loading plugin #{plugin}")
     pluginfactory.register(plugin, Jerakia::Lookup::Plugin.new(self))
@@ -57,7 +54,7 @@ class Jerakia::Lookup
     @datasource
   end
 
-  def datasource(source, opts={})
+  def datasource(source, opts = {})
     @datasource = Jerakia::Datasource.new(source, self, opts)
   end
 
@@ -69,11 +66,10 @@ class Jerakia::Lookup
     scope_object.value
   end
 
-
-  def output_filter(name,opts={})
+  def output_filter(name, opts = {})
     @output_filters << { :name => name, :opts => opts }
   end
-    
+
   def proceed?
     proceed
   end
@@ -109,38 +105,33 @@ class Jerakia::Lookup
     valid
   end
 
-
-  def get_matches(key,match)
-    matches = Array(match).select { |m| key[Regexp.new(m)] == key}
+  def get_matches(key, match)
+    matches = Array(match).select { |m| key[Regexp.new(m)] == key }
   end
-  
-  def confine(key=nil,match)
+
+  def confine(key = nil, match)
     if key
-      invalidate unless get_matches(key,match).size > 0
+      invalidate if get_matches(key, match).empty?
     else
       invalidate
     end
   end
 
-  def exclude(key=nil,match)
+  def exclude(key = nil, match)
     if key
-      invalidate if get_matches(key,match).size > 0
+      invalidate unless get_matches(key, match).empty?
     end
   end
-      
 
   def run
     Jerakia.log.verbose("lookup: #{@name} key: #{@request.key} namespace: #{@request.namespace.join('/')}")
     @datasource.run
-    response=@datasource.response
+    response = @datasource.response
     @output_filters.each do |filter|
       response.filter! filter[:name], filter[:opts]
     end
-    return response
+    response
   end
 
-
   private
-
 end
-

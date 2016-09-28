@@ -1,8 +1,7 @@
 class Jerakia::Datasource
   module File
     class Json
-
-      EXTENSION='json'
+      EXTENSION = 'json'.freeze
 
       class << self
         require 'json'
@@ -18,4 +17,3 @@ class Jerakia::Datasource
     end
   end
 end
-

@@ -1,7 +1,8 @@
+require 'jerakia/cache/file'
+
 class Jerakia
   module Dsl
     class Policy
-
       def self.evaluate_file(filename, request)
         policy = new(request)
         policy.evaluate_file(filename)
@@ -18,27 +19,26 @@ class Jerakia
       attr_reader   :instance
 
       def initialize(req)
-        @request=req
+        @request = req
       end
 
       def evaluate_file(filename)
-        begin
-          policydata=Jerakia.filecache(filename)
-        rescue Jerakia::Error => e
+        policydata = Jerakia::Cache::File.retrieve(filename)
+
+        unless policydata
           raise Jerakia::PolicyError, "Could not load policy file, #{e.message}"
         end
+
         instance_eval policydata
       end
 
-      def policy(name, opts={}, &block)
+      def policy(name, opts = {}, &block)
         @instance = Jerakia::Policy.new(name, opts, request)
-        Jerakia::Dsl::Policyblock.evaluate(instance,&block)
+        Jerakia::Dsl::Policyblock.evaluate(instance, &block)
       end
-      
     end
 
     class Policyblock
-
       attr_accessor :policy
 
       def initialize(policy)
@@ -50,10 +50,9 @@ class Jerakia
         policyblock.instance_eval &block
       end
 
-      def lookup(name, opts={}, &block)
+      def lookup(name, opts = {}, &block)
         Jerakia::Dsl::Lookup.evaluate(name, policy, opts, &block)
       end
     end
   end
-
 end

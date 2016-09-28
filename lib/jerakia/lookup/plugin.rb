@@ -1,8 +1,6 @@
 class Jerakia::Lookup::Plugin
-
-
   attr_reader :lookup
- 
+
   def initialize(lookup)
     @lookup = lookup
   end
@@ -18,6 +16,4 @@ class Jerakia::Lookup::Plugin
   def request
     lookup.request
   end
-
 end
-
