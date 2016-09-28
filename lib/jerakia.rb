@@ -20,11 +20,9 @@ class Jerakia
   class << self
     attr_reader :config
     attr_reader :log
-    attr_reader :filecache
   end
 
   @config = nil
-  @filecache = {}
   @log = nil
 
   def initialize(options = {})
@@ -56,9 +54,6 @@ class Jerakia
     raise e
   end
 
-  def filecache
-    self.class.filecache
-  end
 
   def config
     self.class.config
@@ -66,15 +61,6 @@ class Jerakia
 
   def log
     self.class.log
-  end
-
-  def self.filecache(name)
-    begin
-      @filecache[name] ||= File.read(name)
-    rescue Errno::ENOENT => e
-      raise Jerakia::Error, "Could not read file #{name}, #{e.message}"
-    end
-    @filecache[name]
   end
 
   class << self

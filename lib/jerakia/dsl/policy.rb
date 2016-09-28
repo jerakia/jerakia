@@ -1,3 +1,5 @@
+require 'jerakia/cache/file'
+
 class Jerakia
   module Dsl
     class Policy
@@ -21,11 +23,12 @@ class Jerakia
       end
 
       def evaluate_file(filename)
-        begin
-          policydata = Jerakia.filecache(filename)
-        rescue Jerakia::Error => e
+        policydata = Jerakia::Cache::File.retrieve(filename)
+
+        unless policydata
           raise Jerakia::PolicyError, "Could not load policy file, #{e.message}"
         end
+
         instance_eval policydata
       end
 

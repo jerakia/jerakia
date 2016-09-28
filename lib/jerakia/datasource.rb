@@ -8,6 +8,7 @@ class Jerakia
     attr_reader :response
     attr_reader :options
     attr_reader :lookup
+    attr_reader :name
 
     def initialize(name, lookup, opts)
       @response = Jerakia::Response.new(lookup)

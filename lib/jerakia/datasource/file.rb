@@ -3,7 +3,6 @@ require 'jerakia/cache/file'
 class Jerakia::Datasource
   module File
     attr_reader :file_format
-    @@cache = Jerakia::Cache::File.new
 
     def load_format_handler
       format = options[:format] || :yaml
@@ -13,29 +12,15 @@ class Jerakia::Datasource
     end
 
     def cache
-      @@cache
-    end
-
-    def import_file(filename)
-      Jerakia.log.debug("import_file() Importing #{filename}")
-      if ::File.exist?(filename)
-        ::File.read(filename)
-      else
-        ''
-      end
+      Jerakia::Cache::File
     end
 
     def get_file_with_cache(diskname)
       if options[:enable_caching]
-        if cache.valid?(diskname)
-          Jerakia.log.debug('Returning cached data')
-          cache.get(diskname)
-        else
-          Jerakia.log.debug("Adding contents of #{diskname} to cache")
-          cache.add(diskname, import_file(diskname))
-        end
+        Jerakia.log.debug("Querying cache for file #{diskname}")
+        cache.retrieve(diskname)
       else
-        import_file(diskname)
+        ::File.read(diskname) if ::File.exists?(diskname)
       end
     end
 
@@ -59,7 +44,8 @@ class Jerakia::Datasource
 
       files.flatten.compact.each do |f|
         Jerakia.log.debug("read_from_file()  #{f}")
-        raw_data << get_file_with_cache(f)
+        file_contents = get_file_with_cache(f)
+        raw_data << file_contents if file_contents
       end
 
       begin
