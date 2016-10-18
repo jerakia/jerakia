@@ -8,4 +8,6 @@ plugindir: test/fixtures/etc/jerakia/lib
 schema:
   docroot: test/fixtures/var/lib/jerakia/schema
 
-
+plugins:
+  hiera:
+    foo: bar
