@@ -3,6 +3,7 @@ class Jerakia::Lookup
   require 'jerakia/scope'
   require 'jerakia/lookup/plugin'
   require 'jerakia/lookup/pluginfactory'
+  require 'jerakia/lookup/plugin_config'
 
   attr_accessor :request
   attr_accessor :datasource
@@ -41,9 +42,16 @@ class Jerakia::Lookup
     end
   end
 
+  # Retrieve plugin specific configuration from the global configuration file
+  # gets passed to the plugin instance upon initilization.
+  #
+  def plugin_config(plugin)
+    Jerakia::Lookup::PluginConfig.new(plugin)
+  end
+
   def plugin_load(plugin)
     Jerakia.log.debug("Loading plugin #{plugin}")
-    pluginfactory.register(plugin, Jerakia::Lookup::Plugin.new(self))
+    pluginfactory.register(plugin, Jerakia::Lookup::Plugin.new(self, plugin_config(plugin)))
   end
 
   def plugin
