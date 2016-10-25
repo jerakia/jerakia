@@ -41,7 +41,7 @@ end
 
 Here we have described the `:main` lookup to use the datasource `file`.  `:format` refers to which data format to expect files to use, Jerakia can support a number of format handlers that plug into the file datasource, in this case we are using the `yaml` handler.  `:docroot` refers to where we store our data files.  The `searchpath` contains an array of locations, relative to the `:docroot` that represents a search hierarchy that will be searched in order for the lookup key  
 
-The `scope` object contains information about the requestor that helps determine how we look up the data, in this case, we base the lookup o the `fqdn` and `environment` of the requestor.  More on scope later.
+The `scope` object contains information about the requestor that helps determine how we look up the data, in this case, we base the lookup on the `fqdn` and `environment` of the requestor.  More on scope later.
 
 
 Next: [Create some data](/tutorial/data)

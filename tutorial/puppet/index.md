@@ -19,7 +19,15 @@ $ vim /etc/puppet/hiera.yaml
 :backends: [ 'jerakia' ]
 {% endhighlight %}
 
+or add it as an additional data source:
+
 ### As a Puppet data binding terminus
+{% highlight yaml %}
+---
+:backends:
+  - yaml
+  - jerakia
+{% endhighlight %}
 
 If you are migrating an existing, or unknown code base we would recommend you keep Hiera configured as a backend to catch any lookups that are made with the `hiera`, `hiera_hash` or `hiera_array` functions.  But for all other lookups you can route them straight to Puppet by bypassing Hiera altogether and using Jerakia as a data binding terminus
 
@@ -34,3 +42,5 @@ $ vim /etc/puppet/puppet.conf
   ...
   data_binding_terminus = jerakia
 {% endhighlight %}
+
+next: [Debugging](/tutorial/debug)

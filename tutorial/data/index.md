@@ -35,10 +35,10 @@ Then when we search for the key `port` in the `apache` namespace (eg: apache::po
 {% highlight console %}
 /var/lib/jerakia/hostname/host011.example.com/apache.yaml
 /var/lib/jerakia/environment/development/apache.yaml
-/var/lib/jerakia/environment/common/apache.yaml
+/var/lib/jerakia/common/apache.yaml
 {% endhighlight %}
 
-[Read more about the File datasource](/datasources/file)
+The astute among you might have noticed that the search is done in a `common` directory rather than `common.yaml` as you would expect with hiera. To understand why that is the case read [File datasource](/datasources/file), to explain the functioning and differences between hiera and jerakia. To get the above debug output yourself read the [Debug Guide](/tutorial/debug)
 
 ## Add data to the searchpath
 
