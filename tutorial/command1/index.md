@@ -31,7 +31,7 @@ _Expected output_
 "8080"
 {% endhighlight %}
 
-To specify `facter` or other metadata you can run the command in the following form:
+To specify metadata like `puppet facter` data, you can run the command in the following form:
 {% highlight console %}
 jerakia lookup port --namespace apache --metadata environment:development fqdn:host011.example.com
 {% endhighlight %}
