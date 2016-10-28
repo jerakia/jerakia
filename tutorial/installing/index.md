@@ -3,6 +3,7 @@ layout: minimal
 ---
 
 # Quick start Tutorial
+Please read through the basics first, as this will help to provide some background for terminology used in this tutorial.
 
 ## Installation
 
