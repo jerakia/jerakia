@@ -25,7 +25,6 @@ or add it as an additional data source:
 {% highlight yaml %}
 ---
 :backends:
-  - yaml
   - jerakia
 {% endhighlight %}
 
