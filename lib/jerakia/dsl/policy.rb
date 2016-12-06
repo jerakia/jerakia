@@ -26,7 +26,7 @@ class Jerakia
         policydata = Jerakia::Cache::File.retrieve(filename)
 
         unless policydata
-          raise Jerakia::PolicyError, "Could not load policy file, #{e.message}"
+          raise Jerakia::PolicyError, "Could not load policy file, #{filename}"
         end
 
         instance_eval policydata

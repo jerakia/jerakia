@@ -1,3 +1,5 @@
+require 'jerakia'
+require 'jerakia/log'
 class Jerakia
   class Request
     attr_accessor :key
