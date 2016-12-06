@@ -6,4 +6,4 @@ targets:
   centos-6:
   centos-7:
 
-cli: bin/jerakia
+cli: jerakia
