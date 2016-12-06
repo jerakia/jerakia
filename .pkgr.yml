@@ -7,3 +7,5 @@ targets:
   centos-7:
 
 cli: jerakia
+user: root
+group: root
