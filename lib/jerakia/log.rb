@@ -18,6 +18,10 @@ class Jerakia::Log < Jerakia
     end
   end
 
+  def logger
+    @@logger
+  end
+
   def verbose(msg)
     @@logger.info msg if @@level == :verbose
   end

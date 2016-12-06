@@ -22,6 +22,8 @@ class Jerakia::Config
       'policydir'     => '/etc/jerakia/policy.d',
       'logfile'       => '/var/log/jerakia.log',
       'loglevel'      => 'info',
+      'vardir'        => '/var/lib/jerakia',
+      'piddir'        => '/var/run',
       'enable_schema' => true
     }
   end
