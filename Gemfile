@@ -24,5 +24,5 @@ if RUBY_VERSION < '2.0'
 else
   gem 'json'
   gem 'data_mapper'
-  gem 'publc_suffix'
+  gem 'public_suffix'
 end
