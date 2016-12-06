@@ -1,26 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    CFPropertyList (2.2.8)
     deep_merge (1.1.1)
     diff-lcs (1.2.5)
-    facter (2.4.6)
-      CFPropertyList (~> 2.2.6)
     faster_require (0.9.4)
-    hiera (3.2.2)
     json (1.8.3)
-    json_pure (1.8.3)
     lookup_http (1.0.0)
       json (>= 1.1.1)
     metaclass (0.0.4)
     mocha (1.2.1)
       metaclass (~> 0.0.1)
     psych (2.2.1)
-    puppet (4.8.0)
-      CFPropertyList (~> 2.2.6)
-      facter (> 2.0, < 4)
-      hiera (>= 2.0, < 4)
-      json_pure (~> 1.8)
     rake (12.0.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
@@ -43,12 +33,10 @@ PLATFORMS
 DEPENDENCIES
   deep_merge
   faster_require
-  json (~> 1.8)
-  json_pure (~> 1.8)
+  json
   lookup_http
   mocha
   psych
-  puppet (= 4.8.0)
   rake
   rspec
   rspec-core
