@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'jerakia'
 require 'jerakia/server/auth'
+require 'json'
+require 'jerakia/scope/server'
 
 class Jerakia
   class Server
@@ -52,6 +54,39 @@ class Jerakia
           :status => 'ok',
           :payload => answer.payload
         }.to_json
+      end
+
+      get '/v1/scope/:realm/:identifier' do
+        resource = Jerakia::Scope::Server.find(params['realm'], params['identifier'])
+        if resource.nil?
+          halt(404, { :status => 'failed', :message => "No scope data found" }.to_json)
+        else
+          {
+            :status => 'ok',
+            :payload => resource.scope
+          }.to_json
+        end
+      end
+
+      put '/v1/scope/:realm/:identifer' do
+        scope = JSON.parse(request.body.read)
+        uuid = Jerakia::Scope::Server.put(params['realm'], params['identifier'], scope)
+        {
+          :status => 'ok',
+          :uuid => uuid
+        }.to_json
+      end
+
+      get '/v1/scope/:realm/:identifier/uuid' do
+        resource = Jerakia::Scope::Server.find(params['realm'], params['identifier'])
+        if resource.nil?
+          halt(404, { :status => 'failed', :message => "No scope data found" }.to_json)
+        else
+          {
+            :status => 'ok',
+            :uuid => resource.uuid
+          }.to_json
+        end
       end
     end
   end
