@@ -2,7 +2,7 @@
 Description=Jerakia Server
 
 [Service]
-ExecStart=/opt/jerakia/bin/jerakia server
+ExecStart=/bin/jerakia server
 Type=simple
 
 
