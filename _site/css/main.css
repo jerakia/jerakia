@@ -53,3 +53,7 @@ a.fl:hover {color:#fff; font-weight:600}
     background-image: repeating-linear-gradient(to bottom, #48556c 0, #1b212b 50%, #141922 52.2%, #353b45 100%);
     background-image: -ms-repeating-linear-gradient(top, #48556c 0, #1b212b 50%, #141922 52.2%, #353b45 100%)
 }
+ul.a {
+    list-style-type: square;
+	color:#06c;
+}
