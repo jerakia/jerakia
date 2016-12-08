@@ -1,5 +1,7 @@
 #!/bin/sh
 
+RUNNER=$1
+
 # Post install script for Jerakia
 
 if [ "$RUNNER" == "systemd" ]; then
