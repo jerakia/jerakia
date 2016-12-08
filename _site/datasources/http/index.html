@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Welcome to Jekyll!</title>
+        <title></title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/highlight.css">    
@@ -88,33 +88,81 @@
       </div>
     </header>
     <div class="container">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <h2 id="http-datasource">HTTP Datasource</h2>
 
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Welcome to Jekyll!</h1>
-    <p class="post-meta"><time datetime="2016-12-08T17:11:12+01:00" itemprop="datePublished">Dec 8, 2016</time></p>
-  </header>
+<p>The HTTP datasource can be used to lookup data from any REST API such as CouchDB.  The http datasource uses the <a href="https://github.com/crayfishx/lookup_http">lookup_http library</a>.</p>
 
-  <div class="post-content" itemprop="articleBody">
-    <p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated. :)</p>
+<h3 id="example">Example</h3>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:foo</span> <span class="k">do</span>
+  <span class="n">datasource</span> <span class="ss">:http</span><span class="p">,</span> <span class="p">{</span>
+    <span class="ss">:host</span>    <span class="o">=&gt;</span> <span class="s2">"127.0.0.1"</span><span class="p">,</span>
+    <span class="ss">:port</span>    <span class="o">=&gt;</span> <span class="mi">5984</span><span class="p">,</span>
+    <span class="ss">:output</span>  <span class="o">=&gt;</span> <span class="s2">"json"</span><span class="p">,</span>
+    <span class="ss">:paths</span>  <span class="o">=&gt;</span> <span class="p">[</span>
+      <span class="s2">"/configuration/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+      <span class="s2">"/configuration/global"</span><span class="p">,</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="k">end</span></code></pre></figure>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<h2 id="options">Options</h2>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<h3 id="global-options">Global Options</h3>
 
-<p>Check out the <a href="http://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<h4 id="host"><code class="highlighter-rouge">host</code></h4>
+<p>Hostname to connect to</p>
 
+<h4 id="port"><code class="highlighter-rouge">port</code></h4>
+<p>Port to connect to</p>
 
-  </div>
+<h4 id="paths"><code class="highlighter-rouge">paths</code></h4>
+<p>An array containing a list of paths that will be called in order. Eg:</p>
 
-  
-</article>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="ss">:paths</span>  <span class="o">=&gt;</span> <span class="p">[</span>
+      <span class="s2">"/configuration/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+      <span class="s2">"/configuration/global"</span><span class="p">,</span>
+    <span class="p">]</span></code></pre></figure>
+
+<h4 id="output"><code class="highlighter-rouge">output</code></h4>
+<p>Specify what handler to use for the output of the request.  Currently supported outputs are plain, which will just return the whole document, or YAML and JSON which parse the data and try to look up the key</p>
+
+<h4 id="failure"><code class="highlighter-rouge">failure</code></h4>
+<p>When set to <code class="highlighter-rouge">graceful</code> will stop hiera-http from throwing an exception in the event of a connection error, timeout or invalid HTTP response and move on.  Without this option set hiera-http will throw an exception in such circumstances</p>
+
+<h4 id="ignore_404"><code class="highlighter-rouge">ignore_404</code></h4>
+<p>If <code class="highlighter-rouge">failure</code> is <em>not</em> set to <code class="highlighter-rouge">graceful</code> then any error code received from the HTTP response will throw an exception.  This option makes 404 responses exempt from exceptions.  This is useful if you expect to get 404’s for data items not in a certain part of the hierarchy and need to fall back to the next level in the hierarchy, but you still want to bomb out on other errors.</p>
+
+<h4 id="headers"><code class="highlighter-rouge">headers</code></h4>
+<p>Hash of headers to send in the request</p>
+
+<h3 id="ssl-options">SSL Options</h3>
+
+<h4 id="use_ssl"><code class="highlighter-rouge">use_ssl</code></h4>
+<p>When set to true, enable SSL (default: false)</p>
+
+<h4 id="ssl_ca_cert"><code class="highlighter-rouge">ssl_ca_cert</code></h4>
+<p>Specify a CA cert to use with SSL</p>
+
+<h4 id="ssl_cert"><code class="highlighter-rouge">ssl_cert</code></h4>
+<p>Specify location of SSL certificate</p>
+
+<h4 id="ssl_hey"><code class="highlighter-rouge">ssl_hey</code></h4>
+<p>Specify the location of SSL key</p>
+
+<h4 id="ssl_verify"><code class="highlighter-rouge">ssl_verify</code></h4>
+<p>Whether to verify SSL connections (default: true)</p>
+
+<h3 id="http-auth-options">HTTP AUTH options</h3>
+
+<h4 id="use_auth"><code class="highlighter-rouge">use_auth</code></h4>
+<p>When set to true, enable basic auth (default: false)</p>
+
+<h4 id="auth_user"><code class="highlighter-rouge">auth_user</code></h4>
+<p>The user to use for basic auth</p>
+
+<h3 id="auth_pass"><code class="highlighter-rouge">auth_pass</code></h3>
+<p>The password to use for basic auth</p>
 
     </div>
     <footer class="footer">

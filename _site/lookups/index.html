@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/highlight.css">    
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link rel="icon" type="image/png" href="/favicon.png" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" title="Jerakia" href="#"></a>
+        </div>
+                      <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>              
+                <li class="dropdown">
+                <a href="/basics" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basics <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/basics/install">Installing</a></li>
+                <li><a href="/basics/configure">Configuring</a></li>
+                <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
+                <li><a href="/basics/cli">Command line interface</a></li>
+                </ul>
+                </li>
+                <li class="dropdown">
+                <a href="/tutorial" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quickstart Tutorial <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/tutorial/installing">Installing Jerakia</a></li>
+                <li><a href="/tutorial/config">Configuration</a></li>
+                <li><a href="/tutorial/policy">Writing a policy</a></li>
+                <li><a href="/tutorial/lookup">Writing a lookup</a></li>
+                <li><a href="/tutorial/data">Populating data</a></li>
+                <li><a href="/tutorial/command1">Running the jerakia command</a></li>
+                <li><a href="/tutorial/override">Overriding data in the hierarchy</a></li>
+                <li><a href="/tutorial/puppet">Integrating with Puppet</a></li>
+                </ul>
+                </li> 
+                <li class="dropdown">
+                <a href="/lookups" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lookups <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+                <li><a class="pending" href="/pending">Hiera lookup plugin</a></li>
+                <li><a class="pending" href="/pending">Writing custom lookup plugins</a></li>
+                </ul>
+                </li>
+                <li><a href="/schemas">Schemas</a></li>                                 
+                <li class="dropdown">
+                <a href="/datasources" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Datasources <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/datasources/file">File datasource</a></li>
+                <li><a href="/datasources/http">HTTP datasource</a></li>
+                <li><a href="https://github.com/crayfishx/jerakia-vault" target="_new">Vault datasource</a></li>
+                <li><a href="/datasources/dummy">Dummy datasource</a></li>
+                <li><a class="pending" href="/pending">Writing datasources</a></li>
+                </ul>
+                </li>   
+                <li class="dropdown">
+                <a href="/pending" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Response Filters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a class="pending" href="/pending">Encryption response filter (eyaml)</a></li>
+                <li><a class="pending" href="/pending">Substr response filter</a></li>
+                <li><a class="pending" href="/pending">Writing your own reponse filters</a></li>
+                </ul>
+                </li>                                
+                <li><a href="/releasenotes">Release Notes</a></li>
+            </ul>
+
+           
+          </div>
+        </div>
+      </nav>
+        <a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
+      </div>
+    </header>
+    <div class="container">
+      <h1 id="jerakia-lookups">Jerakia Lookups</h1>
+
+<p>Lookup blocks define where and how to source the data.  At a minmum a lookup block must specify a <code class="highlighter-rouge">datasource</code> to pass the request to. Data sources can optionally take a hash of arguments.  Look at each datasource’s documentation for information on what options they support.</p>
+
+<p>A policy can contain many lookups and each one is evaluated in order within the policy.</p>
+
+<p>Supported methods are</p>
+
+<ul>
+  <li><code class="highlighter-rouge">datasource, {opts}</code> data source with corresponding options</li>
+  <li><code class="highlighter-rouge">invalidate</code> disable this lookup</li>
+  <li><code class="highlighter-rouge">scope</code> return the scope object</li>
+  <li><code class="highlighter-rouge">output_filter</code> add an output handler to this request</li>
+  <li><code class="highlighter-rouge">stop</code> Do not proceed to the next lookup <em>if this lookup is deemed valid</em>, regardless of whether data is returned</li>
+  <li><code class="highlighter-rouge">confine</code> Confine this lookup to a set of criteria</li>
+  <li><code class="highlighter-rouge">exclude</code> Exclude this lookup if the criteria is matched</li>
+</ul>
+
+<h2 id="example">Example</h2>
+
+<p>Here is an example of a Jerakia lookup contained within a policy</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">policy</span> <span class="ss">:default</span> <span class="k">do</span>
+  <span class="n">lookup</span> <span class="ss">:main</span> <span class="k">do</span>
+    <span class="n">datasource</span> <span class="ss">:file</span><span class="p">,</span> <span class="p">{</span>
+      <span class="ss">:format</span> <span class="o">=&gt;</span> <span class="ss">:yaml</span><span class="p">,</span>
+      <span class="ss">:extension</span> <span class="o">=&gt;</span> <span class="s1">'yaml'</span><span class="p">,</span>
+      <span class="ss">:docroot</span> <span class="o">=&gt;</span> <span class="s1">'/etc/jerakia/data'</span><span class="p">,</span>
+      <span class="ss">:searchpath</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="n">scope</span><span class="p">[</span><span class="ss">:certname</span><span class="p">],</span>
+        <span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">],</span>
+        <span class="s1">'global'</span><span class="p">,</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<h2 id="defining-lookups">Defining Lookups</h2>
+
+<p>Lookups are defined inside policies using the <code class="highlighter-rouge">lookup</code> method.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:main</span> <span class="k">do</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>The lookup method also supports the <code class="highlighter-rouge">:use</code> flag to <a href="/lookups/plugins">load plugins</a></p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:main</span><span class="p">,</span> <span class="ss">:use</span> <span class="o">=&gt;</span> <span class="ss">:hiera</span> <span class="k">do</span>
+<span class="k">end</span></code></pre></figure>
+
+<h2 id="lookup-methods">Lookup Methods</h2>
+
+<h4 id="datasource"><code class="highlighter-rouge">datasource</code></h4>
+
+<p>The datasource option takes a datasource name as the first argument and options to be passed to the datasource as a hash in the second argument</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">datasource</span> <span class="ss">:&lt;</span><span class="n">datasource</span><span class="o">&gt;</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:opt</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">,</span> <span class="ss">:opt</span> <span class="o">=&gt;</span> <span class="n">value</span> <span class="p">}</span></code></pre></figure>
+
+<p>Example:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">datasource</span> <span class="ss">:file</span><span class="p">,</span> <span class="p">{</span>
+  <span class="ss">:format</span> <span class="o">=&gt;</span> <span class="ss">:yaml</span><span class="p">,</span>
+  <span class="ss">:docroot</span> <span class="o">=&gt;</span> <span class="s1">'/var/lib/jerakia/data'</span><span class="p">,</span>
+  <span class="ss">:searchpath</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="n">scope</span><span class="p">[</span><span class="ss">:certname</span><span class="p">],</span>
+    <span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">],</span>
+    <span class="s1">'global'</span><span class="p">,</span>
+  <span class="p">]</span>
+<span class="p">},</span></code></pre></figure>
+
+<p><a href="/datasources">Learn more about datasources</a></p>
+
+<h4 id="confine-and-exclude"><code class="highlighter-rouge">confine</code> and <code class="highlighter-rouge">exclude</code></h4>
+
+<p>The <code class="highlighter-rouge">confine</code> and <code class="highlighter-rouge">exclude</code> lookup methods allow you to specify when a lookup should be run or should be skipped. When you have multiple lookups defined in a policy you may not want to always run all lookups.</p>
+
+<p>Both arguments take a subject as the first argument and the criteria as the second argument.</p>
+
+<p>For example, to only run a lookup if the namespace matches <code class="highlighter-rouge">apache</code> you can specify</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:special</span> <span class="k">do</span>
+   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+   <span class="nf">confine</span> <span class="n">request</span><span class="p">.</span><span class="nf">namespace</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"apache"</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>The second argument can be a regex, and multiple criteria can be passed in as an array, eg:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:special</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">confine</span> <span class="n">request</span><span class="p">.</span><span class="nf">namespace</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span>
+    <span class="sr">/website_.*/</span><span class="p">,</span>
+    <span class="s2">"apache"</span><span class="p">,</span>
+    <span class="s2">"php"</span>
+  <span class="p">]</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">exclude</code> method has the oposite effect of <code class="highlighter-rouge">confine</code> and will cause the lookup to be run <em>unless</em> the condition matches.</p>
+
+<h4 id="invalidate"><code class="highlighter-rouge">invalidate</code></h4>
+
+<p>Calling the <code class="highlighter-rouge">invalidate</code> method will cause Jerakia to skip this lookup and proceed to the next one (if applicable)</p>
+
+<h4 id="stop"><code class="highlighter-rouge">stop</code></h4>
+
+<p>The stop method will prevent Jerakia from running any more lookups after the containing lookup, however, it only has effect if the containing lookup is valid.  If the lookup is invalidated with <code class="highlighter-rouge">confine</code>, <code class="highlighter-rouge">exclude</code> or <code class="highlighter-rouge">invalidate</code> then Jerakia will proceed to the next lookup.</p>
+
+<h4 id="output_filter"><code class="highlighter-rouge">output_filter</code></h4>
+
+<p>The <code class="highlighter-rouge">output_filter</code> lookup method will send the data returned from the datasource to the response filter specified as the first argument, for example, if you are using the eyaml encryption response filter, then you need an output_filter method to enable that in your lookup</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:main</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">output_filter</span> <span class="ss">:encryption</span>
+<span class="k">end</span></code></pre></figure>
+
+<h4 id="scope"><code class="highlighter-rouge">scope</code></h4>
+
+<p>The scope method returns the key/value scope data from the requestor as a hash.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">scope</span><span class="p">[</span><span class="ss">:value</span><span class="p">]</span></code></pre></figure>
+
+<h2 id="further-examples">Further examples</h2>
+
+<p>Here is an example of a much more complex policy that contains a dedicated lookup via an HTTP datasource that is used when configuring PHP or Apache, but a default file based lookup for everything else.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">policy</span> <span class="ss">:default</span> <span class="k">do</span>
+
+  <span class="n">lookup</span> <span class="ss">:webserver</span> <span class="k">do</span>
+    <span class="n">datasource</span> <span class="ss">:http</span><span class="p">,</span> <span class="p">{</span>
+      <span class="ss">:host</span>   <span class="o">=&gt;</span> <span class="s1">'127.0.0.1'</span><span class="p">,</span>
+      <span class="ss">:port</span>   <span class="o">=&gt;</span> <span class="mi">5984</span><span class="p">,</span>
+      <span class="ss">:output</span> <span class="o">=&gt;</span> <span class="s2">"json"</span><span class="p">,</span>
+      <span class="ss">:paths</span>  <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s2">"/configuration/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"/configuration/global"</span><span class="p">,</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="n">confine</span> <span class="n">request</span><span class="p">.</span><span class="nf">namespace</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span>
+      <span class="s2">"apache"</span><span class="p">,</span>
+      <span class="s2">"php"</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">stop</span>
+  <span class="k">end</span>
+
+  <span class="n">lookup</span> <span class="ss">:main</span><span class="p">,</span> <span class="k">do</span>
+    <span class="n">datasource</span> <span class="ss">:file</span><span class="p">,</span> <span class="p">{</span>
+      <span class="ss">:format</span>     <span class="o">=&gt;</span> <span class="ss">:yaml</span><span class="p">,</span>
+      <span class="ss">:docroot</span>    <span class="o">=&gt;</span> <span class="s2">"/var/lib/jerakia"</span><span class="p">,</span>
+      <span class="ss">:searchpath</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s2">"hostname/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:fqdn</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"environment/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"common"</span>
+      <span class="p">],</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>In this example, the first lookup will be evaluated for any lookup that is in the <code class="highlighter-rouge">apache</code> or <code class="highlighter-rouge">php</code> namespace.  The <code class="highlighter-rouge">stop</code> method tells Jerakia to only use this lookup if the criteria of <code class="highlighter-rouge">confine</code> deem this to be a valid lookup.  If the namespace does not match, then this lookup is ignored and the next lookup, <code class="highlighter-rouge">main</code>, will be used.</p>
+
+    </div>
+    <footer class="footer">
+      <div class="container">
+            <div class="row" style="background-color:#06c;">
+            <div class="col-md-6 cen" style="padding-top:14px;">Hosted by <a href="https://pages.github.io/" class="fl">GitHub Pages</a></div>
+            <div class="col-md-2"><img src="/images/sponsoredby.png" class="center-block"></div>
+            <div class="col-md-2"><a href="http://www.enviatics.com/"><img src="/images/logo_enviatics.png" class="img-rounded center-block"></a></div>
+            <div class="col-md-2"><a href="http://baloise.github.io/"><img src="/images/logo_baloise_Fotor.png" class="img-rounded center-block"></a></div>
+            </div>    
+      </div>
+    </footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+  </body>
+</html>

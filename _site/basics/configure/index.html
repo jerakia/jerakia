@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Welcome to Jekyll!</title>
+        <title></title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/highlight.css">    
@@ -88,33 +88,57 @@
       </div>
     </header>
     <div class="container">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 id="configuring-jerakia">Configuring Jerakia</h1>
 
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Welcome to Jekyll!</h1>
-    <p class="post-meta"><time datetime="2016-12-08T17:11:12+01:00" itemprop="datePublished">Dec 8, 2016</time></p>
-  </header>
+<h2 id="jerakiayaml"><code class="highlighter-rouge">jerakia.yaml</code></h2>
 
-  <div class="post-content" itemprop="articleBody">
-    <p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated. :)</p>
+<p>Jerakia has a small core configuration in <code class="highlighter-rouge">jerakia.yaml</code>.  The default location for the configuration file is <code class="highlighter-rouge">/etc/jerakia</code></p>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<h3 id="example">Example:</h3>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">---</span>
+<span class="ss">policydir: </span><span class="sr">/etc/</span><span class="n">jerakia</span><span class="o">/</span><span class="n">policy</span><span class="p">.</span><span class="nf">d</span>
+<span class="ss">plugindir: </span><span class="sr">/etc/</span><span class="n">jerakia</span><span class="o">/</span><span class="n">lib</span>
+<span class="ss">loglevel: </span><span class="n">info</span>
+<span class="ss">logfile: </span><span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">jerakia</span><span class="p">.</span><span class="nf">log</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<h3 id="configuration-directives">Configuration directives</h3>
 
-<p>Check out the <a href="http://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<p><code class="highlighter-rouge">jerakia.yaml</code> can be configured with the following configuration directives.</p>
 
+<h4 id="policydir"><code class="highlighter-rouge">policydir</code></h4>
+<p>The location of Jerakia policy files.  Policies should be named <code class="highlighter-rouge">&lt;name&gt;.rb</code> and be installed into this directory</p>
 
-  </div>
+<h4 id="plugindir"><code class="highlighter-rouge">plugindir</code></h4>
+<p>The location where Jerakia will search for lookup plugins.  Plugins will be searched in <code class="highlighter-rouge">jerakia/lookup/plugin</code> relative to this directory</p>
 
-  
-</article>
+<h4 id="loglevel"><code class="highlighter-rouge">loglevel</code></h4>
+<p>The log level, can be <code class="highlighter-rouge">info</code> or <code class="highlighter-rouge">debug</code></p>
+
+<h4 id="logfile"><code class="highlighter-rouge">logfile</code></h4>
+<p>The logfile Jerakia uses to write to</p>
+
+<h4 id="enable_schemas"><code class="highlighter-rouge">enable_schemas</code></h4>
+<p>Set to <code class="highlighter-rouge">true</code> or <code class="highlighter-rouge">false</code>, whether to enable schema lookups.  Default is <code class="highlighter-rouge">true</code> (version 0.5.0+)</p>
+
+<h4 id="schema"><code class="highlighter-rouge">schema</code></h4>
+<p>version 0.5.0+</p>
+
+<p>A hash containing optional overrides for the schema lookup, supported values are <code class="highlighter-rouge">docroot</code>, <code class="highlighter-rouge">format</code> and <code class="highlighter-rouge">enable_caching</code>
+eg:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">schema</span><span class="pi">:</span>
+  <span class="s">docroot</span><span class="pi">:</span> <span class="s">/var/schema_data</span>
+  <span class="s">enable_caching</span><span class="pi">:</span> <span class="s">false</span>
+  <span class="s">format</span><span class="pi">:</span> <span class="s">yaml</span></code></pre></figure>
+
+<h4 id="eyaml"><code class="highlighter-rouge">eyaml</code></h4>
+<p>If you are using the encryption response filter you need to configure Jerakia with the locations of your SSL keys for eyaml. This option is a hash containing <code class="highlighter-rouge">private_key</code> and <code class="highlighter-rouge">public_key</code>.  Eg:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">eyaml</span><span class="pi">:</span>
+  <span class="s">public_key</span><span class="pi">:</span> <span class="s">/etc/jerakia/secure/public_key.pem</span>
+  <span class="s">private_key</span><span class="pi">:</span> <span class="s">/etc/jerakia/secure/private_key.pem</span></code></pre></figure>
+
 
     </div>
     <footer class="footer">

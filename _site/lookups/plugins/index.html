@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Welcome to Jekyll!</title>
+        <title></title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/highlight.css">    
@@ -88,33 +88,38 @@
       </div>
     </header>
     <div class="container">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 id="lookup-plugins">Lookup Plugins</h1>
 
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Welcome to Jekyll!</h1>
-    <p class="post-meta"><time datetime="2016-12-08T17:11:12+01:00" itemprop="datePublished">Dec 8, 2016</time></p>
-  </header>
+<h2 id="introduction">Introduction</h2>
 
-  <div class="post-content" itemprop="articleBody">
-    <p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated. :)</p>
+<p>Lookup plugins are a way to extend the functionality of <a href="/lookups">Jerakia lookups</a>.</p>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<p>Within a lookup we have access to both the request and all scope data sent by the requestor. Having access to read and modify these gives us a great deal of flexibility. Jerakia policies are written in Ruby DSL so there is nothing stopping you from putting any amount of functionality directly in the lookup. However, that makes for rather long and complex policies and isn’t easy to share or re-use. The recommended way therefore to add extra functionality to a lookup is to use the plugin mechanism.</p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<p>Custom lookup plugins are installed into the <code class="highlighter-rouge">plugindir</code> location in the <a href="/basics/configure">configuration</a> and are searched relative to this path as <code class="highlighter-rouge">jerakia/lookup/plugin/&lt;name&gt;.rb</code>.  Core plugins are installed with the main code base but used in the same way.</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<p>To use a plugin in a lookup it must be loaded using the :use parameter to the lookup block, for example to load the <a href="/plugins/hiera"><code class="highlighter-rouge">hiera</code> plugin</a> into your lookup you need to format your lookup block as;</p>
 
-<p>Check out the <a href="http://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:default</span><span class="p">,</span> <span class="ss">:use</span> <span class="o">=&gt;</span> <span class="ss">:hiera</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span></code></pre></figure>
 
+<p>If you want to use more than one plugin, the argument to :use can also be an array</p>
 
-  </div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:default</span><span class="p">,</span> <span class="ss">:use</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="ss">:hiera</span><span class="p">,</span> <span class="ss">:mystuff</span> <span class="p">]</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span></code></pre></figure>
 
-  
-</article>
+<p>Once a plugin is loaded into the lookup, it exposes it’s methods in the plugin.name namespace. For example, the hiera plugin has a method called rewrite_lookup which rewrites the lookup key and drops the namespace from the request, as described above. So to implement this functionality we would call the method using the plugin mechanism;</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:default</span><span class="p">,</span> <span class="ss">:use</span> <span class="o">=&gt;</span> <span class="ss">:hiera</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">plugin</span><span class="p">.</span><span class="nf">hiera</span><span class="p">.</span><span class="nf">rewrite_lookup</span> <span class="c1"># Now deprecated - automatically executed when the plugin is loaded</span>
+<span class="k">end</span></code></pre></figure>
+
+<h2 id="further-reading">Further reading</h2>
+
+<p>See the blog post <a href="http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/">Extending Jerakia with Lookup Plugins</a> for more information on building lookup plugins.</p>
 
     </div>
     <footer class="footer">

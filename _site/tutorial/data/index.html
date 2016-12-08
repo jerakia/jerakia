@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Welcome to Jekyll!</title>
+        <title></title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/highlight.css">    
@@ -88,33 +88,48 @@
       </div>
     </header>
     <div class="container">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 id="quick-start-tutorial">Quick start Tutorial</h1>
 
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Welcome to Jekyll!</h1>
-    <p class="post-meta"><time datetime="2016-12-08T17:11:12+01:00" itemprop="datePublished">Dec 8, 2016</time></p>
-  </header>
+<p>Using the <code class="highlighter-rouge">file</code> datasource as configured earlier we can add our data to YAML files under the directory specified in <code class="highlighter-rouge">:docroot</code>, which we set to <code class="highlighter-rouge">/var/lib/jerakia</code></p>
 
-  <div class="post-content" itemprop="articleBody">
-    <p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated. :)</p>
+<p>It’s recommended that you read <a href="/basics/lookups">Jerakia Lookup Basics</a> to understand the structure and behaviour of a Jerakia lookup</p>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<h2 id="understanding-the-file-datasource">Understanding the file datasource</h2>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<p>When using the <code class="highlighter-rouge">file</code> datasource, the <code class="highlighter-rouge">:searchpath</code> is evaluated to determine which files to scan and elements of the scope object can be interpolated into the file paths.  By default, Jerakia will search for the key in a filename corresponding to the namespace.  So, lets review our lookup object from earlier, it has the following settings configured…</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-console" data-lang="console">:format =&gt; :yaml,
+:docroot =&gt; "/var/lib/jerakia",
+:searchpath =&gt; [
+  "hostname/#{scope[:fqdn]}",
+  "environment/#{scope[:environment]}",
+  "common"
+<span class="err"> ]</span></code></pre></figure>
 
-<p>Check out the <a href="http://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<p>If our scope contains the following</p>
 
+<figure class="highlight"><pre><code class="language-console" data-lang="console">"environment" =&gt; "development",
+<span class="err">"fqdn"        =&gt; "host011.example.com"</span></code></pre></figure>
 
-  </div>
+<p>Then when we search for the key <code class="highlighter-rouge">port</code> in the <code class="highlighter-rouge">apache</code> namespace (eg: apache::port) then Jerakia will scan the following files until it encounters the key <code class="highlighter-rouge">port:</code></p>
 
-  
-</article>
+<figure class="highlight"><pre><code class="language-console" data-lang="console">/var/lib/jerakia/hostname/host011.example.com/apache.yaml
+/var/lib/jerakia/environment/development/apache.yaml
+<span class="err">/var/lib/jerakia/common/apache.yaml</span></code></pre></figure>
+
+<p>The astute among you might have noticed that the search is done in a <code class="highlighter-rouge">common</code> directory rather than <code class="highlighter-rouge">common.yaml</code> as you would expect with hiera. To understand why that is the case read <a href="/datasources/file">File datasource</a>, to explain the functioning and differences between hiera and jerakia. To get the above debug output yourself read the <a href="/tutorial/debug">Debug Guide</a></p>
+
+<h2 id="add-data-to-the-searchpath">Add data to the searchpath</h2>
+
+<p>Let’s start off by adding the port value to our searchpath</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="w">$ </span><span class="nc">mkdir</span><span class="kv"> -p /var/lib/jerakia/common
+</span><span class="w">$ </span><span class="nc">vim</span><span class="kv"> /var/lib/jerakia/common/apache.yaml</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="nn">---</span>
+<span class="s">port</span><span class="pi">:</span> <span class="s">8080</span></code></pre></figure>
+
+<p>Next: <a href="/tutorial/command1">Running Jerakia from the command line</a></p>
 
     </div>
     <footer class="footer">

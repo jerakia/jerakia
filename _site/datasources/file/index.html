@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Jerakia - A versatile data lookup system</title>
+        <title></title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/highlight.css">    
@@ -88,71 +88,87 @@
       </div>
     </header>
     <div class="container">
-      <h2 id="about-jerakia">About Jerakia</h2>
+      <h1 id="datasources">Datasources</h1>
 
-<p>Jerakia is a pluggable hierarchical data lookup engine.  It is not a database, Jerakia itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jerakia is inspired by Hiera, and can be used an additional backend or as a complete drop in replacement.</p>
+<h2 id="file-datasource">File datasource</h2>
 
-<h2 id="data-separation">Data Separation</h2>
+<p>The file data source performs hierarchical searches across YAML or JSON formatted files and searches for the lookup key</p>
 
-<p>Managing data can be a complex task.  With tools such as Puppet deployed to configure your entire software stack across multiple locations and environments, deciding on what configuration options and other site specific data should be configured where becomes cumbersome within your code.  Data separation refers to splitting out your site specific data from your code.  You gain the ability to write and use generic modules from the public domian without needing to modify them, and complex conditional logic in your code to determine what configuration values should be in a given environment is a thing of the past.</p>
-
-<h2 id="why-jerakia">Why Jerakia</h2>
-
-<p>Jerakia is built on one core principle: flexibility.  When you go beyond small-scale, single-customer orientated implementations into larger, more complex and diverse environments the role of modelling your data can become challenging.  Some examples of these challenges include;</p>
+<h3 id="options">Options</h3>
 
 <ul>
-  <li>Using a different data source for one particular application.</li>
-  <li>Giving a team a separate hierarchy just for their application.</li>
-  <li>Giving access to a subset of data to a particular user or team.</li>
-  <li>Enjoy the benefits of eyaml encryption without having to use YAML.</li>
-  <li>Dynamic hierarchy rather than hard coded it in config.</li>
-  <li>Separation of configuration between applications.</li>
+  <li><code class="highlighter-rouge">:format</code>  The file format, one of :yaml and :json (other formats are pluggable)</li>
+  <li><code class="highlighter-rouge">:docroot</code> The root of the documents</li>
+  <li><code class="highlighter-rouge">:searchpath</code> An array specifying the order of hierarchical lookups.  Entries starting with an alphanumerical character will be relative from <code class="highlighter-rouge">docroot</code>, paths starting with <code class="highlighter-rouge">/</code> will be absolute.</li>
+  <li><code class="highlighter-rouge">:extension</code> Overrides the default extension (eg: yml) for the file format chosen</li>
+  <li><code class="highlighter-rouge">:enable_caching</code> true or false, whether to cache the contents of files</li>
 </ul>
 
-<p>Jerakia is a policy driven model.  Policies are written in Ruby DSL which gives a high degree of flexibility in solving complex edge cases.  An example of a simple Jerakia policy is;</p>
+<h3 id="example">Example</h3>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">policy</span> <span class="ss">:default</span> <span class="k">do</span>
-  <span class="n">lookup</span> <span class="ss">:main</span> <span class="k">do</span>
-    <span class="n">datasource</span> <span class="ss">:file</span><span class="p">,</span> <span class="p">{</span>
-      <span class="ss">format:     :yaml</span><span class="p">,</span>
-      <span class="ss">docroot:    </span><span class="s1">'/var/lib/jerakia/data'</span><span class="p">,</span>
-      <span class="ss">searchpath: </span><span class="p">[</span>
-        <span class="s2">"hostname/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:certname</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-        <span class="s2">"environment/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-        <span class="s1">'common'</span><span class="p">,</span>
-      <span class="p">]</span>
-    <span class="p">},</span>
-  <span class="k">end</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:foo</span> <span class="k">do</span>
+  <span class="n">datasource</span> <span class="ss">:file</span><span class="p">,</span> <span class="p">{</span>
+    <span class="ss">:format</span> <span class="o">=&gt;</span> <span class="ss">:yaml</span><span class="p">,</span>
+    <span class="ss">:docroot</span> <span class="o">=&gt;</span> <span class="s2">"/var/lib/jerakia/data"</span><span class="p">,</span>
+    <span class="ss">:searchpath</span> <span class="o">=&gt;</span> <span class="p">[</span>
+      <span class="n">scope</span><span class="p">[</span><span class="ss">:certname</span><span class="p">],</span>
+      <span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">],</span>
+      <span class="s1">'global'</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
 <span class="k">end</span></code></pre></figure>
 
-<p>Nearly everything in Jerakia is extendable and pluggable making it very easy to write and share your own extensions to Jerakia, from lookup plugins, data sources, scope handlers, output filters and more.</p>
+<h3 id="file-system-layout">File system layout</h3>
 
-<p>Features of Jerakia also include:</p>
+<p>Jerakia requests consist of a lookup key and an array representing the namespace.  By default the file data source will look for the lookup key in a filename based upon the <code class="highlighter-rouge">docroot</code>, <code class="highlighter-rouge">searchpath</code> and <code class="highlighter-rouge">namespace</code>.  For example if we use the above lookup directive with the following request:</p>
 
-<ul>
-  <li>YAML and JSON data source nativly included</li>
-  <li>HTTP REST API data source nativly included</li>
-  <li>hiera-eyaml style decryption of data from any data source</li>
-  <li>REST server API (experimental)</li>
-</ul>
+<figure class="highlight"><pre><code class="language-console" data-lang="console">{
+  :key       =&gt; "port",
+  :namespace =&gt; [ "apache" ],
+<span class="err">}</span></code></pre></figure>
 
-<h1 id="references">References</h1>
+<p>Assuming the scope has <code class="highlighter-rouge">certname =&gt; foo.acme.com</code> and <code class="highlighter-rouge">environment =&gt; development</code> then Jerakia will search for the key <code class="highlighter-rouge">port</code> in the following order</p>
 
 <ul>
-  <li><a href="http://www.slideshare.net/CraigDunn3/solving-real-world-data-problems-with-jerakia?qid=f858521d-cb0e-41a4-a1ce-cc42accbb726&amp;v=&amp;b=&amp;from_search=1">Craig Dunn’s slides from Config Management Camp introducing Jerakia</a></li>
-  <li><a href="http://www.craigdunn.org/2015/09/solving-real-world-problems-with-jerakia/">Blog post: Solving real world problems with Jerakia</a></li>
-  <li><a href="http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/">Blog post: Extending Jerakia with lookup plugins</a></li>
+  <li><code class="highlighter-rouge">/var/lib/jerakia/data/foo.acme.com/apache.yaml</code></li>
+  <li><code class="highlighter-rouge">/var/lib/jerakia/data/development/apache.yaml</code></li>
+  <li><code class="highlighter-rouge">/var/lib/jerakia/data/global/apache.yaml</code></li>
 </ul>
 
-<h1 id="latest-news">Latest News</h1>
+<p>More than one element used in the namespace will just expand the filesystem hierarchy, for example <code class="highlighter-rouge">:namespace =&gt; [ "profile", "web" ]</code> will result in something like <code class="highlighter-rouge">/var/lib/jerakia/data/global/profile/web.yaml</code></p>
 
-<h2 id="jerakia-goes-100">Jerakia goes 1.0.0</h2>
+<h3 id="hiera-compatibility">Hiera compatibility</h3>
 
-<p>Jerakia is now officially 1.0.0.  It’s been running in production for several large projects for nearly a year now and we feel that it’s time to mature it.  This also means (unlike the 0.x series) we will now be adhering strictly to semver (semantic versioning) giving extra quality assurance around our releases.  Thank you to our users and our sponsors.</p>
+<p>Hiera maps lookups to file paths slightly differently by default.  If you are performing a lookup for <code class="highlighter-rouge">apache::port</code> from Puppet, Hiera will normally search for the key <code class="highlighter-rouge">apache::port</code> in a file corresponding to the hierarchy.    Jerakia searches for the lookup key <code class="highlighter-rouge">port</code>, in the namespace <code class="highlighter-rouge">apache</code> and therefore will look for the key in <code class="highlighter-rouge">apache.yaml</code>.</p>
 
-<h2 id="jerakia-04-released">Jerakia 0.4 released.</h2>
+<p>This is illustrated here;</p>
 
-<p>Jerakia 0.4 series ships with a number of bug fixes and enhancements.  Also included is the <em>fragments</em> feature for the file datasource allowing large files to be split up into <em>.d</em> style structures making them easier to manage.</p>
+<p><em>Hiera</em></p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="w">$ </span><span class="nc">cat</span><span class="kv"> /path/to/yaml/development.yaml
+</span>---
+<span class="err">apache::port: 80</span></code></pre></figure>
+
+<p><em>Jerakia</em></p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="w">$ </span><span class="nc">cat</span><span class="kv"> /path/to/yaml/development/apache.yaml
+</span>---
+<span class="err">port: 80</span></code></pre></figure>
+
+<p>Users migrating from Hiera to Jerakia or just looking to test Jerakia on their existing Hiera filesystem layout <a href="/plugins/hiera">can use the hiera plugin</a> to make the lookup rewrite the request so it gets searched in a hiera-style way.</p>
+
+<h3 id="fragments">Fragments</h3>
+
+<p>A useful feature of Jerakia is the ability to break down your document into multiple files, especially where a file is becomming excessivly large.  The fragments feature was introduced in 0.4.0 and searches for a <em>.d</em> directory matching the full pathname (minus extension) to your data file.  If found, Jerakia will concatenate the contents of all files below the <em>.d</em> directory into one document before sending it to the format handler.</p>
+
+<p>So in this example;</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console">/var/lib/jerakia/environment/dev/apache.yaml
+/var/lib/jerakia/environment/dev/apache.d/01_www.example.com.yaml
+<span class="err">/var/lib/jerakia/environment/dev/apache.d/01_www.foo.com.yaml</span></code></pre></figure>
+
+<p>Jerakia will first scan the <code class="highlighter-rouge">apache.yaml</code> file, then traverse into the directory and concatenate (in alphabetical order) all the files encountered into one YAML document.  That means you can use YAML anchors across multiple files within the scope of the fragments as the YAML parser will only get one document.   Note that the <code class="highlighter-rouge">apache.yaml</code> file will always be parsed and included first.</p>
+
 
     </div>
     <footer class="footer">

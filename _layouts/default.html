@@ -1,30 +1,106 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>{{ page.title }}</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700" media="all">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ page.title }}</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/highlight.css">    
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link rel="icon" type="image/png" href="/favicon.png" />
   </head>
   <body>
     <header>
       <div class="container">
-        <nav class="main-nav">
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog.html">Blog</a></li>
-          </ul>
-        </nav>
-        <h1><a href="/">Bakery<strong>Store</strong></a></h1>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" title="Jerakia" href="#"></a>
+        </div>
+                      <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>              
+                <li class="dropdown">
+                <a href="/basics" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basics <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/basics/install">Installing</a></li>
+                <li><a href="/basics/configure">Configuring</a></li>
+                <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
+                <li><a href="/basics/cli">Command line interface</a></li>
+                </ul>
+                </li>
+                <li class="dropdown">
+                <a href="/tutorial" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quickstart Tutorial <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/tutorial/installing">Installing Jerakia</a></li>
+                <li><a href="/tutorial/config">Configuration</a></li>
+                <li><a href="/tutorial/policy">Writing a policy</a></li>
+                <li><a href="/tutorial/lookup">Writing a lookup</a></li>
+                <li><a href="/tutorial/data">Populating data</a></li>
+                <li><a href="/tutorial/command1">Running the jerakia command</a></li>
+                <li><a href="/tutorial/override">Overriding data in the hierarchy</a></li>
+                <li><a href="/tutorial/puppet">Integrating with Puppet</a></li>
+                </ul>
+                </li> 
+                <li class="dropdown">
+                <a href="/lookups" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lookups <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+                <li><a class="pending" href="/pending">Hiera lookup plugin</a></li>
+                <li><a class="pending" href="/pending">Writing custom lookup plugins</a></li>
+                </ul>
+                </li>
+                <li><a href="/schemas">Schemas</a></li>                                 
+                <li class="dropdown">
+                <a href="/datasources" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Datasources <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/datasources/file">File datasource</a></li>
+                <li><a href="/datasources/http">HTTP datasource</a></li>
+                <li><a href="https://github.com/crayfishx/jerakia-vault" target="_new">Vault datasource</a></li>
+                <li><a href="/datasources/dummy">Dummy datasource</a></li>
+                <li><a class="pending" href="/pending">Writing datasources</a></li>
+                </ul>
+                </li>   
+                <li class="dropdown">
+                <a href="/pending" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Response Filters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a class="pending" href="/pending">Encryption response filter (eyaml)</a></li>
+                <li><a class="pending" href="/pending">Substr response filter</a></li>
+                <li><a class="pending" href="/pending">Writing your own reponse filters</a></li>
+                </ul>
+                </li>                                
+                <li><a href="/releasenotes">Release Notes</a></li>
+            </ul>
+
+           
+          </div>
+        </div>
+      </nav>
+        <a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
       </div>
     </header>
-    <div class="content">
+    <div class="container">
       {{ content }}
     </div>
-    <footer>
+    <footer class="footer">
       <div class="container">
-        <p class="center-text"> <a href="http://cloudcannon.com">Created by CloudCannon</a></p>
+            <div class="row" style="background-color:#06c;">
+            <div class="col-md-6 cen" style="padding-top:14px;">Hosted by <a href="https://pages.github.io/" class="fl">GitHub Pages</a></div>
+            <div class="col-md-2"><img src="/images/sponsoredby.png" class="center-block"></div>
+            <div class="col-md-2"><a href="http://www.enviatics.com/"><img src="/images/logo_enviatics.png" class="img-rounded center-block"></a></div>
+            <div class="col-md-2"><a href="http://baloise.github.io/"><img src="/images/logo_baloise_Fotor.png" class="img-rounded center-block"></a></div>
+            </div>    
       </div>
     </footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
   </body>
 </html>

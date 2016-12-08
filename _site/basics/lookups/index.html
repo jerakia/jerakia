@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Welcome to Jekyll!</title>
+        <title></title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/highlight.css">    
@@ -88,33 +88,39 @@
       </div>
     </header>
     <div class="container">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 id="basics">Basics</h1>
 
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Welcome to Jekyll!</h1>
-    <p class="post-meta"><time datetime="2016-12-08T17:11:12+01:00" itemprop="datePublished">Dec 8, 2016</time></p>
-  </header>
+<h2 id="understanding-jerakia-lookups">Understanding Jerakia lookups</h2>
 
-  <div class="post-content" itemprop="articleBody">
-    <p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated. :)</p>
+<p>There are three important things that are contained within a Jerakia lookup, these are ;</p>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<h4 id="the-lookup-key">The lookup <em>key</em></h4>
+<p>The key is the item that we are looking up and contains the value</p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<h4 id="the-lookup-namespace">The lookup <em>namespace</em></h4>
+<p>In Jerakia, each key is stored within a namespace.  A namespace can itself be a hierarchy and is sent within the lookup as an array.  When using Jerakia with Puppet, the namespace is built from the Puppet class that is requesting the lookup.  Hiera users will be familar with the concept of <code class="highlighter-rouge">$port</code> in the <code class="highlighter-rouge">apache</code> class being configured in Hiera as a single key called <code class="highlighter-rouge">apache::port</code>.  In Jerakia, this data would be stored as the <em>key</em> <code class="highlighter-rouge">port</code> in the <em>namespace</em> <code class="highlighter-rouge">apache</code>.</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<h4 id="the-lookup-scope">The lookup <em>scope</em></h4>
+<p>The scope is key/value information sent by the requestor and is used by the datasource to determine how to lookup the data.  Scope may contain any information such as environments, locations, names or roles of the requestor.  When using Jerakia with Puppet in it’s default mode, the scope would contain all of the facts and top-level variables of the agent.</p>
 
-<p>Check out the <a href="http://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<h4 id="the-datasource">The datasource</h4>
+<p>Jerakia lookup always define a datasource to use for the lookup request.   Datasources are pluggable, by default Jerakia ships with <em>file</em> and <em>http</em>.</p>
 
+<h2 id="an-example-lookup">An example lookup</h2>
 
-  </div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lookup</span> <span class="ss">:main</span> <span class="k">do</span>
+  <span class="n">datasource</span> <span class="ss">:file</span><span class="p">,</span> <span class="p">{</span>
+    <span class="ss">:format</span>     <span class="o">=&gt;</span> <span class="ss">:yaml</span><span class="p">,</span>
+    <span class="ss">:docroot</span>    <span class="o">=&gt;</span> <span class="s2">"/var/lib/jerakia"</span><span class="p">,</span>
+    <span class="ss">:searchpath</span> <span class="p">[</span>
+      <span class="s2">"host/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:fqdn</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+      <span class="s2">"env/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+      <span class="s2">"common"</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="k">end</span></code></pre></figure>
 
-  
-</article>
+<p>Learn more about <a href="/lookups">How to configure Jerakia lookups</a></p>
 
     </div>
     <footer class="footer">

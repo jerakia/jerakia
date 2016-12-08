@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/highlight.css">    
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link rel="icon" type="image/png" href="/favicon.png" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" title="Jerakia" href="#"></a>
+        </div>
+                      <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>              
+                <li class="dropdown">
+                <a href="/basics" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basics <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/basics/install">Installing</a></li>
+                <li><a href="/basics/configure">Configuring</a></li>
+                <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
+                <li><a href="/basics/cli">Command line interface</a></li>
+                </ul>
+                </li>
+                <li class="dropdown">
+                <a href="/tutorial" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quickstart Tutorial <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/tutorial/installing">Installing Jerakia</a></li>
+                <li><a href="/tutorial/config">Configuration</a></li>
+                <li><a href="/tutorial/policy">Writing a policy</a></li>
+                <li><a href="/tutorial/lookup">Writing a lookup</a></li>
+                <li><a href="/tutorial/data">Populating data</a></li>
+                <li><a href="/tutorial/command1">Running the jerakia command</a></li>
+                <li><a href="/tutorial/override">Overriding data in the hierarchy</a></li>
+                <li><a href="/tutorial/puppet">Integrating with Puppet</a></li>
+                </ul>
+                </li> 
+                <li class="dropdown">
+                <a href="/lookups" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lookups <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+                <li><a class="pending" href="/pending">Hiera lookup plugin</a></li>
+                <li><a class="pending" href="/pending">Writing custom lookup plugins</a></li>
+                </ul>
+                </li>
+                <li><a href="/schemas">Schemas</a></li>                                 
+                <li class="dropdown">
+                <a href="/datasources" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Datasources <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="/datasources/file">File datasource</a></li>
+                <li><a href="/datasources/http">HTTP datasource</a></li>
+                <li><a href="https://github.com/crayfishx/jerakia-vault" target="_new">Vault datasource</a></li>
+                <li><a href="/datasources/dummy">Dummy datasource</a></li>
+                <li><a class="pending" href="/pending">Writing datasources</a></li>
+                </ul>
+                </li>   
+                <li class="dropdown">
+                <a href="/pending" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Response Filters <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a class="pending" href="/pending">Encryption response filter (eyaml)</a></li>
+                <li><a class="pending" href="/pending">Substr response filter</a></li>
+                <li><a class="pending" href="/pending">Writing your own reponse filters</a></li>
+                </ul>
+                </li>                                
+                <li><a href="/releasenotes">Release Notes</a></li>
+            </ul>
+
+           
+          </div>
+        </div>
+      </nav>
+        <a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
+      </div>
+    </header>
+    <div class="container">
+      <h1 id="jerakia-schemas">Jerakia Schemas</h1>
+
+<h2 id="about-schemas">About Schemas</h2>
+
+<p>Schemas are available in Jerakia 0.5.0+</p>
+
+<p>A schema is a set of data that defined various aspects about data contained within the source.  A schema can be used to alter the lookup behaviour of Jerakia for a particular key, such as making it a cascading array lookup.  Schemas also support aliasing giving them the ability to expose pseuedo data that maps to a different namespace and key within your data.</p>
+
+<h2 id="using-schemas">Using Schemas</h2>
+
+<p>Jerakia uses the file datasource to search for a schema JSON file matching the namespace of the lookup.  Currently JSON and YAML can be supported (see configuration below) and the roadmap for this feature allows for a number of other backends to be used for sourcing schema data in the future.</p>
+
+<h3 id="creating-a-json-schema-file">Creating a JSON schema file</h3>
+
+<p>By default, Jerakia will search for schema data in <code class="highlighter-rouge">/var/lib/jerakia/schema</code> and look for a file matching <code class="highlighter-rouge">&lt;namespace&gt;.yaml</code> (or <code class="highlighter-rouge">namespace1/namespace2.yaml</code> for nested namespaces)</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># vim /var/lib/jerakia/schema/accounts.json</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nt">"users"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"cascade"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hash"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>When schema lookups are enabled, this will override the lookup of the key users in the namespace accounts (<code class="highlighter-rouge">accounts::users</code>) and make Jerakia perform a cascading array lookup, the equivilent of setting <code class="highlighter-rouge">--type cascade --merge array</code> on the command line.</p>
+
+<h3 id="writing-schema-definitions">Writing schema definitions</h3>
+
+<p>Each key of the JSON hash refers to a lookup key within the namespace.  Supported sub-keys are:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">cascade</code>:  <code class="highlighter-rouge">true</code> or <code class="highlighter-rouge">false</code>, controls whether the lookup should stop at the first response or cascade through the hierarchy</li>
+  <li><code class="highlighter-rouge">merge</code>: <code class="highlighter-rouge">array</code>, <code class="highlighter-rouge">hash</code> or <code class="highlighter-rouge">deep_hash</code>, controls how to merge multiple results when <code class="highlighter-rouge">cascade</code> is set to <code class="highlighter-rouge">true</code></li>
+  <li><code class="highlighter-rouge">alias</code>: Takes a hash with a combination of <code class="highlighter-rouge">key</code> and/or <code class="highlighter-rouge">namespace</code> and makes the defined key or namespace an alias for another (see below)</li>
+</ul>
+
+<h3 id="examples">Examples</h3>
+
+<h4 id="lookup-behaviour">Lookup behaviour</h4>
+
+<p>Schemas allow you to control the lookup behaviour without manipulating the request.  For example, from Puppet, they allow you to specify that a particular key must be looked up as a cascading array, or merged hash, without having to specify that in the Puppet manifests or embedded in the data iteself, since schemas are separate from the actual data store.  This is particularly useful for variables that are resolved through data binding or standard lookups where you need to be able to change the lookup behaviour.</p>
+
+<p>Example:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># vim /var/lib/jerakia/schema/people.json</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nt">"users"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"cascade"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deep_hash"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<h4 id="aliasing">Aliasing</h4>
+
+<p>Aliasing is a useful feature of schemas that allows you to create a pseudo key, or namespace, as an alias for another key or namespace and also override the lookup behaviour.  This can be especially useful when two different lookups of the same key require the behaviour to be different, or if you need to rename keys or namespaces and maintain consistency and backwards compatibility.</p>
+
+<p>Suppose we have the following data in Jerakia</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># env/development/accounts.yaml</span>
+<span class="nn">---</span>
+<span class="s">users</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">bob</span>
+  <span class="pi">-</span> <span class="s">fred</span>
+  <span class="pi">-</span> <span class="s">lucy</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># common/accounts.yaml</span>
+<span class="nn">---</span>
+<span class="s">users</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">susan</span>
+  <span class="pi">-</span> <span class="s">craig</span>
+  <span class="pi">-</span> <span class="s">lizzie</span></code></pre></figure>
+
+<p>This data could be looked up using the namespace <code class="highlighter-rouge">accounts</code> and the key <code class="highlighter-rouge">users</code>, we can also create an alias pointer to this data in the schema so the same data can be looked up with a different key and/or namespace.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># vim /var/lib/jerakia/schema/people.json</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nt">"sysadmins"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"alias"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"namespace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accounts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"users"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>We now have the ability to to query the <code class="highlighter-rouge">sysadmins</code> key in the <code class="highlighter-rouge">people</code> namespace (<code class="highlighter-rouge">people::sysadmins</code>) and because this is a schema alias, Jerakia will return the data for the <code class="highlighter-rouge">users</code> key in the <code class="highlighter-rouge">accounts</code> namespace.</p>
+
+<p>You can also mix lookup behaviour directives with aliases to create different pseudo keys that have different lookup behaviours.</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nt">"sysadmins"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"alias"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"namespace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accounts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"users"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"all_sysadmins"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"alias"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"namespace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accounts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"users"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"cascade"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"array"</span><span class="p">,</span><span class="w">
+  </span><span class="err">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Now we have two pseudo keys, <code class="highlighter-rouge">people::sysadmins</code> and <code class="highlighter-rouge">people::all_sysadmins</code>, both pull data from the <code class="highlighter-rouge">users::accounts</code>, so this data is only declared once, but depending on which pseudo lookup key we use the results will be different.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="enabling-and-disabling-schemas">Enabling and disabling schemas</h3>
+
+<p>Schemas are enabled by default in 0.5.0 but can be completely disabled by setting <code class="highlighter-rouge">enable_schemas</code> to <code class="highlighter-rouge">false</code> in <code class="highlighter-rouge">jerakia.yaml</code> see <a href="/basics/configure/">configuring Jerakia</a> for more information.</p>
+
+<h3 id="customizing-schema-lookups">Customizing schema lookups</h3>
+
+<p>Schemas use the file datasource to perform a lookup using the key and namespace in the original request.  The behaviour of the lookup can be controlled by configuring a hash called <code class="highlighter-rouge">schema</code> in <code class="highlighter-rouge">jerakia.yaml</code>.  Supported configuration options are:</p>
+
+<p><code class="highlighter-rouge">docroot</code>: set the document root of Jerakia schema lookups
+<code class="highlighter-rouge">format</code>: Defaults to “json”, set the lookup format for schemas (“yaml” or “json”)
+<code class="highlighter-rouge">enable_caching</code>: Defaults to true, whether or not to cache schema lookups</p>
+
+<p>Example:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">schema</span><span class="pi">:</span>
+  <span class="s">docroot</span><span class="pi">:</span> <span class="s">/etc/jerakia/schemas</span></code></pre></figure>
+
+
+    </div>
+    <footer class="footer">
+      <div class="container">
+            <div class="row" style="background-color:#06c;">
+            <div class="col-md-6 cen" style="padding-top:14px;">Hosted by <a href="https://pages.github.io/" class="fl">GitHub Pages</a></div>
+            <div class="col-md-2"><img src="/images/sponsoredby.png" class="center-block"></div>
+            <div class="col-md-2"><a href="http://www.enviatics.com/"><img src="/images/logo_enviatics.png" class="img-rounded center-block"></a></div>
+            <div class="col-md-2"><a href="http://baloise.github.io/"><img src="/images/logo_baloise_Fotor.png" class="img-rounded center-block"></a></div>
+            </div>    
+      </div>
+    </footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+  </body>
+</html>

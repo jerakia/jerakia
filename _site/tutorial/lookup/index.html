@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Welcome to Jekyll!</title>
+        <title></title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/highlight.css">    
@@ -88,33 +88,41 @@
       </div>
     </header>
     <div class="container">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 id="quick-start-tutorial">Quick start Tutorial</h1>
 
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Welcome to Jekyll!</h1>
-    <p class="post-meta"><time datetime="2016-12-08T17:11:12+01:00" itemprop="datePublished">Dec 8, 2016</time></p>
-  </header>
+<h2 id="create-a-lookup">Create a lookup</h2>
 
-  <div class="post-content" itemprop="articleBody">
-    <p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated. :)</p>
+<p>Jerakia policies contain lookups that run in order.</p>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<p>A lookup must contain, at the very least, a name and a datasource to use for the lookup. The current datasources that ship with Jerakia are  <code class="highlighter-rouge">file</code> and <code class="highlighter-rouge">http</code>. The file datasource takes several options, including format and searchpath to define how lookups should be processed. Within the lookup we have access to <code class="highlighter-rouge">scope[]</code> which contains all the information we need to determine what data should be returned. In Puppetspeak, the scope contains all facts and top-level variables passed from the agent</p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<p>We will start by using the <code class="highlighter-rouge">file</code> datasource, You can read more about the options available on the <a href="/datasources/file">File datasource documentation</a></p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="w">$ </span><span class="nc">vim</span><span class="kv"> /etc/jerakia/policy.d/default.rb</span></code></pre></figure>
 
-<p>Check out the <a href="http://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<p>Inside the policy block that we created earlier, we will now add our first lookup called <code class="highlighter-rouge">:main</code>.</p>
 
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">policy</span> <span class="ss">:default</span> <span class="k">do</span>
 
-  </div>
+  <span class="n">lookup</span> <span class="ss">:main</span> <span class="k">do</span>
+    <span class="n">datasource</span> <span class="ss">:file</span><span class="p">,</span> <span class="p">{</span>
+      <span class="ss">:format</span> <span class="o">=&gt;</span> <span class="ss">:yaml</span><span class="p">,</span>
+      <span class="ss">:docroot</span> <span class="o">=&gt;</span> <span class="s2">"/var/lib/jerakia"</span><span class="p">,</span>
+      <span class="ss">:searchpath</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s2">"hostname/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:fqdn</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"environment/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"common"</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
 
-  
-</article>
+<span class="k">end</span></code></pre></figure>
+
+<p>Here we have described the <code class="highlighter-rouge">:main</code> lookup to use the datasource <code class="highlighter-rouge">file</code>.  <code class="highlighter-rouge">:format</code> refers to which data format to expect files to use, Jerakia can support a number of format handlers that plug into the file datasource, in this case we are using the <code class="highlighter-rouge">yaml</code> handler.  <code class="highlighter-rouge">:docroot</code> refers to where we store our data files.  The <code class="highlighter-rouge">searchpath</code> contains an array of locations, relative to the <code class="highlighter-rouge">:docroot</code> that represents a search hierarchy that will be searched in order for the lookup key</p>
+
+<p>The <code class="highlighter-rouge">scope</code> object contains information about the requestor that helps determine how we look up the data, in this case, we base the lookup on the <code class="highlighter-rouge">fqdn</code> and <code class="highlighter-rouge">environment</code> of the requestor.  More on scope later.</p>
+
+<p>Next: <a href="/tutorial/data">Create some data</a></p>
 
     </div>
     <footer class="footer">
