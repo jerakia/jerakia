@@ -4,6 +4,7 @@ gem 'psych'
 gem 'lookup_http'
 gem 'thor'
 gem "deep_merge"
+gem "thin"
 gem "sinatra"
 gem "dm-sqlite-adapter"
 
