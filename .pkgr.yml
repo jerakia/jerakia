@@ -1,5 +1,3 @@
-build_dependencies:
-  - ruby-devel
 targets:
 #  ubuntu-16.04:
 #  ubuntu-14.04:
@@ -7,8 +5,15 @@ targets:
 #  debian-7:
 #  centos-6:
   centos-7:
-
+    build_dependencies:
+      - ruby-devel
+    env:
+      - RUNNER=systemd
+    
+cli: jerakia
 user: root
 group: root
+
+after_install: ext/pkgr/postinstall.sh
 
 
