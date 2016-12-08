@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: default
 title: Jerakia - A versatile data lookup system
 ---
 
