@@ -7,11 +7,11 @@ targets:
   centos-7:
     build_dependencies:
       - ruby-devel
-    after_install: ext/pkgr/postinstall.sh systemd
     
 cli: jerakia
 user: root
 group: root
+after_install: ext/pkgr/postinstall.sh
 
 
 
