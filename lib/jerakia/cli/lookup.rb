@@ -86,10 +86,6 @@ class Jerakia
             end
 
             begin
-
-              puts options_copy
-              puts options_copy[:policy]
-
               jac = Jerakia.new(:config => options[:config],
                                 :logfile  => logfile,
                                 :loglevel => loglevel,
@@ -112,6 +108,8 @@ class Jerakia
                 puts answer.payload.to_json
               when 'yaml'
                 puts answer.payload.to_yaml
+              else
+                puts answer.payload
               end
             rescue Jerakia::Error => e
               STDERR.puts "Error(#{e.class}): #{e.message}"
