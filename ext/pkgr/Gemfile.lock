@@ -123,6 +123,7 @@ DEPENDENCIES
   psych
   public_suffix
   puppet (~> 4.8.0)
+  rack (~> 1.6.5)
   rake
   rspec
   rspec-core

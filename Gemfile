@@ -13,6 +13,7 @@ gem "thin"
 gem "sinatra"
 gem "dm-sqlite-adapter"
 gem "rake"
+gem "rack", "~> 1.6.5"
 
 group(:development, :test) do
   gem 'rspec-core'
