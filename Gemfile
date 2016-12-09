@@ -1,18 +1,25 @@
 source 'https://rubygems.org'
+
+if ENV['PACKAGING'].to_s == "1"
+ruby '2.3.0'
+end
+
 gem 'faster_require'
 gem 'psych'
 gem 'lookup_http'
 gem 'thor'
-gem "puppet", ENV['PUPPET_GEM_VERSION'] || '~> 4.8.0'
 gem "deep_merge"
+gem "thin"
 gem "sinatra"
 gem "dm-sqlite-adapter"
+gem "rake"
+gem "rack", "~> 1.6.5"
 
 group(:development, :test) do
-  gem 'rake'
   gem 'rspec-core'
   gem 'rspec'
   gem 'mocha'
+  gem "puppet", ENV['PUPPET_GEM_VERSION'] || '~> 4.8.0'
 end
 
 # JSON must be 1.x on Ruby 1.9
