@@ -8,6 +8,9 @@ targets:
     build_dependencies:
       - ruby-devel
     
+before:
+  - mv ext/pkgr/Gemfile.lock .
+
 cli: jerakia
 user: root
 group: root
