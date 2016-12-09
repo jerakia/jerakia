@@ -16,5 +16,8 @@ user: root
 group: root
 after_install: ext/pkgr/postinstall.sh
 
+env:
+  - PACKAGING=1
+
 
 
