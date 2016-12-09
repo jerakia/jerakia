@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    CFPropertyList (2.2.8)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
     bcrypt (3.1.11)
@@ -58,8 +59,11 @@ GEM
     do_sqlite3 (0.10.17)
       data_objects (= 0.10.17)
     eventmachine (1.2.1)
+    facter (2.4.6)
+      CFPropertyList (~> 2.2.6)
     faster_require (0.9.4)
     fastercsv (1.5.5)
+    hiera (3.2.2)
     json (1.8.3)
     json_pure (1.8.3)
     lookup_http (1.0.0)
@@ -70,6 +74,11 @@ GEM
     multi_json (1.12.1)
     psych (2.2.1)
     public_suffix (2.0.4)
+    puppet (4.8.1)
+      CFPropertyList (~> 2.2.6)
+      facter (> 2.0, < 4)
+      hiera (>= 2.0, < 4)
+      json_pure (~> 1.8)
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
@@ -113,6 +122,7 @@ DEPENDENCIES
   mocha
   psych
   public_suffix
+  puppet (~> 4.8.0)
   rake
   rspec
   rspec-core
