@@ -7,12 +7,13 @@ gem "deep_merge"
 gem "thin"
 gem "sinatra"
 gem "dm-sqlite-adapter"
+gem "rake"
 
 group(:development, :test) do
-  gem 'rake'
   gem 'rspec-core'
   gem 'rspec'
   gem 'mocha'
+  gem "puppet", ENV['PUPPET_GEM_VERSION'] || '~> 4.8.0'
 end
 
 # JSON must be 1.x on Ruby 1.9
