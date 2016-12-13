@@ -31,7 +31,7 @@ class Jerakia
 
       def token_valid?(token)
         return false unless @authorized_tokens[token].is_a?(Time)
-        (Time.now - @authorized_tokens[token]) < token_ttl.to_s
+        (Time.now - @authorized_tokens[token]) < token_ttl.to_i
       end
 
 
