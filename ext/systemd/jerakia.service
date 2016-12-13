@@ -1,0 +1,10 @@
+[Unit]
+Description=Jerakia Server
+
+[Service]
+ExecStart=/bin/jerakia server
+Type=simple
+
+
+[Install]
+WantedBy=multi-user.target
