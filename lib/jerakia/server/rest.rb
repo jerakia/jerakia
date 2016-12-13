@@ -12,6 +12,11 @@ class Jerakia
         Jerakia::Server.jerakia
       end
 
+      def initialize
+        @authorized_tokens={}
+        super
+      end
+
       def jerakia
         self.class.jerakia
       end
@@ -20,12 +25,24 @@ class Jerakia
         halt(401, { :status => 'failed', :message => 'unauthorized' }.to_json)
       end
 
+      def token_ttl
+        Jerakia::Server.config["token_ttl"]
+      end
+
+      def token_valid?(token)
+        return false unless @authorized_tokens[token].is_a?(Time)
+        (Time.now - @authorized_tokens[token]) < token_ttl.to_s
+      end
+
+
       def authenticate!
         token = env['HTTP_X_AUTHENTICATION']
         auth_denied if token.nil?
+        return true if token_valid?(token)
         unless Jerakia::Server::Auth.authenticate(token)
           auth_denied
         end
+        @authorized_tokens[token] = Time.now
       end
 
       before do
