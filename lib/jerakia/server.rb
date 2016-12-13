@@ -4,19 +4,22 @@ require 'thin'
 class Jerakia
   class Server
 
-    @jerakia = nil
-    @config = {}
-
     def jerakia
       self.class.jerakia
     end
 
     class << self
 
+      @jerakia = nil
+      @config = {}
+
+      attr_reader :config
+
       def default_config
         {
         'bind' => '127.0.0.1',
         'port' => '9843',
+        'token_ttl' => 300,
         }
       end
 
