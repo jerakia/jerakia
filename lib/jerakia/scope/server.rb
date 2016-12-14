@@ -5,8 +5,7 @@ require 'data_mapper'
 class Jerakia::Scope
   module Server
     class Database
-      DataMapper.setup(:scope, "sqlite://#{Jerakia.config[:databasedir]}/scope.db")
-      Jerakia.log.debug("Server scope handler connected to sqlite://#{Jerakia.config[:databasedir]}/scope.db")
+      DataMapper.setup(:scope, "sqlite::memory:")
 
       class Resource
         include DataMapper::Resource
@@ -36,7 +35,7 @@ class Jerakia::Scope
       raise Jerakia::Error, "No scope data found for realm:#{realm} identifier:#{identifier}" if resource.nil?
       scope = resource.scope
       raise Jerakia::Error, "Scope did not return a hash for realm:#{realm} identifier:#{identifier}" unless scope.is_a?(Hash)
-      @value = scope
+      @value = Hash[ scope.map { |k,v| [ k.to_sym, v ] } ]
     end
 
     class << self
@@ -60,8 +59,3 @@ class Jerakia::Scope
     end
   end
 end
-
-
-
-
-
