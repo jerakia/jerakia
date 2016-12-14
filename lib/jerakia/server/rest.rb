@@ -34,7 +34,6 @@ class Jerakia
         (Time.now - @authorized_tokens[token]) < token_ttl.to_s
       end
 
-
       def authenticate!
         token = env['HTTP_X_AUTHENTICATION']
         auth_denied if token.nil?
@@ -85,9 +84,9 @@ class Jerakia
         end
       end
 
-      put '/v1/scope/:realm/:identifer' do
+      put '/v1/scope/:realm/:identifier' do
         scope = JSON.parse(request.body.read)
-        uuid = Jerakia::Scope::Server.put(params['realm'], params['identifier'], scope)
+        uuid = Jerakia::Scope::Server.store(params['realm'], params['identifier'], scope)
         {
           :status => 'ok',
           :uuid => uuid

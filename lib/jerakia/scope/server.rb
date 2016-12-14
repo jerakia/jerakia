@@ -48,6 +48,7 @@ class Jerakia::Scope
       def store(realm, identifier, scope)
         uuid = SecureRandom.uuid
         entry = find(realm, identifier)
+        puts "Storing #{realm} #{identifier} with #{scope} entry is #{entry}"
         if entry.nil?
           Database::Resource.create(:identifier => identifier, :realm => realm, :scope => scope, :uuid => uuid)
         else
