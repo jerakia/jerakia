@@ -22,7 +22,7 @@ class Jerakia
       end
 
       def auth_denied
-        halt(401, { :status => 'failed', :message => 'unauthorized' }.to_json)
+        request_failed('unauthorized', 401)
       end
 
       def token_ttl
@@ -46,15 +46,33 @@ class Jerakia
 
       before do
         content_type 'application/json'
-        
       end
 
       get '/' do
         auth_denied
       end
 
+      def request_failed(message, status_code=501)
+        halt(status_code, {
+          :status => 'failed',
+          :message => message,
+        }.to_json)
+      end
+
+      def mandatory_params(mandatory, params)
+        mandatory.each do |m|
+          unless params.include?(m)
+            request_failed("Must include parameter #{m} in request", 400)
+          end
+        end
+      end
+
+      get '/v1/lookup' do
+        request_failed("Keyless lookups not supported in this version of Jerakia")
+      end
+
       get '/v1/lookup/:key' do
-        authenticate!
+        mandatory_params(['namespace'], params)
         request_opts = {
           :key => params['key'],
           :namespace => params['namespace'].split(/\//),
@@ -77,7 +95,7 @@ class Jerakia
           request = Jerakia::Request.new(request_opts)
           answer = jerakia.lookup(request)
         rescue Jerakia::Error => e
-          halt(501, { :status => 'failed', :message => e.message }.to_json)
+          request_failed(e.message, 501)
         end
         {
           :status => 'ok',
@@ -109,7 +127,7 @@ class Jerakia
       get '/v1/scope/:realm/:identifier/uuid' do
         resource = Jerakia::Scope::Server.find(params['realm'], params['identifier'])
         if resource.nil?
-          halt(404, { :status => 'failed', :message => "No scope data found" }.to_json)
+          request_failed('No scope data found', 404)
         else
           {
             :status => 'ok',
