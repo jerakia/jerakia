@@ -5,7 +5,7 @@ require 'data_mapper'
 class Jerakia::Scope
   module Server
     class Database
-      DataMapper.setup(:scope, "sqlite::memory:")
+      DataMapper.setup(:scope, "sqlite://#{Jerakia.config[:databasedir]}/scope.db")
 
       class Resource
         include DataMapper::Resource
@@ -22,8 +22,8 @@ class Jerakia::Scope
         property :scope, Object
       end
 
-      DataMapper.finalize
-      DataMapper.auto_upgrade!
+      DataMapper.repository(:scope).auto_upgrade!
+      DataMapper.repository(:scope).auto_migrate!
     end
 
     def create
@@ -47,7 +47,6 @@ class Jerakia::Scope
       def store(realm, identifier, scope)
         uuid = SecureRandom.uuid
         entry = find(realm, identifier)
-        puts "Storing #{realm} #{identifier} with #{scope} entry is #{entry}"
         if entry.nil?
           Database::Resource.create(:identifier => identifier, :realm => realm, :scope => scope, :uuid => uuid)
         else
