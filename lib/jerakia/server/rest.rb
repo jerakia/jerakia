@@ -22,7 +22,7 @@ class Jerakia
       end
 
       def auth_denied
-        halt(401, { :status => 'failed', :message => 'unauthorized' }.to_json)
+        request_failed('unauthorized', 401)
       end
 
       def token_ttl
@@ -31,9 +31,8 @@ class Jerakia
 
       def token_valid?(token)
         return false unless @authorized_tokens[token].is_a?(Time)
-        (Time.now - @authorized_tokens[token]) < token_ttl.to_s
+        (Time.now - @authorized_tokens[token]) < token_ttl.to_i
       end
-
 
       def authenticate!
         token = env['HTTP_X_AUTHENTICATION']
@@ -53,19 +52,50 @@ class Jerakia
         auth_denied
       end
 
+      def request_failed(message, status_code=501)
+        halt(status_code, {
+          :status => 'failed',
+          :message => message,
+        }.to_json)
+      end
+
+      def mandatory_params(mandatory, params)
+        mandatory.each do |m|
+          unless params.include?(m)
+            request_failed("Must include parameter #{m} in request", 400)
+          end
+        end
+      end
+
+      get '/v1/lookup' do
+        request_failed("Keyless lookups not supported in this version of Jerakia")
+      end
+
       get '/v1/lookup/:key' do
-        authenticate!
+        mandatory_params(['namespace'], params)
         request_opts = {
           :key => params['key'],
           :namespace => params['namespace'].split(/\//),
         }
 
+        metadata = params.select { |k,v| k =~ /^metadata_.*/ }
+        scope_opts = params.select { |k,v| k =~ /^scope_.*/ }
+
+        request_opts[:metadata] = Hash[metadata.map { |k,v| [k.gsub(/^metadata_/, ""), v] }]
+        request_opts[:scope_options] = Hash[scope_opts.map { |k,v| [k.gsub(/^scope_/, ""), v] }]
+
+
         request_opts[:policy] = params['policy'].to_sym if params['policy']
+        request_opts[:lookup_type] = params['lookup_type'].to_sym if params['lookup_type']
+        request_opts[:merge] = params['merge'].to_sym if params['merge']
+        request_opts[:scope] = params['scope'].to_sym if params['scope']
+        request_opts[:use_schema] = false if params['use_schema'] == 'false'
+
         begin
           request = Jerakia::Request.new(request_opts)
           answer = jerakia.lookup(request)
         rescue Jerakia::Error => e
-          halt(501, { :status => 'failed', :message => e.message }.to_json)
+          request_failed(e.message, 501)
         end
         {
           :status => 'ok',
@@ -85,9 +115,9 @@ class Jerakia
         end
       end
 
-      put '/v1/scope/:realm/:identifer' do
+      put '/v1/scope/:realm/:identifier' do
         scope = JSON.parse(request.body.read)
-        uuid = Jerakia::Scope::Server.put(params['realm'], params['identifier'], scope)
+        uuid = Jerakia::Scope::Server.store(params['realm'], params['identifier'], scope)
         {
           :status => 'ok',
           :uuid => uuid
@@ -97,7 +127,7 @@ class Jerakia
       get '/v1/scope/:realm/:identifier/uuid' do
         resource = Jerakia::Scope::Server.find(params['realm'], params['identifier'])
         if resource.nil?
-          halt(404, { :status => 'failed', :message => "No scope data found" }.to_json)
+          request_failed('No scope data found', 404)
         else
           {
             :status => 'ok',
