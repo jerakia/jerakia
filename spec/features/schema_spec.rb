@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Jerakia do
-  let(:subject) { Jerakia.new(:config =>  "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
+  let(:subject) { Jerakia.new(:config => "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
   let(:request) { Jerakia::Request.new }
   let(:answer) { subject.lookup(request) }
 
@@ -25,7 +25,7 @@ describe Jerakia do
 
       it 'should contain hash elements from the whole tree' do
         expect(answer.payload).to eq(
-          {"france"=>"paris", "argentina"=>"buenos aires", "spain"=>"madrid", "uk" => "london"}
+          'france' => 'paris', 'argentina' => 'buenos aires', 'spain' => 'madrid', 'uk' => 'london'
         )
       end
     end
@@ -49,8 +49,8 @@ describe Jerakia do
       end
 
       it 'should only contain the first result' do
-        expect(answer.payload).to eq( 
-          {"uk"=>"london", "spain"=>"madrid"}
+        expect(answer.payload).to eq(
+          'uk' => 'london', 'spain' => 'madrid'
         )
       end
     end
@@ -60,7 +60,7 @@ describe Jerakia do
         Jerakia::Request.new(
           metadata: { env: 'dev' },
           key: 'jewels',
-          namespace: ['test'],
+          namespace: ['test']
         )
       end
 
@@ -73,8 +73,8 @@ describe Jerakia do
       end
 
       it 'should contain all elements of the tree' do
-        expect(answer.payload).to eq( 
-          ["ruby","opal","diamond","quartz","topaz"]
+        expect(answer.payload).to eq(
+          %w(ruby opal diamond quartz topaz)
         )
       end
     end
@@ -84,7 +84,7 @@ describe Jerakia do
         Jerakia::Request.new(
           metadata: { env: 'dev' },
           key: 'stones',
-          namespace: ['foo'],
+          namespace: ['foo']
         )
       end
 
@@ -97,8 +97,8 @@ describe Jerakia do
       end
 
       it 'should contain the data from test::jewels' do
-        expect(answer.payload).to eq( 
-          ["ruby","opal","diamond"]
+        expect(answer.payload).to eq(
+          %w(ruby opal diamond)
         )
       end
     end
@@ -108,7 +108,7 @@ describe Jerakia do
         Jerakia::Request.new(
           metadata: { env: 'dev' },
           key: 'all_stones',
-          namespace: ['foo'],
+          namespace: ['foo']
         )
       end
 
@@ -121,8 +121,8 @@ describe Jerakia do
       end
 
       it 'should contain the data from test::jewels' do
-        expect(answer.payload).to eq( 
-          ["ruby","opal","diamond","quartz","topaz"]
+        expect(answer.payload).to eq(
+          %w(ruby opal diamond quartz topaz)
         )
       end
     end
@@ -132,7 +132,7 @@ describe Jerakia do
         Jerakia::Request.new(
           metadata: { env: 'dev' },
           key: 'jewels',
-          namespace: ['foo'],
+          namespace: ['foo']
         )
       end
 
@@ -145,13 +145,10 @@ describe Jerakia do
       end
 
       it 'should contain the data from the test namespace' do
-        expect(answer.payload).to eq( 
-          ["ruby","opal","diamond"]
+        expect(answer.payload).to eq(
+          %w(ruby opal diamond)
         )
       end
     end
-
-
-
   end
 end

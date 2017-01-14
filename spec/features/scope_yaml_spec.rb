@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Jerakia do
-  let(:subject) { Jerakia.new(:config =>  "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
+  let(:subject) { Jerakia.new(:config => "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
   let(:request) { Jerakia::Request.new }
   let(:answer) { subject.lookup(request) }
 
@@ -23,7 +23,7 @@ describe Jerakia do
       end
 
       it 'should contain the correct data' do
-        expect(answer.payload).to eq(['estrella','victoria'])
+        expect(answer.payload).to eq(%w(estrella victoria))
       end
     end
 
@@ -33,7 +33,7 @@ describe Jerakia do
           key: 'beers',
           namespace: ['test'],
           scope: 'yaml',
-          scope_options: { 'file' => 'test/fixtures/etc/jerakia/scope.yaml' },
+          scope_options: { 'file' => 'test/fixtures/etc/jerakia/scope.yaml' }
         )
       end
 
@@ -46,9 +46,8 @@ describe Jerakia do
       end
 
       it 'should contain the correct data' do
-        expect(answer.payload).to eq(['cruzcampo','sanmiguel'])
+        expect(answer.payload).to eq(%w(cruzcampo sanmiguel))
       end
     end
-
   end
 end

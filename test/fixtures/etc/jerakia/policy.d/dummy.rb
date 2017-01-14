@@ -1,17 +1,12 @@
 policy :dummy do
-
   lookup :lookup_options do
-    datasource :dummy, {
-      :return => {},
-    }
+    datasource :dummy, :return => {}
     confine request.key, 'lookup_options'
     stop
   end
 
   lookup :default do
-    datasource :dummy, {
-      :return => "Dummy data string"
-    }
+    datasource :dummy, :return => 'Dummy data string'
   end
 end
 
