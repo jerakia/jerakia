@@ -7,7 +7,6 @@
 class Jerakia
   class Lookup
     class PluginConfig
-
       attr_reader :plugin_name
       attr_reader :config
 
@@ -22,10 +21,9 @@ class Jerakia
       def [](key)
         config[key.to_s]
       end
-
     end
   end
 end
-        
+
 
 

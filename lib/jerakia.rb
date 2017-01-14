@@ -49,10 +49,9 @@ class Jerakia
   def self.fatal(msg, e)
     stacktrace = e.backtrace.join("\n")
     Jerakia.log.fatal msg
-    Jerakia.log.fatal "Full stacktrace output:\n#{$!}\n\n#{stacktrace}"
+    Jerakia.log.fatal "Full stacktrace output:\n#{$ERROR_INFO}\n\n#{stacktrace}"
     raise e
   end
-
 
   def config
     self.class.config

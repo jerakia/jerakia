@@ -24,7 +24,7 @@ class Jerakia::Config
       'loglevel'      => 'info',
       'vardir'        => '/var/lib/jerakia',
       'piddir'        => '/var/run',
-      'enable_schema' => true,
+      'enable_schema' => true
     }
   end
 

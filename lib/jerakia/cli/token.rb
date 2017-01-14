@@ -9,19 +9,19 @@ class Jerakia
                  type: :boolean,
                  desc: 'Supress explanatory output'
 
-          def token(subcommand, api_id=:all)
+          def token(subcommand, api_id = :all)
             Jerakia.new
             require 'jerakia/server/auth'
 
             unless subcommand == 'list'
               if api_id == :all
                 help :token
-                STDERR.puts "Error: No API ID provided"
+                STDERR.puts 'Error: No API ID provided'
                 exit 1
               end
             end
 
-            if ['enable', 'disable', 'regenerate', 'delete'].include?(subcommand)
+            if %w(enable disable regenerate delete).include?(subcommand)
               unless Jerakia::Server::Auth.exists?(api_id)
                 STDERR.puts "No such API ID #{api_id}"
                 exit 1
@@ -38,7 +38,7 @@ class Jerakia
 
             when 'list'
               entries = Jerakia::Server::Auth.get_tokens
-              printf("%-20s %-28s %s\n\n","API Identifier","Last Seen", "Status")
+              printf("%-20s %-28s %s\n\n", 'API Identifier', 'Last Seen', 'Status')
               entries.each do |entry|
                 status = entry.active ? 'active' : 'disabled'
                 printf("%-20s %-28s %s\n", entry.api_id, entry.last_seen.strftime('%F %X'), status)

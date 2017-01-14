@@ -11,7 +11,6 @@ class Jerakia::Lookup::Plugin
     instance_eval "extend Jerakia::Lookup::Plugin::#{name.to_s.capitalize}"
   end
 
-
   def scope
     lookup.scope
   end
