@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+{% include meta.html %}
+  </head>
+  <body>
+{% include topnav.html %} 
+    
+      <div class="container">
+      
+    <div class="row">
+                <div class="col-md-3">    
+                <a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
+                <menusection>
+				<br>
+                <li><a href="/tutorial/"><strong>Quickstart Tutorial</strong></a></li>
+                <ul class="a"></ul>
+                <li><a href="/basics"><strong>Basics</strong></a></li>
+                <ul class="a">
+                  <li><a href="/basics/install">Installing</a></li>
+                  <li><a href="/basics/configure">Configuring</a></li>
+                  <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
+                  <li><a href="/basics/cli">Command line interface</a></li>
+                </ul>
+                <li><a href="/lookups"><strong>Lookups</strong></a></li>
+                <ul class="a">
+                  <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+                  <li><a href="/lookups/hiera">Hiera lookup plugin</a></li>
+                  <li><a href="/lookups/writing_plugins">Writing custom lookup plugins</a></li>
+                </ul>
+                <li><a href="/schemas/"><strong>Schemas</strong></a></li>
+                <ul></ul>
+                <li><a href="/datasources"><strong>Datasources</strong></a></li>
+                <ul class="a">
+                  <li><a href="/datasources/file">File datasource</a></li>
+                  <li><a href="/datasources/http">HTTP datasource</a></li>
+                  <li><a href="/datasources/dummy">Dummy datasource</a></li>
+                </ul>
+                <li><a href="/outputfilters"><strong>Output Filters</strong></a></li>
+                <ul></ul>
+                <li><a href="/scopehandlers"><strong>Scope Handlers</strong></a></li>
+                <ul></ul>
+                <li><a href="/integration/"><strong>Integrating Jerakia</strong></a></li>
+                <ul class="a">
+                  <li><a href="/integration/puppet">Puppet</a></li>
+                </ul>
+                <li><a href="/server"><strong>Jerakia Server</strong></a></li>
+                <ul class="a">
+                  <li><a href="/server/usage">Usage</a></li>
+                  <li><a href="/server/tokens">Authentication tokens</a></li>
+                  <li><a href="/server/api">API documentation</a></li>
+                </ul>
+                <li><a href="/contributing"><strong>Contributing</strong></a></li>
+                <ul class="a">
+                  <li><a href="/contributing/quickenv">30 second spin up!</a></li>
+                </ul>
+                <li><a href="/releasenotes"><strong>Release Notes</strong></a></li>
+                <ul class="a">
+                  <li><a href="/releasenotes/1_2">1.2.0</a></li>
+                </ul>
+                
+                
+                </menusection>
+                </div>
+                <div class="col-md-9">    
+                {{ content }}
+                </div>
+    </div>
+</div>
+
+    
+{% include footer.html %}   
+    
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+  </body>
+</html>

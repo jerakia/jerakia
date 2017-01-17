@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Jerakia - A versatile data lookup system">
+<meta name="keywords" content="jerakia, hierarchical data lookup engine, Hiera, Data separation">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/highlight.css">    
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="icon" type="image/png" href="/favicon.png" />
+  </head>
+  <body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+<div class="container">
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>          </button>
+    <a class="navbar-brand" title="Jerakia" href="#"></a>        </div>
+      <div id="navbar" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>              
+    <li><a href="/documentation">Documentation</a></li>
+    </ul>
+    </div>
+</div>
+</nav> 
+    
+      <div class="container">
+      
+    <div class="row">
+                <div class="col-md-3">    
+                <a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
+                <menusection>
+				<br>
+                <li><a href="/tutorial/"><strong>Quickstart Tutorial</strong></a></li>
+                <ul class="a"></ul>
+                <li><a href="/basics"><strong>Basics</strong></a></li>
+                <ul class="a">
+                  <li><a href="/basics/install">Installing</a></li>
+                  <li><a href="/basics/configure">Configuring</a></li>
+                  <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
+                  <li><a href="/basics/cli">Command line interface</a></li>
+                </ul>
+                <li><a href="/lookups"><strong>Lookups</strong></a></li>
+                <ul class="a">
+                  <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+                  <li><a href="/lookups/hiera">Hiera lookup plugin</a></li>
+                  <li><a href="/lookups/writing_plugins">Writing custom lookup plugins</a></li>
+                </ul>
+                <li><a href="/schemas/"><strong>Schemas</strong></a></li>
+                <ul></ul>
+                <li><a href="/datasources"><strong>Datasources</strong></a></li>
+                <ul class="a">
+                  <li><a href="/datasources/file">File datasource</a></li>
+                  <li><a href="/datasources/http">HTTP datasource</a></li>
+                  <li><a href="/datasources/dummy">Dummy datasource</a></li>
+                </ul>
+                <li><a href="/outputfilters"><strong>Output Filters</strong></a></li>
+                <ul></ul>
+                <li><a href="/scopehandlers"><strong>Scope Handlers</strong></a></li>
+                <ul></ul>
+                <li><a href="/integration/"><strong>Integrating Jerakia</strong></a></li>
+                <ul class="a">
+                  <li><a href="/integration/puppet">Puppet</a></li>
+                </ul>
+                <li><a href="/server"><strong>Jerakia Server</strong></a></li>
+                <ul class="a">
+                  <li><a href="/server/usage">Usage</a></li>
+                  <li><a href="/server/tokens">Authentication tokens</a></li>
+                  <li><a href="/server/api">API documentation</a></li>
+                </ul>
+                <li><a href="/contributing"><strong>Contributing</strong></a></li>
+                <ul class="a">
+                  <li><a href="/contributing/quickenv">30 second spin up!</a></li>
+                </ul>
+                <li><a href="/releasenotes"><strong>Release Notes</strong></a></li>
+                <ul class="a">
+                  <li><a href="/releasenotes/1_2">1.2.0</a></li>
+                </ul>
+                
+                
+                </menusection>
+                </div>
+                <div class="col-md-9">    
+                <h1 id="installing-jerakia">Installing Jerakia</h1>
+
+<h2 id="puppet-module-crayfishxjerakia">Puppet module <code class="highlighter-rouge">crayfishx/jerakia</code></h2>
+
+<p>Installing Jerakia with Puppet is the easiest way to get up and running quckly.</p>
+
+<figure class="highlight"><pre><code class="language-none" data-lang="none">$ puppet module install crayfishx/jerakia</code></pre></figure>
+
+<p>See the <a href="https://forge.puppetlabs.com/crayfishx/jerakia">Puppet Forge page</a> for more information configuring Jerakia using Puppet</p>
+
+<h2 id="install-using-rubygems">Install using Rubygems</h2>
+
+<p>Jerakia is available as a rubygem and can be installed with</p>
+
+<figure class="highlight"><pre><code class="language-none" data-lang="none">$ gem install jerakia</code></pre></figure>
+
+<p>After installing the gem, proceed to <a href="/basics/configure">configure Jerakia</a></p>
+
+<h2 id="install-using-all-in-one-aio-system-packages-debrpm">Install using All-in-one (AIO) system packages (DEB/RPM)</h2>
+
+<p>Jerakia 1.2 also ships as a completely self contained system package available on Debian, Ubuntu and Redhat/CentOS based systems.  This is the recommended installation method for users wanting to run Jerakia Server and connect to Jerakia from other tools using the API.  We use <a href="https://packager.io/gh/crayfishx/jerakia">Packager.io</a> for automated package building and repo hosting.  Because the AIO package ships as a completely self contained unit (including all the Ruby dependencies) you cannot integrate with Puppet using the traditional data_binding_terminus or Hiera backend that shipped with 1.1.  In order to continue using these you will also need to install the jerakia rubygem into your Puppet MRI ruby and Puppetserver jRuby.  Alternatively you can use the <code class="highlighter-rouge">jerakia-puppetutils</code> gem which uses the Jerakia client libraries to integrate with Jerakia Server over the API.  Please see the <a href="/integration/puppet">Integration with Puppet guide</a> for a full explanation of Puppet integration options.</p>
+
+<p>There are two repositories available,  <code class="highlighter-rouge">testing</code> contains experimental and pre-releases and should never be used in production, these are for people wishing to test the latest features of Jerakia before they are released.  The <code class="highlighter-rouge">stable</code> repo contains official releases.</p>
+
+
+                </div>
+    </div>
+</div>
+
+    
+<footer class="footer">
+    <div class="container">
+        <div class="row" style="background-color:#3b3b3b;">
+	        <div class="col-md-3 cen" style="padding-top:14px;">Hosted by <a href="https://pages.github.io/" class="fl">GitHub Pages</a></div>
+    		    <div class="col-md-9" align="right"><img src="/images/sponsoredby.png">
+		<a href="http://www.enviatics.com/"><img src="/images/logo_enviatics.png" class="img-rounded"></a>
+        <a href="http://baloise.github.io/"><img src="/images/logo_baloise_Fotor.png" class="img-rounded"></a>
+        <a href="http://vrsites.com/"><img src="/images/logo_vrsites.png" class="img-rounded"></a>        
+        	</div>
+        </div>    
+    </div>
+</footer>
+   
+    
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+  </body>
+</html>
