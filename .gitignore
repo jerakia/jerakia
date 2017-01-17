@@ -1,5 +1,0 @@
-*.swo
-.bundle
-*.swp
-test/fixtures/var/db/jerakia/*
-/Gemfile.lock
