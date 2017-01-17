@@ -36,7 +36,7 @@ end
 
 Jerakia requests consist of a lookup key and an array representing the namespace.  By default the file data source will look for the lookup key in a filename based upon the `docroot`, `searchpath` and `namespace`.  For example if we use the above lookup directive with the following request:
 
-{% highlight console %}
+{% highlight none %}
 {
   :key       => "port",
   :namespace => [ "apache" ],
@@ -58,14 +58,14 @@ Hiera maps lookups to file paths slightly differently by default.  If you are pe
 This is illustrated here;
 
 _Hiera_
-{% highlight console %}
+{% highlight none %}
 $ cat /path/to/yaml/development.yaml
 ---
 apache::port: 80
 {% endhighlight %}
 
 _Jerakia_
-{% highlight console %}
+{% highlight none %}
 $ cat /path/to/yaml/development/apache.yaml
 ---
 port: 80
@@ -79,7 +79,7 @@ A useful feature of Jerakia is the ability to break down your document into mult
 
 So in this example;
 
-{% highlight console %}
+{% highlight none %}
 /var/lib/jerakia/environment/dev/apache.yaml
 /var/lib/jerakia/environment/dev/apache.d/01_www.example.com.yaml
 /var/lib/jerakia/environment/dev/apache.d/01_www.foo.com.yaml

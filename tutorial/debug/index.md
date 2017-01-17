@@ -7,7 +7,7 @@ layout: default
 ## Debugging jerakia
 ### Permanent debugging
 To enable debugging you should add the following to your `jerakia.yaml` config file:
-{% highlight console %}
+{% highlight none %}
 ---
 ...
 loglevel: debug

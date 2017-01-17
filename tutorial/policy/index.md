@@ -10,7 +10,7 @@ Jerakia policies are containers for lookups.  When a lookup is invoked against J
 
 Policy files live within the directory defined in `policydir` in `jerakia.yaml`, so let's create an empty policy.
 
-{% highlight console %}
+{% highlight none %}
 $ mkdir /etc/jerakia/policy.d
 $ vim /etc/jerakia/policy.d/default.rb
 {% endhighlight %}

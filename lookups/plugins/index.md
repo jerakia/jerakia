@@ -29,12 +29,12 @@ lookup :default, :use => [ :hiera, :mystuff ] do
 end
 {% endhighlight %}
 
-Once a plugin is loaded into the lookup, it exposes it’s methods in the plugin.name namespace. For example, the hiera plugin has a method called rewrite_lookup which rewrites the lookup key and drops the namespace from the request, as described above. So to implement this functionality we would call the method using the plugin mechanism;
+Once a plugin is loaded into the lookup, if the method `autorun` exists within the plugin then it is executed automatically. It exposes it’s other methods in the `plugin.name` namespace. For example,  to call a method called `mymethod` in the `mystuff` plugin;
 
 {% highlight ruby %}
 lookup :default, :use => :hiera do
   ...
-  plugin.hiera.rewrite_lookup # Now deprecated - automatically executed when the plugin is loaded
+  plugin.myplugin.mymethod
 end
 {% endhighlight %}
 

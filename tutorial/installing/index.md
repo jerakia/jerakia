@@ -9,7 +9,7 @@ Please read through the basics first, as this will help to provide some backgrou
 
 First we need to install Jerakia and it's dependencies using the Rubygem
 
-{% highlight console %}
+{% highlight none %}
 % gem install jerakia
 {% endhighlight %}
 

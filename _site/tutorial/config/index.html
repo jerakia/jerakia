@@ -39,6 +39,8 @@
                 <a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
                 <menusection>
 				<br>
+                <li><a href="/tutorial/"><strong>Quickstart Tutorial</strong></a></li>
+                <ul class="a"></ul>
                 <li><a href="/basics"><strong>Basics</strong></a></li>
                 <ul class="a">
                   <li><a href="/basics/install">Installing</a></li>
@@ -46,40 +48,42 @@
                   <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
                   <li><a href="/basics/cli">Command line interface</a></li>
                 </ul>
-                <li><a href="/tutorial/"><strong>Quickstart Tutorial</strong></a></li>
-                <ul class="a">
-                  <li><a href="/tutorial/installing">Installing Jerakia</a></li>
-                  <li><a href="/tutorial/config">Configuring</a></li>
-                  <li><a href="/tutorial/policy">Writing a policy</a></li>
-                  <li><a href="/tutorial/lookup">Writing a lookup</a></li>
-                  <li><a href="/tutorial/data">Populating data</a></li>
-                  <li><a href="/tutorial/command1">Running the jerakia command</a></li>
-                  <li><a href="/tutorial/override">Overriding data in the hierarchy</a></li>
-                  <li><a href="/tutorial/puppet">Integrating with Puppet</a></li>
-                </ul>
                 <li><a href="/lookups"><strong>Lookups</strong></a></li>
                 <ul class="a">
                   <li><a href="/lookups/plugins">Using lookup plugins</a></li>
-                  <li><a class="pending" href="/pending">Hiera lookup plugin</a></li>
-                  <li><a class="pending" href="/pending">Writing custom lookup plugins</a></li>
+                  <li><a href="/lookups/hiera">Hiera lookup plugin</a></li>
+                  <li><a href="/lookups/writing_plugins">Writing custom lookup plugins</a></li>
                 </ul>
-                <li><a href="/schema/"><strong>Schemas</strong></a></li>
+                <li><a href="/schemas/"><strong>Schemas</strong></a></li>
                 <ul></ul>
                 <li><a href="/datasources"><strong>Datasources</strong></a></li>
                 <ul class="a">
                   <li><a href="/datasources/file">File datasource</a></li>
                   <li><a href="/datasources/http">HTTP datasource</a></li>
                   <li><a href="/datasources/dummy">Dummy datasource</a></li>
-                  <li><a class="pending" href="/pending">Writing datasources</a></li>
                 </ul>
-                <li><a href="/pending"><strong>Response Filters</strong></a></li>
+                <li><a href="/outputfilters"><strong>Output Filters</strong></a></li>
+                <ul></ul>
+                <li><a href="/scopehandlers"><strong>Scope Handlers</strong></a></li>
+                <ul></ul>
+                <li><a href="/integration/"><strong>Integrating Jerakia</strong></a></li>
                 <ul class="a">
-                  <li><a class="pending" href="/pending">Encryption response filter (eyaml)</a></li>
-                  <li><a class="pending" href="/pending">Substr response filter</a></li>
-                  <li><a class="pending" href="/pending">Writing your own reponse filters</a></li>
+                  <li><a href="/integration/puppet">Puppet</a></li>
                 </ul>
-                
+                <li><a href="/server"><strong>Jerakia Server</strong></a></li>
+                <ul class="a">
+                  <li><a href="/server/usage">Usage</a></li>
+                  <li><a href="/server/tokens">Authentication tokens</a></li>
+                  <li><a href="/server/api">API documentation</a></li>
+                </ul>
+                <li><a href="/contributing"><strong>Contributing</strong></a></li>
+                <ul class="a">
+                  <li><a href="/contributing/quickenv">30 second spin up!</a></li>
+                </ul>
                 <li><a href="/releasenotes"><strong>Release Notes</strong></a></li>
+                <ul class="a">
+                  <li><a href="/releasenotes/1_2">1.2.0</a></li>
+                </ul>
                 
                 
                 </menusection>
@@ -91,8 +95,8 @@
 
 <p>Jerakia reads it’s initial configuration from <code class="highlighter-rouge">/etc/jerakia/jerakia.yaml</code> by default.  At the very minimal we need to confgure the loglevel information and the locations of the logfile, policy directory and plugin directory.</p>
 
-<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="w">$ </span><span class="nc">mkdir</span><span class="kv"> /etc/jerakia
-</span><span class="w">$ </span><span class="nc">vim</span><span class="kv"> /etc/jerakia/jerakia.yaml </span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-none" data-lang="none">$ mkdir /etc/jerakia
+$ vim /etc/jerakia/jerakia.yaml </code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">---</span>
 <span class="ss">policydir: </span><span class="sr">/etc/</span><span class="n">jerakia</span><span class="o">/</span><span class="n">policy</span><span class="p">.</span><span class="nf">d</span>
@@ -109,7 +113,7 @@
     
 <footer class="footer">
     <div class="container">
-        <div class="row" style="background-color:#06c;">
+        <div class="row" style="background-color:#3b3b3b;">
 	        <div class="col-md-3 cen" style="padding-top:14px;">Hosted by <a href="https://pages.github.io/" class="fl">GitHub Pages</a></div>
     		    <div class="col-md-9" align="right"><img src="/images/sponsoredby.png">
 		<a href="http://www.enviatics.com/"><img src="/images/logo_enviatics.png" class="img-rounded"></a>
@@ -118,7 +122,8 @@
         	</div>
         </div>    
     </div>
-</footer>   
+</footer>
+   
     
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  

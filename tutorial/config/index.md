@@ -8,7 +8,7 @@ layout: default
 
 Jerakia reads it's initial configuration from `/etc/jerakia/jerakia.yaml` by default.  At the very minimal we need to confgure the loglevel information and the locations of the logfile, policy directory and plugin directory.
 
-{% highlight console %}
+{% highlight none %}
 $ mkdir /etc/jerakia
 $ vim /etc/jerakia/jerakia.yaml 
 {% endhighlight %}

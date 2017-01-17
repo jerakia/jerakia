@@ -1,9 +1,10 @@
+
 html {
   position: relative;
   min-height: 100%;
 }
 body {
-    background-color: #F3F3F5;
+    background-color: #f4f6ff;
 	font-family: 'Raleway', sans-serif;
     padding-top: 70px!important;
     overflow-y: scroll;
@@ -14,8 +15,16 @@ body {
     display: block
 }
 .nav>li>a {
+    font-size: 19px;
+    font-weight: bold;
     position: relative;
     padding: 10px
+}
+
+.center-image
+{
+    margin: 0 auto;
+    display: block;
 }
 
 .navbar-brand {
@@ -26,6 +35,26 @@ body {
     line-height: 14px
 }
 
+.jumbotron {
+  background: #d2d2d2;
+  color: #000000;
+}
+
+.col-md-8 {
+  font-size: 22px;
+}
+
+.homecontent > p {
+  font-size: 20px;
+}
+
+.hometagline > p {
+  font-size: 22px;
+}
+
+.homeheadline > h1 {
+  font-size: 60px;
+}
 .navbar {
     position: fixed!important;
     min-height: 42px;
@@ -39,7 +68,7 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #06c;;
+  background-color: #3b3b3b;
   padding-top:7px;
   color:#FFFFFF;
 }
@@ -55,5 +84,5 @@ a.fl:hover {color:#fff; font-weight:600}
 }
 ul.a {
     list-style-type: square;
-	color:#06c;
+	color:#004199;
 }

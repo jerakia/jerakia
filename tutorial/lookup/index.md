@@ -13,7 +13,7 @@ A lookup must contain, at the very least, a name and a datasource to use for the
 We will start by using the `file` datasource, You can read more about the options available on the [File datasource documentation](/datasources/file)
 
 
-{% highlight console %}
+{% highlight none %}
 $ vim /etc/jerakia/policy.d/default.rb
 {% endhighlight %}
 

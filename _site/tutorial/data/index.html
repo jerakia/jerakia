@@ -39,6 +39,8 @@
                 <a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
                 <menusection>
 				<br>
+                <li><a href="/tutorial/"><strong>Quickstart Tutorial</strong></a></li>
+                <ul class="a"></ul>
                 <li><a href="/basics"><strong>Basics</strong></a></li>
                 <ul class="a">
                   <li><a href="/basics/install">Installing</a></li>
@@ -46,40 +48,42 @@
                   <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
                   <li><a href="/basics/cli">Command line interface</a></li>
                 </ul>
-                <li><a href="/tutorial/"><strong>Quickstart Tutorial</strong></a></li>
-                <ul class="a">
-                  <li><a href="/tutorial/installing">Installing Jerakia</a></li>
-                  <li><a href="/tutorial/config">Configuring</a></li>
-                  <li><a href="/tutorial/policy">Writing a policy</a></li>
-                  <li><a href="/tutorial/lookup">Writing a lookup</a></li>
-                  <li><a href="/tutorial/data">Populating data</a></li>
-                  <li><a href="/tutorial/command1">Running the jerakia command</a></li>
-                  <li><a href="/tutorial/override">Overriding data in the hierarchy</a></li>
-                  <li><a href="/tutorial/puppet">Integrating with Puppet</a></li>
-                </ul>
                 <li><a href="/lookups"><strong>Lookups</strong></a></li>
                 <ul class="a">
                   <li><a href="/lookups/plugins">Using lookup plugins</a></li>
-                  <li><a class="pending" href="/pending">Hiera lookup plugin</a></li>
-                  <li><a class="pending" href="/pending">Writing custom lookup plugins</a></li>
+                  <li><a href="/lookups/hiera">Hiera lookup plugin</a></li>
+                  <li><a href="/lookups/writing_plugins">Writing custom lookup plugins</a></li>
                 </ul>
-                <li><a href="/schema/"><strong>Schemas</strong></a></li>
+                <li><a href="/schemas/"><strong>Schemas</strong></a></li>
                 <ul></ul>
                 <li><a href="/datasources"><strong>Datasources</strong></a></li>
                 <ul class="a">
                   <li><a href="/datasources/file">File datasource</a></li>
                   <li><a href="/datasources/http">HTTP datasource</a></li>
                   <li><a href="/datasources/dummy">Dummy datasource</a></li>
-                  <li><a class="pending" href="/pending">Writing datasources</a></li>
                 </ul>
-                <li><a href="/pending"><strong>Response Filters</strong></a></li>
+                <li><a href="/outputfilters"><strong>Output Filters</strong></a></li>
+                <ul></ul>
+                <li><a href="/scopehandlers"><strong>Scope Handlers</strong></a></li>
+                <ul></ul>
+                <li><a href="/integration/"><strong>Integrating Jerakia</strong></a></li>
                 <ul class="a">
-                  <li><a class="pending" href="/pending">Encryption response filter (eyaml)</a></li>
-                  <li><a class="pending" href="/pending">Substr response filter</a></li>
-                  <li><a class="pending" href="/pending">Writing your own reponse filters</a></li>
+                  <li><a href="/integration/puppet">Puppet</a></li>
                 </ul>
-                
+                <li><a href="/server"><strong>Jerakia Server</strong></a></li>
+                <ul class="a">
+                  <li><a href="/server/usage">Usage</a></li>
+                  <li><a href="/server/tokens">Authentication tokens</a></li>
+                  <li><a href="/server/api">API documentation</a></li>
+                </ul>
+                <li><a href="/contributing"><strong>Contributing</strong></a></li>
+                <ul class="a">
+                  <li><a href="/contributing/quickenv">30 second spin up!</a></li>
+                </ul>
                 <li><a href="/releasenotes"><strong>Release Notes</strong></a></li>
+                <ul class="a">
+                  <li><a href="/releasenotes/1_2">1.2.0</a></li>
+                </ul>
                 
                 
                 </menusection>
@@ -95,24 +99,24 @@
 
 <p>When using the <code class="highlighter-rouge">file</code> datasource, the <code class="highlighter-rouge">:searchpath</code> is evaluated to determine which files to scan and elements of the scope object can be interpolated into the file paths.  By default, Jerakia will search for the key in a filename corresponding to the namespace.  So, lets review our lookup object from earlier, it has the following settings configured…</p>
 
-<figure class="highlight"><pre><code class="language-console" data-lang="console">:format =&gt; :yaml,
+<figure class="highlight"><pre><code class="language-none" data-lang="none">:format =&gt; :yaml,
 :docroot =&gt; "/var/lib/jerakia",
 :searchpath =&gt; [
   "hostname/#{scope[:fqdn]}",
   "environment/#{scope[:environment]}",
   "common"
-<span class="err"> ]</span></code></pre></figure>
+ ]</code></pre></figure>
 
 <p>If our scope contains the following</p>
 
-<figure class="highlight"><pre><code class="language-console" data-lang="console">"environment" =&gt; "development",
-<span class="err">"fqdn"        =&gt; "host011.example.com"</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-none" data-lang="none">"environment" =&gt; "development",
+"fqdn"        =&gt; "host011.example.com"</code></pre></figure>
 
 <p>Then when we search for the key <code class="highlighter-rouge">port</code> in the <code class="highlighter-rouge">apache</code> namespace (eg: apache::port) then Jerakia will scan the following files until it encounters the key <code class="highlighter-rouge">port:</code></p>
 
-<figure class="highlight"><pre><code class="language-console" data-lang="console">/var/lib/jerakia/hostname/host011.example.com/apache.yaml
+<figure class="highlight"><pre><code class="language-none" data-lang="none">/var/lib/jerakia/hostname/host011.example.com/apache.yaml
 /var/lib/jerakia/environment/development/apache.yaml
-<span class="err">/var/lib/jerakia/common/apache.yaml</span></code></pre></figure>
+/var/lib/jerakia/common/apache.yaml</code></pre></figure>
 
 <p>The astute among you might have noticed that the search is done in a <code class="highlighter-rouge">common</code> directory rather than <code class="highlighter-rouge">common.yaml</code> as you would expect with hiera. To understand why that is the case read <a href="/datasources/file">File datasource</a>, to explain the functioning and differences between hiera and jerakia. To get the above debug output yourself read the <a href="/tutorial/debug">Debug Guide</a></p>
 
@@ -120,8 +124,8 @@
 
 <p>Let’s start off by adding the port value to our searchpath</p>
 
-<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="w">$ </span><span class="nc">mkdir</span><span class="kv"> -p /var/lib/jerakia/common
-</span><span class="w">$ </span><span class="nc">vim</span><span class="kv"> /var/lib/jerakia/common/apache.yaml</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-none" data-lang="none">$ mkdir -p /var/lib/jerakia/common
+$ vim /var/lib/jerakia/common/apache.yaml</code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="nn">---</span>
 <span class="s">port</span><span class="pi">:</span> <span class="s">8080</span></code></pre></figure>
@@ -135,7 +139,7 @@
     
 <footer class="footer">
     <div class="container">
-        <div class="row" style="background-color:#06c;">
+        <div class="row" style="background-color:#3b3b3b;">
 	        <div class="col-md-3 cen" style="padding-top:14px;">Hosted by <a href="https://pages.github.io/" class="fl">GitHub Pages</a></div>
     		    <div class="col-md-9" align="right"><img src="/images/sponsoredby.png">
 		<a href="http://www.enviatics.com/"><img src="/images/logo_enviatics.png" class="img-rounded"></a>
@@ -144,7 +148,8 @@
         	</div>
         </div>    
     </div>
-</footer>   
+</footer>
+   
     
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  

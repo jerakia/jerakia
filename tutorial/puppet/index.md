@@ -10,7 +10,7 @@ layout: default
 
 Jerakia can be configured as a Hiera backend
 
-{% highlight console %}
+{% highlight none %}
 $ vim /etc/puppet/hiera.yaml
 {% endhighlight %}
 
@@ -32,11 +32,11 @@ If you are migrating an existing, or unknown code base we would recommend you ke
 
 
 
-{% highlight console %}
+{% highlight none %}
 $ vim /etc/puppet/puppet.conf
 {% endhighlight %}
 
-{% highlight console %}
+{% highlight none %}
 [master]
   ...
   data_binding_terminus = jerakia

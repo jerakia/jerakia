@@ -22,7 +22,7 @@ Display jerakia version information
 
 The lookup subcommands take a third argument as the key followed by options
 
-{% highlight console %}
+{% highlight none %}
 jerakia lookup <key> [options]
 {% endhighlight %}
 
@@ -62,12 +62,12 @@ Metadata to send with the request as a space spearated list of command delimited
 ## Examples
 
 ### Looking up data
-{% highlight console %}
+{% highlight none %}
 $ jerakia lookup port --namespace apache
 {% endhighlight %}
 
 ### Providing metadata scope
-{% highlight console %}
+{% highlight none %}
 $ jerakia lookup port --namespace apache \
   --metadata fqdn:localhost.example.com \
   environment:dev
