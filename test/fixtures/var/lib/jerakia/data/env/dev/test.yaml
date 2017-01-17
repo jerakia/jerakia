@@ -1,0 +1,43 @@
+---
+teststring: valid_string
+
+accounts:
+  oracle:
+    uid: 500
+
+
+beers:
+  - cruzcampo
+  - sanmiguel
+
+
+hash:
+  key1:
+    element2: env
+  key2:
+    element3:
+      subelement3: env
+  key3: env
+
+
+admins:
+  - joseph
+  - gerald
+  - craig
+
+  
+jewels:
+  - ruby
+  - opal
+  - diamond
+
+cities:
+  uk: london
+  spain: madrid
+
+databases:
+  mdb:
+    syncrepl:
+      foo: bar
+      taz: tango
+

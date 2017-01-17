@@ -1,0 +1,20 @@
+---
+
+# policydir is where Jerakia policies are stored, by default there are
+# us a default.rb which contains the default policy.
+#
+policydir: /etc/jerakia/policy.d
+
+# Plugins are loaded from the plugin directory specified here
+#
+plugindir: /var/lib/jerakia/plugins
+
+# Logging settings
+#
+loglevel: info
+logfile: /var/log/jerakia/jerakia.log
+
+# Jerakia Server needs to keep some small sqlite databases
+# this location determines where they are stored, if you not
+#
+databasedir: /var/db/jerakia

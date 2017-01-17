@@ -1,0 +1,23 @@
+{
+  "stones": {
+    "alias": {
+      "namespace": "test",
+      "key": "jewels"
+    }
+  },
+
+  "all_stones": {
+    "alias": {
+      "namespace": "test",
+      "key": "jewels"
+    },
+    "cascade": true,
+    "merge": "array"
+  },
+
+  "jewels": {
+    "alias": {
+      "namespace": "test"
+    }
+  }
+}

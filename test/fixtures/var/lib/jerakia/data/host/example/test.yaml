@@ -1,0 +1,15 @@
+---
+users:
+  - bob
+  - lucy
+  - david
+
+
+accounts:
+  apache:
+    uid: 505
+    gid: 505
+  puppet:
+    uid: 506
+    gid: 506
+
