@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+{% include meta.html %}
+  </head>
+  <body>
+{% include topnav.html %}  
+<div class="container">
+
+<a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
+
+<h2>A versatile data lookup system</h2>
+
+<div class="jumbotron jumbotron-fluid">
+
+  <h1><strong>Jerakia 1.2 available</strong></h1>
+
+<div class="row">
+<div class="col-md-8">
+  Jerakia 1.2 is now available, with PuppetDB integration and <i>Jerakia Server</i> to enable REST integration with other tools.  <a href="/releasenotes/1_2">read the release notes</a>
+</div>
+<div class="col-md-4">
+
+<ul>
+<li>Integrated REST API with Jerakia Server</li>
+<li>PuppetDB Integration</li>
+<li>All-in-one package options</li>
+</ul>
+
+</div></div></div>
+<div class="homecontent">
+
+  <div class="row" style="align: center;">
+    <div class="col-md-4" style="align: center;">
+      <img src="/images/icons/interface.png" class="icon">
+      <h2>
+      Hierarchihal data lookups
+      </h2>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+  </div>
+<h1>What?</h1>
+<p>Jerakia is a data lookup tool inspired by Hiera, the lookup system integegrated into Puppet.  It can function as a drop-in replacement for Hiera, or work along side it, as well as integrate with other tools in your automation stack.  Jerakia supports multiple pluggable datasources to allow you to look up data in a hierarchcal fashion from any number of sources.</p>
+
+<h1>Why?</h1>
+<p>Jerakia aims to deliver a high degree of flexibility around data lookup management.  It was initially developed to meet the needs of Hiera users with edge cases that arise when managing complex infrastructures that go beyond the single-customer, small scale implementation and become more diverse and complex.  Data lookup management has become a crucial part of any automation toolchain and where you store and how you query the data that drives your infrastructure has become an increasingly challenging concept.  Jerakia not only aims to provide a flexible way to manage your data but also integrate with a wide variety of tools.  Currently most of the focus has been around Puppet, but with the new API features in 1.2 we are aiming to give users a data lookup platform that can be shared with all the tools they implement, from configuration management to orchestration and CI pipelines.
+</p>
+
+<h1>Support?</h1>
+<p>Jerakia is an open source project and all of our software is released under the Apache 2.0 license therefore you are free to download and use Jerakia for free, and even modify it and distribute copies of it subject to the license. Issues and support requests should be directed to our <a href="https://github.com/crayfishx/jerakia">GitHub page</a>. Users wishing to obtain commercial support for Jerakia should send an enquiry to <a href="http://www.enviatics.com">Enviatics</a> for more information </p>
+
+<h1>OK let's go!</h1>
+<p>We recommend that you read through the <a href="/documentation">documentation</a> before diving straight in to understand how to configure and run Jerakia. Below you'l find some quick links to Jerakia resources.
+</p>
+ </div> 
+
+{% include getjerakia.html %}</div>
+{% include footer.html %}  
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+</body>
+</html>

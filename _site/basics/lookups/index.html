@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Jerakia - A versatile data lookup system">
+<meta name="keywords" content="jerakia, hierarchical data lookup engine, Hiera, Data separation">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/highlight.css">    
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="icon" type="image/png" href="/favicon.png" />
+  </head>
+  <body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+<div class="container">
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>          </button>
+    <a class="navbar-brand" title="Jerakia" href="#"></a>        </div>
+      <div id="navbar" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>              
+    <li><a href="/documentation">Documentation</a></li>
+    </ul>
+    </div>
+</div>
+</nav> 
+    
+      <div class="container">
+      
+    <div class="row">
+                <div class="col-md-3">    
+                <a href="/"><img src="/lerakia-logo.png" alt="Jerakia logo" title="Jerakia - A versatile data lookup system" class="img-responsive"></a>
+                <menusection>
+				<br>
+                <li><a href="/tutorial/"><strong>Quickstart Tutorial</strong></a></li>
+                <ul class="a"></ul>
+                <li><a href="/basics"><strong>Basics</strong></a></li>
+                <ul class="a">
+                  <li><a href="/basics/install">Installing</a></li>
+                  <li><a href="/basics/configure">Configuring</a></li>
+                  <li><a href="/basics/lookups">Understanding Jerakia Lookups</a></li>
+                  <li><a href="/basics/cli">Command line interface</a></li>
+                </ul>
+                <li><a href="/lookups"><strong>Lookups</strong></a></li>
+                <ul class="a">
+                  <li><a href="/lookups/plugins">Using lookup plugins</a></li>
+                  <li><a href="/lookups/hiera">Hiera lookup plugin</a></li>
+                  <li><a href="/lookups/writing_plugins">Writing custom lookup plugins</a></li>
+                </ul>
+                <li><a href="/schemas/"><strong>Schemas</strong></a></li>
+                <ul></ul>
+                <li><a href="/datasources"><strong>Datasources</strong></a></li>
+                <ul class="a">
+                  <li><a href="/datasources/file">File datasource</a></li>
+                  <li><a href="/datasources/http">HTTP datasource</a></li>
+                  <li><a href="/datasources/dummy">Dummy datasource</a></li>
+                </ul>
+                <li><a href="/outputfilters"><strong>Output Filters</strong></a></li>
+                <ul></ul>
+                <li><a href="/scopehandlers"><strong>Scope Handlers</strong></a></li>
+                <ul></ul>
+                <li><a href="/integration/"><strong>Integrating Jerakia</strong></a></li>
+                <ul class="a">
+                  <li><a href="/integration/puppet">Puppet</a></li>
+                </ul>
+                <li><a href="/server"><strong>Jerakia Server</strong></a></li>
+                <ul class="a">
+                  <li><a href="/server/usage">Usage</a></li>
+                  <li><a href="/server/tokens">Authentication tokens</a></li>
+                  <li><a href="/server/api">API documentation</a></li>
+                </ul>
+                <li><a href="/contributing"><strong>Contributing</strong></a></li>
+                <ul class="a">
+                  <li><a href="/contributing/quickenv">30 second spin up!</a></li>
+                </ul>
+                <li><a href="/releasenotes"><strong>Release Notes</strong></a></li>
+                <ul class="a">
+                  <li><a href="/releasenotes/1_2">1.2.0</a></li>
+                </ul>
+                
+                
+                </menusection>
+                </div>
+                <div class="col-md-9">    
+                <h1 id="lookups">Lookups</h1>
+
+<h2 id="hierarchical-data-lookups">Hierarchical Data Lookups</h2>
+
+<p>Hierarchical data lookups solve the problem of having to wrap logic around your data and enable you to store it in a more pure form.  In Jerakia there are two factors used to determine the returned value of a lookup. The <em>hierarchy</em> and the <em>scope</em>.</p>
+
+<h3 id="the-hierarchy">The Hierarchy</h3>
+
+<p>Consider infrastructure data, typically data related to an infrastructure will vary between different environments, or locations, so must either be recorded separately for each diferenciation or centralized and wrapped in logic.  Often we will want to define defaults for things that may ore may not be overridden in particular situations.  For this we use a <em>hierarchy</em>.  A hierarchy in Jerakia is entirely arbirarty and can have as many levels as you require to model the data effectivly.  Consider the following simple hierarchy representing infrastructure;</p>
+
+<p><img src="/images/hierarchy.png" alt="A simple hierarchy" class="center-image" /></p>
+
+<p>When performing a lookup for a key using this hierarchy, first we will check to see if there is any host-specific data that matches the key being looked up.  If no data is found, then we fall down to the next level to check if there is any data specific to the environment, if still there is no data then we fall down to location-specific data and then finally we see if there is any data in <em>all</em> which is the level where we would store system wide defaults.   This gives you the ability to declare a key value pair in <em>all</em> and override it just for specific environments, locations or individual hosts.</p>
+
+<h3 id="the-scope">The Scope</h3>
+
+<p>The scope is an essential part of the lookup process and is provided with a request for a key.  The scope contains information that determines the context of the lookup through the hierarchy.  In our above example, a scope may contain the hostname, environment and location of the requestor and this is used by the hierarchy to determine what gets looked up at each level.</p>
+
+<h3 id="with-jerakia">With Jerakia</h3>
+
+<p>In Jerakia we write lookups inside policies.  Policies are written in Ruby DSL which gives a high degree of flexibility in solving complex edge cases.  An example of a simple Jerakia policy to perform a lookup using the above hierarchy and the default <em>file</em> datasource  would be;</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">policy</span> <span class="ss">:default</span> <span class="k">do</span>
+  <span class="n">lookup</span> <span class="ss">:main</span> <span class="k">do</span>
+    <span class="n">datasource</span> <span class="ss">:file</span><span class="p">,</span> <span class="p">{</span>
+      <span class="ss">format:     :yaml</span><span class="p">,</span>
+      <span class="ss">docroot:    </span><span class="s1">'/var/lib/jerakia/data'</span><span class="p">,</span>
+      <span class="ss">searchpath: </span><span class="p">[</span>
+        <span class="s2">"hostname/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:certname</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"environment/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:environment</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"location/</span><span class="si">#{</span><span class="n">scope</span><span class="p">[</span><span class="ss">:location</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s1">'all'</span><span class="p">,</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Our search hierarchy is defined in the <code class="highlighter-rouge">searchpath</code> parameter and it uses elements from the scope to expand an ordered list of file paths to search for data.  <a href="/basics/lookups">Learn more about Jerakia lookups</a></p>
+
+<h2 id="understanding-jerakia-lookups">Understanding Jerakia lookups</h2>
+
+<p>There are three important things that are contained within a Jerakia lookup, these are ;</p>
+
+<h4 id="the-lookup-key">The lookup <em>key</em></h4>
+<p>The key is the item that we are looking up and contains the value</p>
+
+<h4 id="the-lookup-namespace">The lookup <em>namespace</em></h4>
+<p>In Jerakia, each key is stored within a namespace.  A namespace can itself be a hierarchy and is sent within the lookup as an array.  When using Jerakia with Puppet, the namespace is built from the Puppet class that is requesting the lookup.  Hiera users will be familar with the concept of <code class="highlighter-rouge">$port</code> in the <code class="highlighter-rouge">apache</code> class being configured in Hiera as a single key called <code class="highlighter-rouge">apache::port</code>.  In Jerakia, this data would be stored as the <em>key</em> <code class="highlighter-rouge">port</code> in the <em>namespace</em> <code class="highlighter-rouge">apache</code>.</p>
+
+<h4 id="the-lookup-scope">The lookup <em>scope</em></h4>
+<p>The scope is key/value information sent by the requestor and is used by the datasource to determine how to lookup the data.  Scope may contain any information such as environments, locations, names or roles of the requestor.  When using Jerakia with Puppet in it’s default mode, the scope would contain all of the facts and top-level variables of the agent.</p>
+
+<h4 id="the-datasource">The datasource</h4>
+<p>Jerakia lookup always define a datasource to use for the lookup request.   Datasources are pluggable, by default Jerakia ships with <em>file</em> and <em>http</em>.</p>
+
+<h4 id="the-output-filter">The output filter</h4>
+<p>Once a datasource has returned an answer, that answer is optionally passed to a configurable output filter (such as <code class="highlighter-rouge">encryption</code> or <code class="highlighter-rouge">strsub</code>) which has the ability to modify the answer before it gets sent back to the requestor.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p><img src="/images/jerakia_flow.png" alt="A Jerakia Lookup" class="center-image" /></p>
+
+<p>Learn more about <a href="/lookups">How to configure Jerakia lookups</a></p>
+
+                </div>
+    </div>
+</div>
+
+    
+<footer class="footer">
+    <div class="container">
+        <div class="row" style="background-color:#3b3b3b;">
+	        <div class="col-md-3 cen" style="padding-top:14px;">Hosted by <a href="https://pages.github.io/" class="fl">GitHub Pages</a></div>
+    		    <div class="col-md-9" align="right"><img src="/images/sponsoredby.png">
+		<a href="http://www.enviatics.com/"><img src="/images/logo_enviatics.png" class="img-rounded"></a>
+        <a href="http://baloise.github.io/"><img src="/images/logo_baloise_Fotor.png" class="img-rounded"></a>
+        <a href="http://vrsites.com/"><img src="/images/logo_vrsites.png" class="img-rounded"></a>        
+        	</div>
+        </div>    
+    </div>
+</footer>
+   
+    
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+  </body>
+</html>
