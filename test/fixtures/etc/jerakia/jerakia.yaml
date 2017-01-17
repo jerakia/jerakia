@@ -4,6 +4,10 @@ logfile: /dev/null
 loglevel: debug
 plugindir: test/fixtures/etc/jerakia/lib
 
+# Location of internal Jerakia databases used for scope storage, token management..etc
+#databasedir: test/fixtures/var/db/jerakia
+databasedir: /tmp
+
 
 schema:
   docroot: test/fixtures/var/lib/jerakia/schema
@@ -11,3 +15,6 @@ schema:
 plugins:
   hiera:
     foo: bar
+
+server:
+  port: 9999

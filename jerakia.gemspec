@@ -15,5 +15,10 @@ Gem::Specification.new do |s|
   s.license     = 'Apache 2.0'
   s.add_dependency 'thor', '~> 0.19'
   s.add_dependency 'deep_merge', '~> 1.0'
-  s.add_dependency('lookup_http', '>=1.0.0')
+  s.add_dependency 'lookup_http', '>=1.0.0'
+  s.add_dependency 'sinatra', '< 2.0'
+  s.add_dependency 'data_mapper', '~> 1.2'
+  s.add_dependency 'dm-sqlite-adapter', '~> 1.2'
+  s.add_dependency 'thin', '~> 1.6'
+
 end
