@@ -32,4 +32,12 @@ Jerakia 1.2 also ships as a completely self contained system package available o
 There are two repositories available,  `testing` contains experimental and pre-releases and should never be used in production, these are for people wishing to test the latest features of Jerakia before they are released.  The `stable` repo contains official releases.
 
 
+## Install Jerakia using Docker
 
+Jerakia 1.2 also ships in a docker container, to use it simply pull it from Docker Hub
+
+{% highlight none %}
+# docker pull crayfishx/jerakia
+{% endhighlight %}
+
+See [the documentation on Docker Hub](https://hub.docker.com/r/crayfishx/jerakia/) for more information on usage
