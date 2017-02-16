@@ -1,5 +1,10 @@
 # Jerakia Release Notes
 
+### 1.2.1
+
+* Fixed omision from 1.2 that failed to authenticate tokens using the API
+
+
 ## 1.2.0
 
 * New feature, Jerakia Server
