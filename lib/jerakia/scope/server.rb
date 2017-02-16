@@ -30,11 +30,11 @@ class Jerakia::Scope
       realm = request.scope_options['realm']
       identifier = request.scope_options['identifier']
 
-      raise Jerakia::Error, "Must supply realm and identifier for server scope handler" unless realm and identifier
+      raise Jerakia::ScopeError, "Must supply realm and identifier for server scope handler" unless realm and identifier
       resource = Jerakia::Scope::Server.find(realm, identifier)
-      raise Jerakia::Error, "No scope data found for realm:#{realm} identifier:#{identifier}" if resource.nil?
+      raise Jerakia::ScopeError, "No scope data found for realm:#{realm} identifier:#{identifier}" if resource.nil?
       scope = resource.scope
-      raise Jerakia::Error, "Scope did not return a hash for realm:#{realm} identifier:#{identifier}" unless scope.is_a?(Hash)
+      raise Jerakia::ScopeError, "Scope did not return a hash for realm:#{realm} identifier:#{identifier}" unless scope.is_a?(Hash)
       @value = Hash[ scope.map { |k,v| [ k.to_sym, v ] } ]
     end
 
