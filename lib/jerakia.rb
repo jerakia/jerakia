@@ -43,7 +43,10 @@ class Jerakia
     lookup_instance.invoke_from_file
     lookup_instance.answer
   rescue Jerakia::Error => e
+    raise e
+  rescue Exception => e
     Jerakia.fatal(e.message, e)
+    raise e
   end
 
   def self.fatal(msg, e)
