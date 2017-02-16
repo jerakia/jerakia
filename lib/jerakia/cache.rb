@@ -12,11 +12,11 @@ class Jerakia::Cache
   def initialize
   end
 
-  def add(index, data, metadata={})
-    self.class.add(index,data, metadata)
+  def add(index, data, metadata = {})
+    self.class.add(index, data, metadata)
   end
 
-  def self.add(index, data, metadata={})
+  def self.add(index, data, metadata = {})
     @bucket[index] ||= {}
     ## The cache bucket is a global class object, therefore we should
     ## always store a copy of the data object, not the actual object
@@ -31,18 +31,15 @@ class Jerakia::Cache
   end
 
   def self.metadata(index)
-    if in_bucket?(index)
-      Marshal.load(Marshal.dump(@bucket[index][:metadata]))
-    end
+    Marshal.load(Marshal.dump(@bucket[index][:metadata])) if in_bucket?(index)
   end
-
 
   def in_bucket?(index)
     self.class.in_bucket?(index)
   end
 
   def self.in_bucket?(index)
-    bucket.has_key?(index)
+    bucket.key?(index)
   end
 
   ## default behaviour is always validate if exists.
