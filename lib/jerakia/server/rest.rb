@@ -45,6 +45,7 @@ class Jerakia
       end
 
       before do
+        authenticate!
         content_type 'application/json'
       end
 
