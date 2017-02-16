@@ -20,7 +20,7 @@ class Jerakia::Datasource
         Jerakia.log.debug("Querying cache for file #{diskname}")
         cache.retrieve(diskname)
       else
-        ::File.read(diskname) if ::File.exists?(diskname)
+        ::File.read(diskname) if ::File.exist?(diskname)
       end
     end
 

@@ -6,7 +6,6 @@ require 'jerakia/cli/server'
 require 'jerakia/cli/token'
 require 'jerakia/cli/lookup'
 
-
 class Jerakia
   class CLI < Thor
     include Jerakia::CLI::Server

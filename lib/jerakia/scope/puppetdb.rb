@@ -8,7 +8,7 @@ class Jerakia::Scope
       puppetdb_api  = request.scope_options['puppetdb_api'] || 4
       node = request.scope_options['node']
 
-      raise Jerakia::Error, "Must pass the option node to the puppetdb scope handler" unless node
+      raise Jerakia::Error, 'Must pass the option node to the puppetdb scope handler' unless node
 
       connection_opts = {
         :host => puppetdb_host,
@@ -18,7 +18,7 @@ class Jerakia::Scope
       }.merge(request.scope_options['puppetdb_http_opts'] || {})
 
       puppetdb_con = LookupHttp.new(connection_opts)
-      
+
       case puppetdb_api
       when 4
         path = "/pdb/query/v4/nodes/#{node}/facts"
@@ -32,7 +32,7 @@ class Jerakia::Scope
 
       raise Jerakia::Error, "PuppetDB returned no data for node #{node}" unless response.is_a?(Array)
 
-      response.each { |r| value[r['name'].to_sym] =  r['value'] }
+      response.each { |r| value[r['name'].to_sym] = r['value'] }
     end
   end
 end

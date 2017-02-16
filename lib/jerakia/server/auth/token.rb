@@ -6,13 +6,11 @@ require 'jerakia/config'
 class Jerakia
   class Server
     class Auth
-
       Jerakia.log.debug("Authentication database sqlite://#{Jerakia.config[:vardir]}/tokens.db")
 
       DataMapper.setup(:tokens, "sqlite://#{Jerakia.config[:databasedir]}/tokens.db")
 
       class Token
-
         include DataMapper::Resource
         include BCrypt
 
