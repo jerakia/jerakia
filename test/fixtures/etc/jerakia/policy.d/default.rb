@@ -29,7 +29,6 @@ policy :default do
         "common",
     ],
     }
-
     exclude request.key, "skippy"
   end
 end

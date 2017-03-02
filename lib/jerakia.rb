@@ -15,6 +15,7 @@ class Jerakia
   require 'jerakia/error'
 
   attr_reader :options
+  attr_reader :launcher
 
   class << self
     attr_reader :config
@@ -26,6 +27,7 @@ class Jerakia
 
   def initialize(options = {})
     @options = options
+    @policies = {}
 
     load_config
     load_log_handler
@@ -36,14 +38,11 @@ class Jerakia
 
     log.debug('Jerakia initialized')
     Jerakia.log.verbose("Jerakia started. Version #{Jerakia::VERSION}")
+    @launcher = Jerakia::Launcher.new
   end
 
   def lookup(request)
-    lookup_instance = Jerakia::Launcher.new(request)
-    lookup_instance.invoke_from_file
-    lookup_instance.answer
-  rescue Jerakia::Error => e
-    Jerakia.fatal(e.message, e)
+    launcher.policies[request.policy.to_sym].run(request)
   end
 
   def self.fatal(msg, e)

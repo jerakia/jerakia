@@ -1,4 +1,4 @@
-policy :hiera do
+policy :hiera_autorun do
 
   lookup :default, :use => :hiera do
     datasource :file, {

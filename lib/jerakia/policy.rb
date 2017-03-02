@@ -6,80 +6,44 @@ class Jerakia
   class Policy
     attr_accessor :lookups
     attr_reader   :answer
-    attr_reader   :scope
-    attr_reader   :lookup_proceed
     attr_reader   :schema
-    attr_reader   :request
+
+    attr_reader   :name
 
     # _opts currently does not get used, but is included here as a placeholder
     # for allowing policies to be declared with options;
     # policy :foo, :option => :value do
     #
-    def initialize(_name, _opts, req)
-      if req.use_schema && Jerakia.config[:enable_schema]
-        schema_config = Jerakia.config[:schema] || {}
-        @schema = Jerakia::Schema.new(req, schema_config)
-      end
-
+    def initialize(name, _opts)
+      @name = name
       @lookups = []
-      @request = req
-      @answer = Jerakia::Answer.new(req.lookup_type)
-      @scope = Jerakia::Scope.new(req)
-      @lookup_proceed = true
     end
 
-    def clone_request
+    def run(request)
+
+      if request.use_schema && Jerakia.config[:enable_schema]
+        schema_config = Jerakia.config[:schema] || {}
+        @schema = Jerakia::Schema.new(request, schema_config)
+      end
+
+      scope = Jerakia::Scope.new(request)
+      answer = Jerakia::Answer.new(request.lookup_type, request.merge)
+
+      response_entries = []
+      lookups.each do |lookup|
+        lookup_instance = lookup.call clone_request(request), scope
+        next unless lookup_instance.valid? && lookup_instance.proceed?
+        responses = lookup_instance.run
+        lookup_answers = responses.entries.map { |r| r}
+        response_entries << lookup_answers if lookup_answers
+      end
+      answer.process_response(response_entries)
+      return answer
+    end
+
+    def clone_request(request)
       Marshal.load(Marshal.dump(request))
     end
 
-    def submit_lookup(lookup)
-      raise Jerakia::PolicyError, "Lookup #{lookup.name} has no datasource defined" unless lookup.get_datasource
-      @lookups << lookup if lookup.valid? && @lookup_proceed
-      @lookup_proceed = false if !lookup.proceed? && lookup.valid?
-    end
-
-    def execute
-      response_entries = []
-
-      @lookups.each do |l|
-        responses = l.run
-        lookup_answers = responses.entries.map { |r| r }
-        response_entries << lookup_answers if lookup_answers
-      end
-
-      response_entries.flatten.each { |res| process_response(res) }
-      consolidate_answer
-    end
-
-    private
-
-    # Process the response depending on the requests lookup_type
-    # if it is a :first lookup then we only want to set the result
-    # once, if it's cascading, we should ammend the payload array
-    #
-    def process_response(res)
-      case request.lookup_type
-      when :first
-        @answer.payload ||= res[:value]
-        @answer.datatype ||= res[:datatype]
-      when :cascade
-        @answer.payload << res[:value]
-      end
-    end
-
-    # Once all the responses are submitted into the answers payload
-    # we need to consolidate the data based on the merge behaviour
-    # requested.
-    #
-    def consolidate_answer
-      if request.lookup_type == :cascade && @answer.payload.is_a?(Array)
-        case request.merge
-        when :array
-          @answer.flatten_payload!
-        when :hash, :deep_hash
-          @answer.merge_payload!(request.merge)
-        end
-      end
-    end
   end
 end

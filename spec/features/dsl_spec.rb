@@ -8,29 +8,30 @@ describe Jerakia::Launcher do
 
   let(:jerakia) { Jerakia.new(:config =>  "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
   let(:request) {
-    described_class.new(Jerakia::Request.new(
+    Jerakia::Request.new(
       :key => 'teststring',
       :namespace => [ 'test' ],
       :metadata => { 'env' => 'dev' }
-    ))
+    )
   }
 
   
 
   it "should parse a policy" do
-    answer = request.evaluate do
+    custom_policy = described_class.evaluate do
       policy :foo do
         lookup :bar do
           datasource :dummy, { :return => "hello world" }
         end
       end
     end
+    answer = custom_policy.run(request) 
     expect(answer.payload).to eq('hello world')
   end
 
   context "confine" do
     it "should confine a lookup based on metadata scope" do
-      answer = request.evaluate do
+      custom_policy = described_class.evaluate do
         policy :default do
           lookup :first do
             datasource :dummy, { :return => "first lookup" }
@@ -42,9 +43,10 @@ describe Jerakia::Launcher do
           end
         end
       end
+      answer = custom_policy.run(request) 
       expect(answer.payload).to eq('second lookup')
 
-      answer = request.evaluate do
+      custom_policy = described_class.evaluate do
         policy :default do
           lookup :first do
             datasource :dummy, { :return => "first lookup" }
@@ -56,12 +58,13 @@ describe Jerakia::Launcher do
           end
         end
       end
+      answer = custom_policy.run(request) 
       expect(answer.payload).to eq('first lookup')
     end
   end
   context "exclude" do
     it "should exclude a lookup based on metadata scope" do
-      answer = request.evaluate do
+      custom_policy = described_class.evaluate do
         policy :default do
           lookup :first do
             datasource :dummy, { :return => "first lookup" }
@@ -73,9 +76,10 @@ describe Jerakia::Launcher do
           end
         end
       end
+      answer = custom_policy.run(request) 
       expect(answer.payload).to eq('first lookup')
 
-      answer = request.evaluate do
+      custom_policy = described_class.evaluate do
         policy :default do
           lookup :first do
             datasource :dummy, { :return => "first lookup" }
@@ -87,6 +91,7 @@ describe Jerakia::Launcher do
           end
         end
       end
+      answer = custom_policy.run(request) 
       expect(answer.payload).to eq('second lookup')
     end
   end
