@@ -1,14 +1,13 @@
 require 'jerakia/launcher'
 require 'jerakia/answer'
 require 'jerakia/schema'
+require 'jerakia/datasource'
 
 class Jerakia
   class Policy
     attr_accessor :lookups
-    attr_reader   :answer
-    attr_reader   :schema
-
     attr_reader   :name
+    attr_reader   :datasources
 
     # _opts currently does not get used, but is included here as a placeholder
     # for allowing policies to be declared with options;
@@ -17,6 +16,7 @@ class Jerakia
     def initialize(name, _opts)
       @name = name
       @lookups = []
+      @datasources = {}
     end
 
     def run(request)
@@ -33,12 +33,17 @@ class Jerakia
       lookups.each do |lookup|
         lookup_instance = lookup.call clone_request(request), scope
         next unless lookup_instance.valid? && lookup_instance.proceed?
-        responses = lookup_instance.run
+        register_datasource lookup_instance.datasource[:name]
+        responses = Jerakia::Datasource.run(lookup_instance)
         lookup_answers = responses.entries.map { |r| r}
         response_entries << lookup_answers if lookup_answers
       end
       answer.process_response(response_entries)
       return answer
+    end
+
+    def register_datasource(datasource)
+      Jerakia::Datasource.load_datasource(datasource)
     end
 
     def clone_request(request)

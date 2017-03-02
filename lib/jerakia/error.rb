@@ -13,4 +13,7 @@ class Jerakia
 
   class FileParseError < Jerakia::Error
   end
+
+  class DatasourceArgumentError < Jerakia::Error
+  end
 end

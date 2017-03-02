@@ -14,7 +14,6 @@ class Jerakia::Lookup
   attr_reader :output_filters
   attr_reader :name
   attr_reader :pluginfactory
-  attr_reader :datasource
 
   def initialize(name, opts, req, scope)
     @name = name
@@ -58,13 +57,14 @@ class Jerakia::Lookup
     pluginfactory
   end
 
-  def get_datasource
-    @datasource
-  end
-
-  def datasource(source, opts = {})
-    @datasource = Jerakia::Datasource.new(source, self, opts)
-  end
+#  def get_datasource
+#    @datasource
+#  end
+#
+#  def datasource(source, opts = {})
+#    #@datasource = Jerakia::Datasource.new(source, self, opts)
+#    @datasource = { :name => source, :opts => opts }
+#  end
 
   # If set, Jerakia will pass each Jerakia::Response object
   # to an output filter plugin
