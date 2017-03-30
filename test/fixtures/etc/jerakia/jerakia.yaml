@@ -1,7 +1,7 @@
 ---
 policydir: test/fixtures/etc/jerakia/policy.d
 logfile: /dev/null
-loglevel: info
+loglevel: debug
 plugindir: test/fixtures/etc/jerakia/lib
 
 # Location of internal Jerakia databases used for scope storage, token management..etc
