@@ -38,11 +38,13 @@ class Jerakia
       end
           
       def vault_post(data, action='decrypt')
+        url = vault_url(action)
+        Jerakia.log.debug("Connecting to vault at #{url}")
         headers = {
           'X-Vault-Token' => config['vault_token'],
         }
         begin
-          parse_response Jerakia::Util::Http.post(vault_url(action), data, headers)
+          parse_response Jerakia::Util::Http.post(url, data, headers)
         rescue Jerakia::HTTPError => e
           raise Jerakia::EncryptionError, "Error connecting to Vault service: #{e.message}"
         end
