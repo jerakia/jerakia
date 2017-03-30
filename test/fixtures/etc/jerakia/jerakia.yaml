@@ -22,7 +22,6 @@ server:
 encryption:
   provider: vault
   vault_addr: http://127.0.0.1:8200
-  vault_token: bd56bff7-b94e-3ac0-a7d1-fb4efb8c544a
+  vault_token: 6214b46c-7629-ba65-85db-4e11e22af9c2
   vault_keyname: jerakia
-  autogenerate_key: true
 

@@ -1,5 +1,9 @@
 ---
 
+secretthing: "vault:v1:H1rQ/AccOGIJNNazbgAdcKE26x10G3f4uKFGvC/f/PMqRpY9n/BYUYQwJeT7AA=="
+
+root_password: "vault:v1:pszZB6ja5XLEQSRpPFiM4R4l0urw8pi5WO2Jh2Z3FcA9LK6WAeCUUlfJO0PWwF794Q=="
+
 booltrue: true
 boolfalse: false
 

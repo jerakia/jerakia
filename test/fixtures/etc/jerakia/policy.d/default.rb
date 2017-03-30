@@ -30,6 +30,7 @@ policy :default do
     ],
     }
     exclude request.key, "skippy"
+    output_filter :encryption
   end
 end
 

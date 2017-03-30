@@ -35,6 +35,10 @@ class Jerakia
         next unless lookup_instance.valid? && lookup_instance.proceed?
         register_datasource lookup_instance.datasource[:name]
         responses = Jerakia::Datasource.run(lookup_instance)
+        lookup_instance.output_filters.each do |filter|
+          Jerakia.log.debug("Using output filter #{filter[:name]}")
+          responses.filter! filter[:name], filter[:opts]
+        end
         lookup_answers = responses.entries.map { |r| r}
         response_entries << lookup_answers if lookup_answers
       end

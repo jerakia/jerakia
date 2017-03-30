@@ -16,4 +16,11 @@ class Jerakia
 
   class DatasourceArgumentError < Jerakia::Error
   end
+
+  class HTTPError < Jerakia::Error
+  end
+
+  class EncryptionError < Jerakia::Error
+  end
+
 end

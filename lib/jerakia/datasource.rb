@@ -71,16 +71,6 @@ class Jerakia
 
     require 'jerakia/response'
 
-#    @instances = {}
-#
-#    class << self
-#      attr_reader :instances
-#    end
-#
-#    def self.register(instance)
-#      @instances[instance.name] = instance
-#    end
-
     def self.load_datasource(name)
       require "jerakia/datasource/#{name.to_s}"
     end
@@ -96,54 +86,5 @@ class Jerakia
       datasource.lookup
       return datasource.response
     end
-
-     
-
-
-
-
-
-#    def initialize(name, _opts={})
-#      puts "INIT"
-#      @name = name
-#      @options = {}
-#      @features = []
-#      @trigger = nil
-#    
-#      self.class.register(self)
-##      @response = Jerakia::Response.new(lookup)
-##      @options = opts
-##      @lookup = lookup
-##      @name = name
-##      begin
-##        require "jerakia/datasource/#{name}"
-##        eval "extend Jerakia::Datasource::#{name.capitalize}"
-##      rescue LoadError => e
-##        raise Jerakia::Error, "Cannot load datasource #{name} in lookup #{lookup.name}, #{e.message}"
-##      end
-#    end
-
-    ## used for verbose logging
-#    def whoami
-#      "datasource=#{@name}  lookup=#{@lookup.name}"
-#    end
-
-#    def option(opt, data = {})
-#      if @options[opt].nil? && data.key?(:default)
-#        @options[opt] = data[:default]
-#      end
-#
-#      Jerakia.log.debug("[#{whoami}]: options[#{opt}] to #{options[opt]} [#{options[opt].class}]")
-#      if @options[opt].nil?
-#        raise Jerakia::PolicyError, "#{opt} option must be supplied for datasource #{@name} in lookup #{lookup.name}" if data[:mandatory]
-#      else
-#        if data[:type]
-#          if Array(data[:type]).select { |t| @options[opt].is_a?(t) }.empty?
-#            raise Jerakia::PolicyError,
-#                  "#{opt} is a #{@options[opt].class} but must be a #{data[:type]}  for datasource #{@name} in lookup #{lookup.name}"
-#          end
-#        end
-#      end
-#    end
   end
 end

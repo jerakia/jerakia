@@ -57,19 +57,6 @@ class Jerakia::Lookup
     pluginfactory
   end
 
-#  def get_datasource
-#    @datasource
-#  end
-#
-#  def datasource(source, opts = {})
-#    #@datasource = Jerakia::Datasource.new(source, self, opts)
-#    @datasource = { :name => source, :opts => opts }
-#  end
-
-  # If set, Jerakia will pass each Jerakia::Response object
-  # to an output filter plugin
-  #
-
   def scope
     scope_object.value
   end
@@ -131,15 +118,4 @@ class Jerakia::Lookup
     end
   end
 
-  def run
-    Jerakia.log.verbose("lookup: #{@name} key: #{@request.key} namespace: #{@request.namespace.join('/')}")
-    @datasource.run
-    response = @datasource.response
-    @output_filters.each do |filter|
-      response.filter! filter[:name], filter[:opts]
-    end
-    response
-  end
-
-  private
 end

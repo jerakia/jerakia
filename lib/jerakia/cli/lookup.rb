@@ -72,7 +72,6 @@ class Jerakia
             # modifying the request object
             #
             options_copy = options.dup
-
             case true
             when options[:verbose]
               loglevel = 'verbose'
