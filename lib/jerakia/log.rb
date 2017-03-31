@@ -7,7 +7,7 @@ class Jerakia::Log < Jerakia
       raise Jerakia::Error, "Error opening log file, #{e.message}"
     end
 
-    @@level ||= level
+    @@level = level
     case @@level
     when :verbose
       @@logger.level = Logger::INFO

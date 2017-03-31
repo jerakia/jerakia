@@ -1,10 +1,14 @@
 class Jerakia
   class Encryption
 
+    attr_reader :loaded
+
     def initialize(provider=nil)
       if provider.nil?
         provider = config["provider"]
       end
+
+      return nil if provider.nil?
 
       begin
         require "jerakia/encryption/#{provider}"
@@ -17,6 +21,11 @@ class Jerakia
       rescue NameError => e
         raise Jerakia::Error, "Encryption provider #{provider} did not provide class"
       end
+      @loaded = true
+    end
+
+    def loaded?
+      loaded
     end
 
     def features?(feature)
@@ -31,15 +40,7 @@ class Jerakia
     end
 
     def self.config
-      overrides = Jerakia.config[:encryption]
-      defaults = {
-        "provider" => "vault",
-        "vault_keyname" => "jerakia",
-        "vault_addr" => "https://127.0.0.1:8200",
-        "vault_token" => ENV['VAULT_TOKEN'] || nil,
-        "vault_api_version" => 1
-      }
-      defaults.merge(overrides)
+      Jerakia.config[:encryption]
     end
 
     def config

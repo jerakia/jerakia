@@ -6,6 +6,10 @@ class Jerakia::Response
       def filter_encryption(_opts = {})
         Jerakia.log.debug("Encryption filter started")
         provider = Jerakia::Encryption.new
+
+        unless provider.loaded?
+          raise Jerakia::Error, 'Cannot load encryption output filter, no encryption provider configured'
+        end
         unless provider.respond_to?('signiture')
           raise Jerakia::Error, 'Encryption provider did not provide a signiture method, cannot run output filter'
         end
@@ -13,6 +17,10 @@ class Jerakia::Response
         signiture = provider.signiture
         raise Jerakia::Error, "Encryption provider signiture is not a Regexp" unless signiture.is_a?(Regexp)
 
+        # Match the signiture of the provider (from the signiture method) against the string
+        # if the string matches the regex then call the decrypt method of the encryption
+        # provider
+        #
         parse_values do |val|
           if val =~ signiture
             decrypted = provider.decrypt(val)

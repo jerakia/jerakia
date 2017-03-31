@@ -48,7 +48,8 @@ class Jerakia
 
       def self.included(thor)
         thor.class_eval do
-          desc 'secret [SUBCOMMAND] <options>', 'Manage encrypted secrets'
+          info = Secret.provider.loaded? ? "" : "(No encryption provider configured!)"
+          desc 'secret [SUBCOMMAND] <options>', "Manage encrypted secrets #{info}"
           subcommand 'secret', Secret
         end
       end
