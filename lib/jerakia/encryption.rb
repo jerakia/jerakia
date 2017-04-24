@@ -1,6 +1,14 @@
 class Jerakia
   class Encryption
 
+    @handler = nil
+
+    class << self
+      def handler
+        @handler || @handler = self.new
+      end
+    end
+
     attr_reader :loaded
 
     def initialize(provider=nil)
