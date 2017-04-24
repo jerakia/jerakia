@@ -3,3 +3,4 @@
 *.swp
 test/fixtures/var/db/jerakia/*
 /Gemfile.lock
+jerakia-puppet
