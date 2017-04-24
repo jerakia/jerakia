@@ -5,7 +5,7 @@ class Jerakia::Response
     module Encryption
       def filter_encryption(_opts = {})
         Jerakia.log.debug("Encryption filter started")
-        provider = Jerakia::Encryption.new
+        provider = Jerakia::Encryption.handler
 
         unless provider.loaded?
           raise Jerakia::Error, 'Cannot load encryption output filter, no encryption provider configured'
