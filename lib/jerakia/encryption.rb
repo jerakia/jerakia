@@ -40,7 +40,7 @@ class Jerakia
     end
 
     def self.config
-      Jerakia.config[:encryption]
+      Jerakia.config[:encryption] || {}
     end
 
     def config
