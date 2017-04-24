@@ -8,11 +8,9 @@ rvm:
   - 2.0
   - 2.1
   - 2.2
-env:
-  global:
-    - RUBYLIB=./jerakia-puppet/lib
 
-  matrix:
+env:
+ matrix:
     - PUPPET_GEM_VERSION="~> 3.6.2"
     - PUPPET_GEM_VERSION="~> 3.7.0"
     - PUPPET_GEM_VERSION="~> 3.8.0"
@@ -22,6 +20,7 @@ env:
     - PUPPET_GEM_VERSION="~> 4.3.0"
     - PUPPET_GEM_VERSION="~> 4.4.0"
     - PUPPET_GEM_VERSION="~> 4.5.0"
+
 matrix:
   exclude:
     - rvm: 2.2
