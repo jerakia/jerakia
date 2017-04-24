@@ -20,7 +20,7 @@ describe Jerakia do
 
   describe 'Configuring Jerakia' do
     context 'with a nonexistent config file' do
-      let(:subject) { Jerakia.new(config: '/path/to/nothing.yaml') }
+      let(:subject) { Jerakia.new(config: '/path/to/nothing.yaml', logfile: '/dev/null') }
 
       it 'should have our default config' do
         expect(subject.config['policydir']).to eq '/etc/jerakia/policy.d'

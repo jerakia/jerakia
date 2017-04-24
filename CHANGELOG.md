@@ -1,5 +1,16 @@
 # Jerakia Release Notes
 
+### 1.2.1
+
+* Fixed omision from 1.2 that failed to authenticate tokens using the API
+
+
+## 1.2.0
+
+* New feature, Jerakia Server
+* New feature, PuppetDB scope handler
+* This release has many additions, please see the [full release notes](http://jerakia.io/releasenotes/1_2) for complete documentation
+
 ### 1.1.2
 
 * Various bugfixes around resource cloning between lookups, and from the CLI (https://github.com/crayfishx/jerakia/pull/61).

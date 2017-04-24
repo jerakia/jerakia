@@ -3,14 +3,14 @@ require 'jerakia/cache/file'
 class Jerakia
   module Dsl
     class Policy
-      def self.evaluate_file(filename, request)
-        policy = new(request)
+      def self.evaluate_file(filename)
+        policy = new
         policy.evaluate_file(filename)
         policy.instance
       end
 
-      def self.evaluate(request, &block)
-        policy = new(request)
+      def self.evaluate(&block)
+        policy = new
         policy.instance_eval &block
         policy.instance
       end
@@ -18,8 +18,7 @@ class Jerakia
       attr_accessor :request
       attr_reader   :instance
 
-      def initialize(req)
-        @request = req
+      def initialize()
       end
 
       def evaluate_file(filename)
@@ -33,7 +32,7 @@ class Jerakia
       end
 
       def policy(name, opts = {}, &block)
-        @instance = Jerakia::Policy.new(name, opts, request)
+        @instance = Jerakia::Policy.new(name, opts)
         Jerakia::Dsl::Policyblock.evaluate(instance, &block)
       end
     end
@@ -51,7 +50,11 @@ class Jerakia
       end
 
       def lookup(name, opts = {}, &block)
-        Jerakia::Dsl::Lookup.evaluate(name, policy, opts, &block)
+        Jerakia.log.debug("Adding lookup #{name} for policy #{policy}")
+        policy.lookups << Proc.new do |request, scope| 
+          Jerakia.log.debug("Invoking lookup #{name}")
+          Jerakia::Dsl::Lookup.evaluate(name, request, scope, opts, &block)
+        end
       end
     end
   end

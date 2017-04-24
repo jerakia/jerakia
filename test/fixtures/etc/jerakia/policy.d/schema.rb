@@ -1,6 +1,5 @@
-policy :default do
+policy :schema do
   lookup :default do
-    puts "#{request.lookup_type} is my lookup type"
     datasource :file, {
       :docroot    => "test/fixtures/var/lib/jerakia/data",
       :format     => :yaml,

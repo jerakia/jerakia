@@ -1,40 +1,38 @@
 class Jerakia
   module Dsl
     class Lookup
-      attr_reader :policy
       attr_reader :request
+      attr_reader :scope_object
       attr_accessor :lookup
 
-      def initialize(name, policy, opts = {})
-        @policy = policy
-        @request = policy.clone_request
-        scope   = policy.scope
-        @lookup = Jerakia::Lookup.new(name, opts, @request, scope)
+      def initialize(name, request, scope, opts = {})
+        @request = request
+        @scope_object = scope
+        @lookup = Jerakia::Lookup.new(name, opts, request, scope)
       end
 
-      def self.evaluate(name, policy, opts, &block)
-        lookup_block = new(name, policy, opts)
+      def self.evaluate(name, request, scope, opts, &block)
+        lookup_block = new(name, request, scope, opts)
         lookup_block.instance_eval &block
-        policy.submit_lookup(lookup_block.lookup)
+        return lookup_block.lookup
       end
 
       # define the data source for the lookup
       # @api: public
       def datasource(name, opts = {})
-        datasource = Jerakia::Datasource.new(name, lookup, opts)
-        lookup.datasource = datasource
-      end
-
-      # give access to the lookup scope object
-      # @api: public
-      def scope
-        lookup.scope
+        lookup.datasource = { :name => name, :opts => opts }
+        #datasource = Jerakia::Datasource.new(name, lookup, opts)
+        #lookup.datasource = datasource
       end
 
       # pass through exposed functions from the main lookup object
       # @api: public
       def confine(*args)
         lookup.confine(*args)
+      end
+
+      def scope
+        @scope_object.value
       end
 
       def exclude(*args)

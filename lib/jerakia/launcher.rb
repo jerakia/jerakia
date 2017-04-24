@@ -8,15 +8,27 @@ class Jerakia
   class Launcher
     attr_reader :request
     attr_reader :answer
+    attr_reader :policies
 
-    def initialize(req)
-      @request = req
+    def initialize
+      @policies = {}
+      policy_files.each do |policy_file|
+        policy = Jerakia::Dsl::Policy.evaluate_file(policy_file)
+        raise Jerakia::PolicyError, "Policy #{policy.name} declared twice" if @policies[policy.name]
+        @policies[policy.name] = policy
+      end
     end
 
-    def evaluate(&block)
-      policy = Jerakia::Dsl::Policy.evaluate(request, &block)
-      policy.execute
-      @answer = policy.answer
+    def policy_dir
+      Jerakia.config.policydir
+    end
+
+    def policy_files
+      Dir[File.join(policy_dir, '*.rb')]
+    end
+
+    def self.evaluate(&block)
+      Jerakia::Dsl::Policy.evaluate(&block)
     end
 
     def invoke_from_file
