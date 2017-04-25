@@ -45,7 +45,7 @@ class Jerakia
         login_data = { "role_id" => role_id }
         login_data['secret_id'] = secret_id unless secret_id.nil?
 
-        response = vault_post(login_data, :login, {})
+        response = vault_post(login_data, :login, false)
         @approle_token = response['auth']['client_token']
         Jerakia.log.debug("Recieved authentication token from vault server, ttl: #{response['auth']['lease_duration']}")
       end
@@ -118,7 +118,7 @@ class Jerakia
         end
       end
           
-      def vault_post(data, action, headers={'X-Vault-Token' => token})
+      def vault_post(data, action, use_token=true, headers={})
         url = url_path(action)
         http_options = {}
 
@@ -134,10 +134,12 @@ class Jerakia
         Jerakia.log.debug("Connecting to vault at #{url}")
         tries = 0
         begin
+          headers['X-Vault-Token'] = token if use_token
           tries += 1
           parse_response Jerakia::Util::Http.post(url, data, headers, http_options)
         rescue Jerakia::Encryption::Vault::AuthenticationError => e
           Jerakia.log.debug("Encountered Jerakia::Encryption::Vault::AuthenticationError, retrying with new token (#{tries})")
+
           login
           retry if tries < 2
           raise
