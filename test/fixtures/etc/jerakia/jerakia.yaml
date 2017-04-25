@@ -21,12 +21,9 @@ server:
 
 encryption:
   provider: vault
-  vault_addr: https://127.0.0.1:8200
-#  vault_token: 6ec3a5ec-86ee-ef2e-5b0b-3166e1bf494b
+  vault_addr: http://127.0.0.1:8200
   vault_role_id: f69fa770-5e81-c38f-a88e-c17e3b189e98
   vault_secret_id: e006540e-8388-4039-aa5f-c696c4eecf64
-  vault_ssl_key: test/fixtures/ssl/test_vault.key
-  vault_ssl_cert: test/fixtures/ssl/test_vault.crt
-  vault_ssl_verify: false
   vault_keyname: jerakia
+  vault_use_ssl: false
 
