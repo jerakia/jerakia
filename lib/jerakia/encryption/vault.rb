@@ -139,6 +139,11 @@ class Jerakia
         rescue Jerakia::Encryption::Vault::AuthenticationError => e
           Jerakia.log.debug("Encountered Jerakia::Encryption::Vault::AuthenticationError, retrying with new token (#{tries})")
           login
+
+          # We need to reset the token in the headers hash if it exists, otherwise the next request
+          # will proceed with the old token
+          headers['X-Vault-Token'] = token if headers['X-Vault-Token']
+
           retry if tries < 2
           raise
         rescue Jerakia::HTTPError => e
