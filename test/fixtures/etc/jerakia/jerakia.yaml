@@ -17,4 +17,13 @@ plugins:
     foo: bar
 
 server:
-  port: 9999
+  port: 9992
+
+encryption:
+  provider: vault
+  vault_addr: http://127.0.0.1:8200
+  vault_role_id: f69fa770-5e81-c38f-a88e-c17e3b189e98
+  vault_secret_id: e006540e-8388-4039-aa5f-c696c4eecf64
+  vault_keyname: jerakia
+  vault_use_ssl: false
+

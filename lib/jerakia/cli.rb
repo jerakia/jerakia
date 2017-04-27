@@ -5,13 +5,15 @@ require 'yaml'
 require 'jerakia/cli/server'
 require 'jerakia/cli/token'
 require 'jerakia/cli/lookup'
-
+require 'jerakia/cli/secret'
 
 class Jerakia
   class CLI < Thor
     include Jerakia::CLI::Server
     include Jerakia::CLI::Lookup
     include Jerakia::CLI::Token
+    include Jerakia::CLI::Secret
+
 
     desc 'version', 'Version information'
     def version

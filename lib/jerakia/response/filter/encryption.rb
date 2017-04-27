@@ -1,50 +1,33 @@
-# Parts of this class are copied from https://github.com/TomPoulton/hiera-eyaml/blob/master/lib/hiera/backend/eyaml_backend.rb
-# The MIT License (MIT)
-#
-# Copyright (c) 2013 Tom Poulton
-#
-# Other code Copyright (c) 2014 Craig Dunn, Apache 2.0 License.
-#
-
-require 'hiera/backend/eyaml/encryptor'
-require 'hiera/backend/eyaml/utils'
-require 'hiera/backend/eyaml/options'
-require 'hiera/backend/eyaml/parser/parser'
-require 'hiera/filecache'
-
-require 'yaml'
+require 'jerakia/encryption'
 
 class Jerakia::Response
   module Filter
     module Encryption
       def filter_encryption(_opts = {})
+        Jerakia.log.debug("Encryption filter started")
+        provider = Jerakia::Encryption.handler
+
+        unless provider.loaded?
+          raise Jerakia::Error, 'Cannot load encryption output filter, no encryption provider configured'
+        end
+        unless provider.respond_to?('signiture')
+          raise Jerakia::Error, 'Encryption provider did not provide a signiture method, cannot run output filter'
+        end
+
+        signiture = provider.signiture
+        raise Jerakia::Error, "Encryption provider signiture is not a Regexp" unless signiture.is_a?(Regexp)
+
+        # Match the signiture of the provider (from the signiture method) against the string
+        # if the string matches the regex then call the decrypt method of the encryption
+        # provider
+        #
         parse_values do |val|
-          decrypt val if val.is_a?(String)
+          if val =~ signiture
+            decrypted = provider.decrypt(val)
+            val.clear.insert(0, decrypted)
+          end
           val
         end
-      end
-
-      def decrypt(data)
-        if encrypted?(data)
-          public_key = config['eyaml']['public_key']
-          private_key = config['eyaml']['private_key']
-          Hiera::Backend::Eyaml::Options[:pkcs7_private_key] = private_key
-          Hiera::Backend::Eyaml::Options[:pkcs7_public_key] = public_key
-          parser = Hiera::Backend::Eyaml::Parser::ParserFactory.hiera_backend_parser
-
-          tokens = parser.parse(data)
-          decrypted = tokens.map(&:to_plain_text)
-          plaintext = decrypted.join
-          Jerakia.log.debug(plaintext)
-          plaintext.chomp!
-          data.clear.insert(0, plaintext)
-        else
-          data
-        end
-      end
-
-      def encrypted?(data)
-        /.*ENC\[.*?\]/ =~ data ? true : false
       end
     end
   end

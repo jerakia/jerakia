@@ -4,9 +4,12 @@ class Jerakia
 
     attr_accessor :payload
     attr_accessor :datatype
+    attr_reader :merge_strategy
     attr_reader :lookup_type
 
-    def initialize(lookup_type = :first)
+    def initialize(lookup_type = :first, merge_strategy = :array)
+      @lookup_type = lookup_type
+      @merge_strategy = merge_strategy
       case lookup_type
       when :first
         @payload = nil
@@ -16,17 +19,44 @@ class Jerakia
       end
     end
 
+    def process_response(response_entries)
+      response_entries.flatten.each do |res|
+        case lookup_type
+        when :first
+          @payload = res[:value]
+          @datatype = res[:datatype]
+          Jerakia.log.debug("Registered answer as #{payload}")
+          break
+        when :cascade
+          @payload << res[:value]
+        end
+      end
+      consolidate
+    end
+
+    def consolidate
+      if lookup_type == :cascade && payload.is_a?(Array)
+        case merge_strategy
+        when :array
+          flatten_payload!
+        when :hash, :deep_hash
+          merge_payload!
+        end
+      end
+    end
+
+
     def flatten_payload!
       @payload.flatten!
     end
 
     # TODO: consolidate this into less lines
     #
-    def merge_payload!(method = :hash) # rubocop:disable Metrics/MethodLength
+    def merge_payload! # rubocop:disable Metrics/MethodLength
       payload_hash = {}
       @payload.each do |p|
         next unless p.is_a?(Hash)
-        case method
+        case merge_strategy
         when :hash
           payload_hash = p.merge(payload_hash)
         when :deep_hash

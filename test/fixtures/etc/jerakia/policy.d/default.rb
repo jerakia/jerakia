@@ -29,8 +29,8 @@ policy :default do
         "common",
     ],
     }
-
     exclude request.key, "skippy"
+    output_filter :encryption
   end
 end
 

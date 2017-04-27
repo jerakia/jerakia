@@ -66,13 +66,13 @@ class Jerakia
                  efault: 'json',
                  desc: 'Output format, yaml or json'
 
-          def lookup(key)
+          def lookup(key=nil)
             # Thor by default now returns a frozen options hash so we
             # need to dup this here to prevent problems later with
             # modifying the request object
             #
             options_copy = options.dup
-
+            key_copy = key.nil? ? key : key.dup
             case true
             when options[:verbose]
               loglevel = 'verbose'
@@ -91,7 +91,7 @@ class Jerakia
                                 :loglevel => loglevel,
                                 :trace    => options[:trace])
               req = Jerakia::Request.new(
-                :key           => key.dup,
+                :key           => key_copy,
                 :namespace     => options_copy[:namespace].split(/::/),
                 :policy        => options_copy[:policy].to_sym,
                 :lookup_type   => options_copy[:type].to_sym,
