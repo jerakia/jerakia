@@ -27,7 +27,7 @@ policy :default do
   lookup :main do
     datasource :file, {
       :format => :yaml,
-      :docroot => "/var/lib/jerakia",
+      :docroot => "/var/lib/jerakia/data",
       :searchpath => [
         "hostname/#{scope[:fqdn]}",
         "environment/#{scope[:environment]}",

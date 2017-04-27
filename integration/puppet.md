@@ -7,64 +7,96 @@ layout: default
 
 ## Introduction
 
-There are numerous integration points between Jerakia and Puppet and it's not always clear exactly what method you should use.  The reason for this is primarily that Puppet themselves are going through somewhat of a state of transition when it comes to data lookups, with the arrival of Hiera 5 in Puppet 4.9 and the planned deprecation of older legacy data lookup integration points such as the `data_binding_terminus` and the eventual deprecation of the current implementation of Hiera in future releases.  These changes are happening over a long period of time to allow for users to sucessfully migrate, so in turn that means that Jerakia needs to be able to support the older (and still valid) ways of integrating external data providers and the newer methods being introduced in Puppet 4.9.
+Jerakia can be integrated with Puppet using a Hiera 5 data provider function that is available as part of the [crayfishx/jerakia](https://forge.puppet.com/crayfishx/jerakia) Puppet module.
 
-Below is a summary of the ways to integrate Jerakia with Hiera.
+If you are running older versions of Puppet please see the [Legacy Puppet Integration](/integration/puppet_legacy.md) documentation
 
-### Data binding terminus
+## Installing the module
 
-A `data_binding_terminus` is ruby code that is called directly from Puppet and is used to pass lookups.   It is configured with the `data_binding_terminus` in `puppet.conf`.  Historically most users have only used `none` or `hiera` for this option.
+You first need to install the Puppet module to your Puppet master in order to make the data provider function available to Puppet
 
-#### Native binding
-
-Jerakia ships with a terminus called `jerakia` that is a drop-in replacement for the current `hiera` one and can be enabled by configuring the following in `puppet.conf`
-
-{% highlight bash %}
-[main]
-data_binding_terminus = jerakia
+{% highlight none %}
+# puppet module install crayfishx/jerakia
 {% endhighlight %}
 
-In order for this terminus to work, the Jerakia ruby libraries must be loadable from Puppet.  If you have installed Jerakia from the AIO system packages, you will need to also add the gem to Puppets' ruby in order to use this implementation.
+Next you will need to [create a token](/server/tokens) that Hiera can use to authenticate it with Jerakia Server
 
-#### REST Client binding (experimental)
+{% highlight none %}
+# jerakia token create puppet
 
-If you have installed Jerakia 1.2+ from the AIO system package, and do not want to also maintain a separate copy of Jerakia core as a rubygem in Puppet, or if you wish to run Puppet and Jerakia on separate servers, there is a new (currently experimental) data binding terminus called `jerakiaserver` that ships in an external rubygem, `jerakia-puppet`, that uses the `jerakia-client` ruby libraries to integrate with Jerakia Server over HTTP REST.
+puppet:ac2a313db95bf5d034732d9c8b202ed61b0c369fffe61cd3bdce7642df9bf8602094d01fc35c82a5
+{% endhighight %}
 
-In order to use this terminus, the `puppet-databinding-jerakiaserver` rubygem must be loadable from Puppets' Ruby 
+## Configure Hiera
 
-It can be configured in `puppet.conf` with
-{% highlight bash %}
-data_binding_terminus = jerakiaserver
+To enable Jerakia in your Hiera 5 configuration it should be configured as a `lookup_key` entry.  See [The offical Puppet Documentation](https://docs.puppet.com/puppet/4.9/hiera_intro.html) for detailed information on configuring Hiera 5.   This configuration assumes you are using Jeraia as a global-layer Hiera backend - it could equally be configured at an environment or module level.
+
+{% highlight none %}
+# vim /etc/puppetlabs/puppet/hiera.yaml
 {% endhighlight %}
-
-Note that the `data_binding_terminus` feature of Puppet is being deprecated and is expected to be removed in Puppet 6.0
-
-### Hiera 3.x backend
-
-Jerakia ships with a Hiera 3.x backend that loads Jerakia directly and passes lookup requests. It has slightly slower performance than using the data binding terminus but otherwise operates transparently.  To enable the Jerakia Hiera backend you need to have the Jerakia gem loadable from Puppets' ruby path.  It can be configured simply with;
 
 {% highlight yaml %}
----
-:backends:
-  - jerakia
+version: 5
+
+hierarchy:
+  - name: "Jerakia Server"
+    lookup_key: jerakia
+    options:
+      token: puppet:ac2a313db95bf5d034732d9c8b202ed61b0c369fffe61cd3bdce7642df9bf8602094d01fc35c82a5
 {% endhighlight %}
 
-Optional configuration can be given as a hash named `:jerakia`....
+The `options` hash of the Hiera entry can contain options to pass to `jerakia-client`:
+
+* `host`: Hostname or IP to connect to (default localhost)
+* `port`: Port to connect to (default 9843)
+* `api`: The Jerakia Server API version impemented on the server (default v1)
+* `proto`: The protocol to use, `http` or `https` are supported, `http` is the default.
+* `token`: The authentication token to use in the request,  if no token is specified jerakia-client will look for a `jerakia.yaml` file in `/etc/jerakia` and `~/.jerakia` for a key called `client_token`
+
+It also support:
+
+* `policy` : the Jerakia policy to use for the lookup (defaults to "default")
+* `scope` : A hash to send as the scope object (see below)
+
+### Defining the scope
+
+A Jerakia lookup contains a scope, which is a set of data that controls where data is looked up from.  An example of this can be seen in the default policy that is configured when you first install the Jerakia package;
+
+{% highlight none %}
+# vim /etc/jerakia/policy.d/default.rb
+{% endhighlight %}
+
+{% highlight ruby %}
+policy :default do
+  lookup :main do
+    datasource :file, {
+      :docroot => '/var/lib/jerakia/data',
+      :searchpath => [
+        "hostname/#{scope[:certname]}",
+        "environment/#{scope[:environment]}",
+        "common",
+      ],
+      :format => :yaml
+    }
+    output_filter :encryption
+  end
+end
+{% endhighlight %}
+
+
+Here we see the main lookup we use the scope attributes `:certname` and `:environment`.  In order for Jerakia to know what these values are, we must pass them by defining them in the `hiera.yaml` file using the `scope` option of the options hash.  So in this example, our `hiera.yaml` would look like this
+
 
 {% highlight yaml %}
-:jerakia:
-  :config: /etc/puppetlabs/code/jerakia.yaml
+version: 5
+
+hierarchy:
+  - name: "Jerakia Server"
+    lookup_key: jerakia
+    options:
+      token: puppet:ac2a313db95bf5d034732d9c8b202ed61b0c369fffe61cd3bdce7642df9bf8602094d01fc35c82a5
+      scope:
+        certname: %{trusted.certname}
+        environment: %{environment}
 {% endhighlight %}
-
-See [configuring jerakia](/basics/configure) for acceptable configuration parameters.
-
-
-### Puppet Data Function (coming soon)
-
-From Puppet 4.9 the recommended integration method will be using the new data provider function that will ship with the `crayfishx/jerakia` Puppet Forge module. It is intended that this eventually becomes the only point of integration between Jerakia and Puppet, although the other integrations will still be included for the forseeable future.   This document will be updated when this feature becomes available.
-
-## See also
-
-* [puppet-databinding-jerakiaserver project home](https://github.com/crayfishx/jerakia-puppet)
-* [Jerakia client project home](https://github.com/crayfishx/jerakia-client)
 

@@ -11,8 +11,8 @@ layout: default
 Now let's provide some different data further up in our hierarchy, for example, we shall override `port` to be `8099` in our dev environment.
 
 {% highlight none %}
-$ mkdir -p /var/lib/jerakia/environment/dev
-$ vim /var/lib/jerakia/environment/dev/apache.yaml
+$ mkdir -p /var/lib/jerakia/data/environment/dev
+$ vim /var/lib/jerakia/data/environment/dev/apache.yaml
 {% endhighlight %}
 
 {% highlight yaml %}
@@ -42,4 +42,3 @@ $ jerakia lookup port --namespace apache --metadata environment:dev
 {% endhighlight %}
 
 
-Next: [Integration with Puppet](/tutorial/puppet)

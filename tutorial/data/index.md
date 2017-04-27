@@ -4,7 +4,7 @@ layout: default
 
 # Quick start Tutorial
 
-Using the `file` datasource as configured earlier we can add our data to YAML files under the directory specified in `:docroot`, which we set to `/var/lib/jerakia`
+Using the `file` datasource as configured earlier we can add our data to YAML files under the directory specified in `:docroot`, which we set to `/var/lib/jerakia/data`
 
 It's recommended that you read [Jerakia Lookup Basics](/basics/lookups) to understand the structure and behaviour of a Jerakia lookup
 
@@ -14,7 +14,7 @@ When using the `file` datasource, the `:searchpath` is evaluated to determine wh
 
 {% highlight none %}
 :format => :yaml,
-:docroot => "/var/lib/jerakia",
+:docroot => "/var/lib/jerakia/data",
 :searchpath => [
   "hostname/#{scope[:fqdn]}",
   "environment/#{scope[:environment]}",
@@ -33,9 +33,9 @@ Then when we search for the key `port` in the `apache` namespace (eg: apache::po
 
 
 {% highlight none %}
-/var/lib/jerakia/hostname/host011.example.com/apache.yaml
-/var/lib/jerakia/environment/development/apache.yaml
-/var/lib/jerakia/common/apache.yaml
+/var/lib/jerakia/data/hostname/host011.example.com/apache.yaml
+/var/lib/jerakia/data/environment/development/apache.yaml
+/var/lib/jerakia/data/common/apache.yaml
 {% endhighlight %}
 
 The astute among you might have noticed that the search is done in a `common` directory rather than `common.yaml` as you would expect with hiera. To understand why that is the case read [File datasource](/datasources/file), to explain the functioning and differences between hiera and jerakia. To get the above debug output yourself read the [Debug Guide](/tutorial/debug)
@@ -45,8 +45,8 @@ The astute among you might have noticed that the search is done in a `common` di
 Let's start off by adding the port value to our searchpath
 
 {% highlight none %}
-$ mkdir -p /var/lib/jerakia/common
-$ vim /var/lib/jerakia/common/apache.yaml
+$ mkdir -p /var/lib/jerakia/data//common
+$ vim /var/lib/jerakia/data/common/apache.yaml
 {% endhighlight %}
 
 {% highlight yaml %}
