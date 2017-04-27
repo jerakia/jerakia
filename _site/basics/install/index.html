@@ -12,6 +12,17 @@
 <link rel="stylesheet" href="/css/highlight.css">    
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <link rel="icon" type="image/png" href="/favicon.png" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92987026-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
   </head>
   <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -89,30 +100,56 @@
                 </menusection>
                 </div>
                 <div class="col-md-9">    
-                <h1 id="installing-jerakia">Installing Jerakia</h1>
+                <h1 id="installing">Installing</h1>
 
-<h2 id="puppet-module-crayfishxjerakia">Puppet module <code class="highlighter-rouge">crayfishx/jerakia</code></h2>
+<h2 id="install-using-all-in-one-aio-system-packages-debrpm">Install using All-in-one (AIO) system packages (DEB/RPM)</h2>
 
-<p>Installing Jerakia with Puppet is the easiest way to get up and running quckly.</p>
+<p>Jerakia 1.2+ ships as a completely self contained system package available on Debian, Ubuntu and Redhat/CentOS based systems.  This is the recommended installation method for users wanting to run Jerakia Server and connect to Jerakia from other tools using the API.  We use <a href="https://packager.io/gh/crayfishx/jerakia">Packager.io</a> for automated package building and repo hosting.</p>
 
-<figure class="highlight"><pre><code class="language-none" data-lang="none">$ puppet module install crayfishx/jerakia</code></pre></figure>
+<p>There are two repositories available,  <code class="highlighter-rouge">testing</code> contains experimental and pre-releases and should never be used in production, these are for people wishing to test the latest features of Jerakia before they are released.  The <code class="highlighter-rouge">stable</code> repo contains official releases.</p>
 
-<p>See the <a href="https://forge.puppetlabs.com/crayfishx/jerakia">Puppet Forge page</a> for more information configuring Jerakia using Puppet</p>
+<p>To install the latest stable version</p>
 
-<h2 id="install-using-rubygems">Install using Rubygems</h2>
+<h3 id="on-centos--redhat-7">On CentOS / RedHat 7</h3>
 
-<p>Jerakia is available as a rubygem and can be installed with</p>
+<figure class="highlight"><pre><code class="language-none" data-lang="none"># rpm --import https://rpm.packager.io/key
+# echo "[jerakia]
+name=Repository for crayfishx/jerakia application.
+baseurl=https://rpm.packager.io/gh/crayfishx/jerakia/centos7/stable
+enabled=1" | tee /etc/yum.repos.d/jerakia.repo
+# yum install jerakia</code></pre></figure>
+
+<h3 id="on-debian-8">On Debian 8</h3>
+
+<figure class="highlight"><pre><code class="language-none" data-lang="none"># wget -qO - https://deb.packager.io/key | apt-key add -
+# echo "deb https://deb.packager.io/gh/crayfishx/jerakia jessie stable" | tee /etc/apt/sources.list.d/jerakia.list
+# apt-get update
+# apt-get install jerakia</code></pre></figure>
+
+<h3 id="on-ubuntu-xenial">On Ubuntu Xenial</h3>
+
+<figure class="highlight"><pre><code class="language-none" data-lang="none"># wget -qO - https://deb.packager.io/key | apt-key add -
+# echo "deb https://deb.packager.io/gh/crayfishx/jerakia xenial stable" | tee /etc/apt/sources.list.d/jerakia.list
+# apt-get update
+# apt-get install jerakia</code></pre></figure>
+
+<h2 id="alternative-methods">Alternative methods</h2>
+
+<h3 id="install-using-rubygems">Install using Rubygems</h3>
+
+<p>Jerakia is available as a Rubygem and can be installed with</p>
 
 <figure class="highlight"><pre><code class="language-none" data-lang="none">$ gem install jerakia</code></pre></figure>
 
 <p>After installing the gem, proceed to <a href="/basics/configure">configure Jerakia</a></p>
 
-<h2 id="install-using-all-in-one-aio-system-packages-debrpm">Install using All-in-one (AIO) system packages (DEB/RPM)</h2>
+<h3 id="install-jerakia-using-docker">Install Jerakia using Docker</h3>
 
-<p>Jerakia 1.2 also ships as a completely self contained system package available on Debian, Ubuntu and Redhat/CentOS based systems.  This is the recommended installation method for users wanting to run Jerakia Server and connect to Jerakia from other tools using the API.  We use <a href="https://packager.io/gh/crayfishx/jerakia">Packager.io</a> for automated package building and repo hosting.  Because the AIO package ships as a completely self contained unit (including all the Ruby dependencies) you cannot integrate with Puppet using the traditional data_binding_terminus or Hiera backend that shipped with 1.1.  In order to continue using these you will also need to install the jerakia rubygem into your Puppet MRI ruby and Puppetserver jRuby.  Alternatively you can use the <code class="highlighter-rouge">jerakia-puppetutils</code> gem which uses the Jerakia client libraries to integrate with Jerakia Server over the API.  Please see the <a href="/integration/puppet">Integration with Puppet guide</a> for a full explanation of Puppet integration options.</p>
+<p>Jerakia 1.2 also ships in a docker container, to use it simply pull it from Docker Hub</p>
 
-<p>There are two repositories available,  <code class="highlighter-rouge">testing</code> contains experimental and pre-releases and should never be used in production, these are for people wishing to test the latest features of Jerakia before they are released.  The <code class="highlighter-rouge">stable</code> repo contains official releases.</p>
+<figure class="highlight"><pre><code class="language-none" data-lang="none"># docker pull crayfishx/jerakia</code></pre></figure>
 
+<p>See <a href="https://hub.docker.com/r/crayfishx/jerakia/">the documentation on Docker Hub</a> for more information on usage</p>
 
                 </div>
     </div>

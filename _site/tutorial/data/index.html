@@ -12,6 +12,17 @@
 <link rel="stylesheet" href="/css/highlight.css">    
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <link rel="icon" type="image/png" href="/favicon.png" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92987026-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
   </head>
   <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -91,7 +102,7 @@
                 <div class="col-md-9">    
                 <h1 id="quick-start-tutorial">Quick start Tutorial</h1>
 
-<p>Using the <code class="highlighter-rouge">file</code> datasource as configured earlier we can add our data to YAML files under the directory specified in <code class="highlighter-rouge">:docroot</code>, which we set to <code class="highlighter-rouge">/var/lib/jerakia</code></p>
+<p>Using the <code class="highlighter-rouge">file</code> datasource as configured earlier we can add our data to YAML files under the directory specified in <code class="highlighter-rouge">:docroot</code>, which we set to <code class="highlighter-rouge">/var/lib/jerakia/data</code></p>
 
 <p>It’s recommended that you read <a href="/basics/lookups">Jerakia Lookup Basics</a> to understand the structure and behaviour of a Jerakia lookup</p>
 
@@ -100,7 +111,7 @@
 <p>When using the <code class="highlighter-rouge">file</code> datasource, the <code class="highlighter-rouge">:searchpath</code> is evaluated to determine which files to scan and elements of the scope object can be interpolated into the file paths.  By default, Jerakia will search for the key in a filename corresponding to the namespace.  So, lets review our lookup object from earlier, it has the following settings configured…</p>
 
 <figure class="highlight"><pre><code class="language-none" data-lang="none">:format =&gt; :yaml,
-:docroot =&gt; "/var/lib/jerakia",
+:docroot =&gt; "/var/lib/jerakia/data",
 :searchpath =&gt; [
   "hostname/#{scope[:fqdn]}",
   "environment/#{scope[:environment]}",
@@ -114,9 +125,9 @@
 
 <p>Then when we search for the key <code class="highlighter-rouge">port</code> in the <code class="highlighter-rouge">apache</code> namespace (eg: apache::port) then Jerakia will scan the following files until it encounters the key <code class="highlighter-rouge">port:</code></p>
 
-<figure class="highlight"><pre><code class="language-none" data-lang="none">/var/lib/jerakia/hostname/host011.example.com/apache.yaml
-/var/lib/jerakia/environment/development/apache.yaml
-/var/lib/jerakia/common/apache.yaml</code></pre></figure>
+<figure class="highlight"><pre><code class="language-none" data-lang="none">/var/lib/jerakia/data/hostname/host011.example.com/apache.yaml
+/var/lib/jerakia/data/environment/development/apache.yaml
+/var/lib/jerakia/data/common/apache.yaml</code></pre></figure>
 
 <p>The astute among you might have noticed that the search is done in a <code class="highlighter-rouge">common</code> directory rather than <code class="highlighter-rouge">common.yaml</code> as you would expect with hiera. To understand why that is the case read <a href="/datasources/file">File datasource</a>, to explain the functioning and differences between hiera and jerakia. To get the above debug output yourself read the <a href="/tutorial/debug">Debug Guide</a></p>
 
@@ -124,8 +135,8 @@
 
 <p>Let’s start off by adding the port value to our searchpath</p>
 
-<figure class="highlight"><pre><code class="language-none" data-lang="none">$ mkdir -p /var/lib/jerakia/common
-$ vim /var/lib/jerakia/common/apache.yaml</code></pre></figure>
+<figure class="highlight"><pre><code class="language-none" data-lang="none">$ mkdir -p /var/lib/jerakia/data//common
+$ vim /var/lib/jerakia/data/common/apache.yaml</code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="nn">---</span>
 <span class="s">port</span><span class="pi">:</span> <span class="s">8080</span></code></pre></figure>

@@ -12,6 +12,17 @@
 <link rel="stylesheet" href="/css/highlight.css">    
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <link rel="icon" type="image/png" href="/favicon.png" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92987026-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
   </head>
   <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -95,7 +106,7 @@
 
 <p>Jerakia policies are containers for lookups.  When a lookup is invoked against Jerakia it can select a policy to use, by default, if no policy name is given then Jerakia will look for a policy called <code class="highlighter-rouge">default</code></p>
 
-<p>Policy files live within the directory defined in <code class="highlighter-rouge">policydir</code> in <code class="highlighter-rouge">jerakia.yaml</code>, so let’s create an empty policy.</p>
+<p>Policy files live within the directory defined in <code class="highlighter-rouge">policydir</code> in <code class="highlighter-rouge">jerakia.yaml</code>, so let’s create an empty policy.  Note that if you installed Jerakia from the system packages, a default policy file should already have been created for you.  This tutorial walks you through writing one form scratch.</p>
 
 <figure class="highlight"><pre><code class="language-none" data-lang="none">$ mkdir /etc/jerakia/policy.d
 $ vim /etc/jerakia/policy.d/default.rb</code></pre></figure>
