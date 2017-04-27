@@ -9,7 +9,7 @@ layout: default
 
 Jerakia can be integrated with Puppet using a Hiera 5 data provider function that is available as part of the [crayfishx/jerakia](https://forge.puppet.com/crayfishx/jerakia) Puppet module.
 
-If you are running older versions of Puppet please see the [Legacy Puppet Integration](/integration/puppet_legacy.md) documentation
+If you are running older versions of Puppet please see the [Legacy Puppet Integration](/integration/puppet_legacy) documentation
 
 ## Installing the module
 
