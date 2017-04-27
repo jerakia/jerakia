@@ -25,7 +25,7 @@ Next you will need to [create a token](/server/tokens) that Hiera can use to aut
 # jerakia token create puppet
 
 puppet:ac2a313db95bf5d034732d9c8b202ed61b0c369fffe61cd3bdce7642df9bf8602094d01fc35c82a5
-{% endhighight %}
+{% endhighlight %}
 
 ## Configure Hiera
 
