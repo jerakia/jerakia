@@ -1,5 +1,6 @@
 require 'puppet'
 require 'puppet/resource'
+require 'msgpack'
 
 class Hiera
   module Backend
@@ -36,11 +37,11 @@ class Hiera
         Jerakia.log.debug("[hiera] backend invoked for key #{key} using namespace #{namespace}")
 
         metadata = {}
-        metadata = if scope.is_a?(Hash)
-                     scope.reject { |_k, v| v.is_a?(Puppet::Resource) }
-                   else
-                     scope.real.to_hash.reject { |_k, v| v.is_a?(Puppet::Resource) }
-                   end
+        if scope.is_a?(Hash)
+          metadata = MessagePack.unpack(scope.to_msgpack)
+        else
+          metadata = MessagePack.unpack(scope.real.to_hash.to_msgpack)
+        end
 
         request = Jerakia::Request.new(
           :key         => key,
