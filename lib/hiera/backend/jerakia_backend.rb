@@ -36,11 +36,7 @@ class Hiera
         Jerakia.log.debug("[hiera] backend invoked for key #{key} using namespace #{namespace}")
 
         metadata = {}
-        metadata = if scope.is_a?(Hash)
-                     scope.reject { |_k, v| v.is_a?(Puppet::Resource) }
-                   else
-                     scope.real.to_hash.reject { |_k, v| v.is_a?(Puppet::Resource) }
-                   end
+        metadata = JSON.load(scope.real.to_hash.to_json)
 
         request = Jerakia::Request.new(
           :key         => key,
