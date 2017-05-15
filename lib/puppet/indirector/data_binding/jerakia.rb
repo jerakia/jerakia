@@ -1,6 +1,7 @@
 require 'puppet/indirector/code'
 require 'jerakia'
 require 'json'
+require 'msgpack'
 
 class Puppet::DataBinding::Jerakia < Puppet::Indirector::Code
   desc 'Data binding for Jerakia'
@@ -18,7 +19,7 @@ class Puppet::DataBinding::Jerakia < Puppet::Indirector::Code
     lookupdata = request.key.split(/::/)
     key = lookupdata.pop
     namespace = lookupdata
-    metadata = request.options[:variables].to_hash.reject { |_k, v| v.is_a?(Puppet::Resource) }
+    metadata = MessagePack.unpack(request.options[:variables].to_hash.to_msgpack)
     policy = metadata['jerakia_policy'] || @default_policy
     jacreq = Jerakia::Request.new(
       :key => key,
