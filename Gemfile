@@ -14,6 +14,7 @@ gem "sinatra"
 gem "dm-sqlite-adapter"
 gem "rake"
 gem "rack", "~> 1.6.5"
+gem "msgpack"
 
 group(:development, :test) do
   gem 'rspec-core'

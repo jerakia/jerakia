@@ -1,6 +1,7 @@
 require 'jerakia/launcher'
 require 'jerakia/answer'
 require 'jerakia/schema'
+require 'msgpack'
 
 class Jerakia
   class Policy
@@ -29,7 +30,8 @@ class Jerakia
     end
 
     def clone_request
-      Marshal.load(Marshal.dump(request))
+      #Marshal.load(Marshal.dump(request))
+      MessagePack.unpack(request.to_msgpack)
     end
 
     def submit_lookup(lookup)
