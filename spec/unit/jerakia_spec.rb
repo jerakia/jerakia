@@ -24,7 +24,8 @@ describe Jerakia do
 
       it 'should have our default config' do
         expect(subject.config['policydir']).to eq '/etc/jerakia/policy.d'
-        expect(subject.config['logfile']).to eq '/var/log/jerakia.log'
+        expect(subject.config['logfile']).to eq '/var/log/jerakia/jerakia.log'
+        expect(subject.config['databasedir']).to eq '/var/db/jerakia'
         expect(subject.config['loglevel']).to eq 'info'
       end
     end
@@ -33,7 +34,7 @@ describe Jerakia do
       let(:subject) { Jerakia.new(config: "#{JERAKIA_ROOT}/test/fixtures/etc/jerakia/jerakia.yaml") }
       it 'should have overridden our defaults' do
         expect(subject.config['policydir']).not_to eq '/etc/jerakia/policy.d'
-        expect(subject.config['logfile']).not_to eq '/var/log/jerakia.log'
+        expect(subject.config['logfile']).not_to eq '/var/log/jerakia/jerakia.log'
         expect(subject.config['loglevel']).not_to eq 'info'
       end
     end
