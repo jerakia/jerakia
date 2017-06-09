@@ -50,6 +50,12 @@ class Jerakia
             raise Jerakia::DatasourceArgumentError, "Must specify #{name} parameter" if opt.nil?
           end
 
+          if arguments[:type]
+            unless opt.is_a?(arguments[:type])
+              raise Jerakia::DatasourceArgumentError, "#{name} must be a #{arguments[:type].to_s}, got #{opt.class.to_s}"
+            end
+          end
+
           if block_given?
             unless opt.nil?
               raise Jerakia::DatasourceArgumentError, "Validation failed for #{name}" unless yield opt
