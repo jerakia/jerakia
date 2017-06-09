@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 # Post install script for Jerakia
