@@ -1,12 +1,6 @@
 require 'lookup_http'
 
-class Jerakia::Datasource
-  module Http
-    def run
-      #
-      # Do the lookup
-
-      Jerakia.log.debug("Searching key #{lookup.request.key} using the http datasource (#{whoami})")
+class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
 
       option :host,                :type => String,  :mandatory => true
       option :port,                :type => Integer, :default => 80
@@ -25,6 +19,12 @@ class Jerakia::Datasource
       option :auth_pass,           :type => String
       option :http_connect_timeout, :type => Integer
       option :paths, :type => Array, :mandatory => true
+
+    def lookup
+      #
+      # Do the lookup
+
+      Jerakia.log.debug("Searching key #{request.key} using the http datasource")
 
       lookup_supported_params = [
         :host,
@@ -45,6 +45,7 @@ class Jerakia::Datasource
         :auth_pass
       ]
       lookup_params = options.select { |p| lookup_supported_params.include?(p) }
+      Jerakia.log.debug("Getting our http lookup with these params: #{lookup_params}")
       http_lookup = LookupHttp.new(lookup_params)
 
       options[:paths].flatten.each do |path|
@@ -52,20 +53,20 @@ class Jerakia::Datasource
         return unless response.want?
 
         data = http_lookup.get_parsed(path)
-        Jerakia.log.debug("Datasource provided #{data} (#{data.class}) looking for key #{lookup.request.key}")
+        Jerakia.log.debug("Datasource provided #{data} (#{data.class}) looking for key #{request.key}")
 
         if data.is_a?(Hash)
-          unless data[lookup.request.key].nil?
-            Jerakia.log.debug("Found data #{data[lookup.request.key]}")
-            response.submit data[lookup.request.key]
+          unless data[request.key].nil?
+            Jerakia.log.debug("Found data #{data[request.key]}")
+            response.submit data[request.key]
           end
         else
           unless options[:output] == 'plain' || options[:failure] == 'graceful'
-            raise Jerakia::Error, "HTTP request did not return a hash for #{lookup.request.key} #{whoami}"
+            raise Jerakia::Error, "HTTP request did not return a hash for #{request.key} #{whoami}"
           end
           response.submit data
         end
       end
     end
-  end
+
 end
