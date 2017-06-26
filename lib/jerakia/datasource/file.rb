@@ -1,81 +1,95 @@
 require 'jerakia/cache/file'
 
-class Jerakia::Datasource
-  module File
-    attr_reader :file_format
+#Jerakia::Datasource.define(:file) do
+#
+class Jerakia::Datasource::File < Jerakia::Datasource::Instance
 
-    def load_format_handler
-      format = options[:format] || :yaml
-      class_name = format.to_s.capitalize
-      require "jerakia/datasource/file/#{format}"
-      @file_format = eval "Jerakia::Datasource::File::#{class_name}"
-    end
+  option(:searchpath, :required => true) { |opt| opt.is_a?(Array) }
 
-    def cache
-      Jerakia::Cache::File
-    end
+  option :format,  :default => :yaml
+  option :docroot, :default => '/var/lib/jerakia/data'
+  option :extention
+  option :enable_caching, :default => true
 
-    def get_file_with_cache(diskname)
-      if options[:enable_caching]
-        Jerakia.log.debug("Querying cache for file #{diskname}")
-        cache.retrieve(diskname)
-      else
-        ::File.read(diskname) if ::File.exists?(diskname)
-      end
-    end
+  def load_format_handler
+    format = options[:format]
+    require "jerakia/datasource/file/#{format.to_s}"
+    eval "extend Jerakia::Datasource::File::#{format.to_s.capitalize}"
+  end
 
-    def list_fragments(prefix, extension)
-      Dir["#{prefix}.d/*.#{extension}"] if ::File.directory?("#{prefix}.d")
-    end
+  def format_handler
+    format = options[:format]
+    eval "Jerakia::Datasource::File::#{format.to_s.capitalize}"
+  end
 
-    def read_from_file(fname)
-      fpath = []
-      fpath << options[:docroot] unless fname[0] == '/'
-      fpath << [fname, lookup.request.namespace]
+  def extension
+    options[:extension] || format_handler::EXTENSION
+  end
 
-      extension = options[:extension] || @file_format::EXTENSION
-      diskname_prefix = ::File.join(fpath.flatten).gsub(/\/$/, '').to_s
-      diskname = "#{diskname_prefix}.#{extension}"
+  def cache
+    Jerakia::Cache::File
+  end
 
-      files = [diskname]
-      files << list_fragments(diskname_prefix, extension)
+  def get_file_with_cache(diskname)
+    Jerakia.log.debug("Querying cache for file #{diskname}")
+    cache.retrieve(diskname)
+  end
 
-      raw_data = ''
+  def get_file(diskname)
+    ::File.read(diskname) if ::File.exists?(diskname)
+  end
 
-      files.flatten.compact.each do |f|
-        Jerakia.log.debug("read_from_file()  #{f}")
+  def list_fragments(prefix, extension)
+    Dir["#{prefix}.d/*.#{extension}"] if ::File.directory?("#{prefix}.d")
+  end
+
+  def read_from_file(fname)
+    docroot = options[:docroot]
+    namespace = request.namespace
+    cached = options[:enable_caching]
+    
+    fpath = []
+    fpath << docroot unless fname[0] == '/'
+    fpath << [fname, namespace]
+
+    diskname_prefix = ::File.join(fpath.flatten).gsub(/\/$/, '').to_s
+    diskname = "#{diskname_prefix}.#{extension}"
+
+    files = [diskname]
+    files << list_fragments(diskname_prefix, extension)
+
+    raw_data = ''
+
+    files.flatten.compact.each do |f|
+      Jerakia.log.debug("read_from_file()  #{f}")
+      file_contents = get_file_with_cache(f)
+      if cached
         file_contents = get_file_with_cache(f)
-        raw_data << file_contents if file_contents
+      else
+        file_content = get_file(f)
       end
-
-      begin
-        file_format.convert(raw_data)
-      rescue Jerakia::FileParseError => e
-        raise Jerakia::FileParseError, "While parsing #{diskname}: #{e.message}"
-      end
+      raw_data << file_contents if file_contents
     end
 
-    def run
-      #
-      # Do the lookup
+    begin
+      convert(raw_data)
+    rescue Jerakia::FileParseError => e
+      raise Jerakia::FileParseError, "While parsing #{diskname}: #{e.message}"
+    end
+  end
 
-      Jerakia.log.debug("Searching key #{lookup.request.key} from file format #{options[:format]} (#{whoami})")
-      option :searchpath, :type => Array,  :mandatory => true
-      option :format,     :type => Symbol, :default => :yaml
-      option :docroot,    :type => String, :default => '/etc/jerakia/data'
-      option :extension,  :type => String
+  def lookup
+    Jerakia.log.debug("Searching key #{request.key} from file format #{options[:format]}")
 
-      load_format_handler
+    load_format_handler
+    paths=options[:searchpath].flatten
 
-      options[:searchpath].flatten.each do |path|
-        Jerakia.log.debug("Attempting to load data from #{path}")
-        return unless response.want?
-        data = read_from_file(path)
-        Jerakia.log.debug("Datasource provided #{data} looking for key #{lookup.request.key}")
-        unless data[lookup.request.key].nil?
-          Jerakia.log.debug("Found data #{data[lookup.request.key]}")
-          response.submit data[lookup.request.key]
-        end
+    answer do |response|
+      path = paths.shift
+      break unless path
+      data = read_from_file(path)
+      unless data[request.key].nil?
+        response.submit data[request.key]
       end
     end
   end

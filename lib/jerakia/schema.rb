@@ -11,21 +11,21 @@ class Jerakia::Schema
     )
 
     Jerakia.log.debug("Schema lookup invoked for #{request.key} namespace: #{request.namespace}")
-    schema_lookup = Jerakia::Launcher.new(schema_request)
 
     begin
-      schema_lookup.evaluate do
+      schema_policy = Jerakia::Launcher.evaluate do
         policy :schema do
           lookup :schema do
             datasource *schema_datasource
           end
         end
       end
+      schema_lookup = schema_policy.run(schema_request)
     rescue Jerakia::Error => e
       raise Jerakia::SchemaError, "Schema lookup for #{request.key} failed: #{e.message}"
     end
 
-    @schema_data = schema_lookup.answer.payload || {}
+    @schema_data = schema_lookup.payload || {}
 
     # Validate the returned data from the schema
     raise Jerakia::SchemaError, "Schema must return a hash for key #{request.key}" unless @schema_data.is_a?(Hash)

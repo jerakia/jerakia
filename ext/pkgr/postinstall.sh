@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 # Post install script for Jerakia
@@ -18,5 +18,5 @@ mkdir -p /etc/jerakia/policy.d
 [ -f "/etc/jerakia/policy.d/default.rb" ] || cp /opt/jerakia/ext/jerakia/policy.skel.rb /etc/jerakia/policy.d/default.rb
 [ -f "/etc/jerakia/jerakia.yaml" ] || cp /opt/jerakia/ext/jerakia/jerakia.skel.yaml /etc/jerakia/jerakia.yaml
 
-
-
+chmod 550 /etc/jerakia /etc/jerakia/policy.d
+chmod 660 /etc/jerakia/jerakia.yaml /etc/jerakia/policy.d/default.rb
