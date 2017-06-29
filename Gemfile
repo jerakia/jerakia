@@ -21,6 +21,7 @@ group(:development, :test) do
   gem 'mocha'
   gem "puppet", ENV['PUPPET_GEM_VERSION'] || '~> 4.8.0'
   gem "msgpack" # required for integration tests with jerakia-puppet
+  gem "webmock-rspec-helper"
 end
 
 # JSON must be 1.x on Ruby 1.9
