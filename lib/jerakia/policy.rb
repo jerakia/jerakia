@@ -32,7 +32,7 @@ class Jerakia
       response_entries = []
       lookups.each do |lookup|
         lookup_instance = lookup.call clone_request(request), scope
-        next unless lookup_instance.valid? && lookup_instance.proceed?
+        next unless lookup_instance.valid?
         register_datasource lookup_instance.datasource[:name]
         responses = Jerakia::Datasource.run(lookup_instance)
         lookup_instance.output_filters.each do |filter|
@@ -41,6 +41,7 @@ class Jerakia
         end
         lookup_answers = responses.entries.map { |r| r}
         response_entries << lookup_answers if lookup_answers
+        break unless lookup_instance.proceed?
       end
       answer.process_response(response_entries)
       return answer
