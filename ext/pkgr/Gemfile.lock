@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    CFPropertyList (2.2.8)
     actionmailer (4.2.9)
       actionpack (= 4.2.9)
       actionview (= 4.2.9)
@@ -100,7 +99,6 @@ GEM
     erubis (2.7.0)
     eventmachine (1.2.3)
     facter (2.4.6)
-      CFPropertyList (~> 2.2.6)
     faster_require (0.9.4)
     fastercsv (1.5.5)
     globalid (0.4.0)
@@ -131,7 +129,6 @@ GEM
     psych (2.2.4)
     public_suffix (2.0.5)
     puppet (4.8.2)
-      CFPropertyList (~> 2.2.6)
       facter (> 2.0, < 4)
       hiera (>= 2.0, < 4)
       json_pure (~> 1.8)
@@ -235,4 +232,4 @@ DEPENDENCIES
   webmock-rspec-helper
 
 BUNDLED WITH
-   1.13.6
+   1.15.1
