@@ -1,6 +1,6 @@
 require 'lookup_http'
 
-class Jerakia::Datasource
+class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
   option :host,                :type => String,  :required => true
   option :port,                :type => Integer, :default => 80
   option :output,              :type => String,  :default => 'json'
