@@ -5,6 +5,7 @@
 * Bugfix: An issue in 2.0.0 meant that if you use `stop` with a `confine` or `exclude` statement in a lookup, that the lookup never actually gets invoked (https://github.com/crayfishx/jerakia/pull/86)
 * Fixed issues installing on Debian using apt (https://github.com/crayfishx/jerakia/pull/83)
 * Fixed HTTP datasource to be compatible with the new datasource API (https://github.com/crayfishx/jerakia/pull/82)
+* Fixed validation of datasource parameters when nil and not mandatory
 
 
 
