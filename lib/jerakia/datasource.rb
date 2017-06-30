@@ -51,7 +51,7 @@ class Jerakia
           end
 
           if arguments[:type]
-            unless opt.is_a?(arguments[:type])
+            unless opt.is_a?(arguments[:type]) || opt.nil?
               raise Jerakia::DatasourceArgumentError, "#{name} must be a #{arguments[:type].to_s}, got #{opt.class.to_s}"
             end
           end
