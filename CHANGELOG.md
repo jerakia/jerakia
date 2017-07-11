@@ -1,5 +1,36 @@
 # Jerakia Release Notes
 
+## 2.1.0
+* Tighter permissions on logfile and configuration file when installing with system packages (https://github.com/crayfishx/jerakia/pull/85)
+* Bugfix: An issue in 2.0.0 meant that if you use `stop` with a `confine` or `exclude` statement in a lookup, that the lookup never actually gets invoked (https://github.com/crayfishx/jerakia/pull/86)
+* Fixed issues installing on Debian using apt (https://github.com/crayfishx/jerakia/pull/83)
+* Fixed HTTP datasource to be compatible with the new datasource API (https://github.com/crayfishx/jerakia/pull/82)
+* Fixed validation of datasource parameters when nil and not mandatory
+
+
+
+### 2.0.1
+
+* Fixed default location of logfile to be `/var/log/jerakia/jerakia.log`
+* Added default for `databasedir` to point to `/var/db/jerakia`
+
+
+
+# 2.0.0
+
+The main additions for 2.0 are the introduction of encryption as a first class citizen and integration with the _transit_ secret backend for vault to provide encryption.  We've also changed the API for datasources to make them easier to write.
+
+2.0 removes some features, particularly around Puppet integration that are now available as a third party plugin rather than shipped in Jerakia core.
+## Features
+
+* Introduced encryption as a first class citizen to Jerakia
+* Encryption services are now pluggable with the default being Vault transit
+* The output provider `:encryption` now uses whichever encryption provider has been configured
+* API changes to data sources to make them more understandable
+* Lookups can now be accepted without a key or a namespace, this is paving the way for data sources that can potentially be _keyless_ - eg: return all data in one query.
+* The legacy Puppet data binding terminus and Hiera 3.x backend have been removed from core but are still available with the `jerakia-puppet` rubygem.
+* Integration with Puppet 4.9+ is now via a Hiera 5 data provider function in the `crayfishx/jerakia` Puppet module
+
 ### 1.2.1
 
 * Fixed omision from 1.2 that failed to authenticate tokens using the API

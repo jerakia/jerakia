@@ -18,6 +18,16 @@ policy :default do
 
   end
 
+  lookup :test_confine do
+    datasource :dummy, {
+      :return => "Success"
+    }
+
+    confine request.namespace[0], "test_conf"
+    confine scope[:testing], "yes"
+    stop
+  end
+
   lookup :default do
     datasource :file, {
       :docroot    => "test/fixtures/var/lib/jerakia/data",
@@ -29,8 +39,8 @@ policy :default do
         "common",
     ],
     }
-
     exclude request.key, "skippy"
+    output_filter :encryption
   end
 end
 

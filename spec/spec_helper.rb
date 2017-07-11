@@ -7,8 +7,12 @@ require 'rspec'
 require 'mocha'
 require 'jerakia'
 require 'hiera/backend/jerakia_backend'
+require 'webmock/rspec'
 
 RSpec.configure do |c|
   c.mock_with :mocha
   c.pattern = '**/*_spec.rb'
 end
+
+
+WebMock.disable_net_connect!(allow_localhost: true)
