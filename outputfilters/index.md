@@ -37,6 +37,8 @@ end
 
 The `strsub` filter will parse the data for strings matching `%{var}` and attempt to replace the tag with the corresponding value `var` from the scope provided with the lookup.
 
+If you are [Integrating with Puppet](/integration/puppet) using the Hiera 5 data provider in [crayfishx/jerakia](https://forge.puppet.com/crayfishx/jerakia) 1.2.0 or higher then you can do interpolation natively using the Hiera backend (enabled by default).  This output filter should not be used in that case.
+
 #### Usage
 
 {% highlight ruby %}
