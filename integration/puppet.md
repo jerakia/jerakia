@@ -52,12 +52,12 @@ The `options` hash of the Hiera entry can contain options to pass to `jerakia-cl
 * `api`: The Jerakia Server API version impemented on the server (default v1)
 * `proto`: The protocol to use, `http` or `https` are supported, `http` is the default.
 * `token`: The authentication token to use in the request,  if no token is specified jerakia-client will look for a `jerakia.yaml` file in `/etc/jerakia` and `~/.jerakia` for a key called `client_token`
-* `interpolate`:  Enable Hiera/Puppet side interpolation of strings formatted as %{var}. This is enabled by default and can be set to `true` or `false`.  This feature will not work if you are using the `strsub` [output filter](/outputfilters)
 
-It also support:
+It also supports the following options to control the behaviour of the lookup:
 
 * `policy` : the Jerakia policy to use for the lookup (defaults to "default")
 * `scope` : A hash to send as the scope object (see below)
+* `interpolate`:  Enable Hiera/Puppet side interpolation of strings formatted as %{var}. This is enabled by default and can be set to `true` or `false`.  This feature will not work if you are using the `strsub` [output filter](/outputfilters)
 
 ### Defining the scope
 
