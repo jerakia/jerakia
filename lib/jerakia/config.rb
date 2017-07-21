@@ -20,6 +20,7 @@ class Jerakia::Config
   def defaults
     {
       'policydir'     => '/etc/jerakia/policy.d',
+      'plugindir'     => '/var/lib/jerakia/plugins',
       'logfile'       => '/var/log/jerakia/jerakia.log',
       'databasedir'   => '/var/db/jerakia',
       'loglevel'      => 'info',
