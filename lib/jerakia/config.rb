@@ -30,6 +30,10 @@ class Jerakia::Config
     }
   end
 
+  def to_hash
+    @configdata
+  end
+
   def [](key)
     @configdata[key.to_s]
   end
