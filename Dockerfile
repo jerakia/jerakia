@@ -37,3 +37,4 @@ RUN rm -rf /var/cache/apk*
 
 USER jerakia
 ENTRYPOINT ["jerakia"]
+CMD ["server"]
