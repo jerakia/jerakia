@@ -19,6 +19,10 @@ class Jerakia
       end
     end
 
+    def policy_exists?(policy)
+      @policies.has_key?(policy.to_sym)
+    end
+
     def policy_dir
       Jerakia.config.policydir
     end
