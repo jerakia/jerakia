@@ -42,6 +42,7 @@ class Jerakia
   end
 
   def lookup(request)
+    raise Jerakia::PolicyError, "Policy '#{request.policy}' not defined" unless launcher.policy_exists?(request.policy)
     launcher.policies[request.policy.to_sym].run(request)
   end
 
