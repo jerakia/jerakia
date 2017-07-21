@@ -3,7 +3,7 @@ class Jerakia
     module Server
       def self.included(thor)
         thor.class_eval do
-          desc 'server', 'Start the Jerakia REST server'
+          desc 'server <options>', 'Start the Jerakia REST server'
           option :config,
                  aliases: :c,
                  type: :string,
