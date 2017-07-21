@@ -1,5 +1,12 @@
 # Jerakia Release Notes
 
+## 2.2.0
+* New feature: `config` CLI option to display current runtime configuration
+* Fix: Better descrption of --verbose and --debug for server CLI options
+* Fix: `plugindir` default of `/var/lib/jerakia/plugins` added
+* Fix: More meaningful error message when a policy is not found, now throws a proper `Jerakia::PolicyError` exception
+
+
 ## 2.1.0
 * Tighter permissions on logfile and configuration file when installing with system packages (https://github.com/crayfishx/jerakia/pull/85)
 * Bugfix: An issue in 2.0.0 meant that if you use `stop` with a `confine` or `exclude` statement in a lookup, that the lookup never actually gets invoked (https://github.com/crayfishx/jerakia/pull/86)

@@ -20,6 +20,7 @@ class Jerakia::Config
   def defaults
     {
       'policydir'     => '/etc/jerakia/policy.d',
+      'plugindir'     => '/var/lib/jerakia/plugins',
       'logfile'       => '/var/log/jerakia/jerakia.log',
       'databasedir'   => '/var/db/jerakia',
       'loglevel'      => 'info',
@@ -27,6 +28,10 @@ class Jerakia::Config
       'piddir'        => '/var/run',
       'enable_schema' => true,
     }
+  end
+
+  def to_hash
+    @configdata
   end
 
   def [](key)

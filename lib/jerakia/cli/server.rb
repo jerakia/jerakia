@@ -3,7 +3,7 @@ class Jerakia
     module Server
       def self.included(thor)
         thor.class_eval do
-          desc 'server', 'Start the Jerakia REST server'
+          desc 'server <options>', 'Start the Jerakia REST server'
           option :config,
                  aliases: :c,
                  type: :string,
@@ -15,11 +15,11 @@ class Jerakia
           option :verbose,
                  aliases: :v,
                  type: :boolean,
-                 desc: 'Print verbose information'
+                 desc: 'Log to STDOUT in verbose mode'
           option :debug,
                  aliases: :D,
                  type: :boolean,
-                 desc: 'Debug information to console, implies --log-level debug'
+                 desc: 'Log to STDOUT in debug mode'
           def server
             case true
             when options[:verbose]
