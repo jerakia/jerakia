@@ -1,5 +1,10 @@
 # Jerakia Release Notes
 
+## 2.3.0
+
+* Enhancement:  Added `--bind`, `--port` and `--token_ttl` options to `jerakia server` to override these values from the CLI
+
+
 ## 2.2.0
 * New feature: `config` CLI option to display current runtime configuration
 * Fix: Better descrption of --verbose and --debug for server CLI options
