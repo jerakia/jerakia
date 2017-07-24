@@ -27,13 +27,14 @@ class Jerakia
         @jerakia
       end
 
-      def start(opts)
+      def start(opts, server_opts={})
         @jerakia = Jerakia.new(opts)
         require 'jerakia/server/rest'
-        @config = default_config.merge(Jerakia.config[:server] || {})
+        @config = default_config.merge(Jerakia.config[:server] || {}).merge(server_opts)
         Thin::Logging.logger=Jerakia.log.logger
         Jerakia::Server::Rest.set :bind, @config['bind']
         Jerakia::Server::Rest.set :port, @config['port']
+        Jerakia.log.verbose("Starting Jerakia on #{@config['bind']}:#{@config['port']}")
         Jerakia::Server::Rest.run!
       end
     end
