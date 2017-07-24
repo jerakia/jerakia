@@ -1,3 +1,5 @@
+[![Jerakia](http://jerakia.io/lerakia-logo.png)](http://jerakia.io)
+
 ## [http://jerakia.io](http://jerakia.io)
 
 
@@ -25,8 +27,8 @@ Features include:
 
 * YAML and JSON data source nativly included
 * HTTP REST API data source nativly included
-* hiera-eyaml style decryption of data from any data source
-* REST server API (experimental)
+* Integration with Hashicorp Vault for encrypted secret lookups
+* REST server API
 
 ## Usage and Documentation ##
 
@@ -36,7 +38,9 @@ Documentation is kept on the [Official Website](http://jerakia.io)
 
 * [Blog post part 1: Solving real world problems with Jerakia](http://www.craigdunn.org/2015/09/solving-real-world-problems-with-jerakia/)
 * [Blog post part 2: Extending Jerakia with lookup plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/)
-
+* [Blog post: Managing Puppet Secrets with Jerakia and Vault](http://www.craigdunn.org/2017/04/managing-puppet-secrets-with-jerakia-and-vault/)
+* [Blog post: Using data schemas with Jerakia](http://www.craigdunn.org/2016/03/using-data-schemas-with-jerakia-0-5/)
+* [Blog post: Extending Jerakia with lookup plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/)
 
 ## Architecture ##
 
@@ -48,18 +52,15 @@ There are various integration options for making requests to Jerakia.
 
 * Command line tool
 * Ruby API
-* REST API (experimental)
+* REST API
+* Hiera 5 Backend
+
+Legacy (see jerakia-puppet):
+
 * Puppet data binding terminus
-* Hiera Backend
+* Hiera 3.x Backend
 
 Future integrations with other tools such as Chef and Rundeck are under development
-
-## Features in active development ##
-* Better logging
-* Better caching
-* PuppetDB and MCollective scope plugins
-* HTTP datasource
-* ENC integration
 
 ## Help and support ##
 
