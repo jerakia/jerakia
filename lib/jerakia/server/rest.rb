@@ -1,8 +1,9 @@
 require 'sinatra'
 require 'jerakia'
 require 'jerakia/server/auth'
-require 'json'
 require 'jerakia/scope/server'
+require 'json'
+require 'msgpack'
 
 class Jerakia
   class Server
@@ -44,20 +45,36 @@ class Jerakia
         @authorized_tokens[token] = Time.now
       end
 
+      def determine_content_type!
+        if not env.key?('CONTENT_TYPE') or env['CONTENT_TYPE'] == "application/json"
+          content_type 'application/json'
+          @method_name = 'to_json'
+        elsif env['CONTENT_TYPE'] == "application/x-msgpack"
+          content_type 'application/x-msgpack'
+          @method_name = 'to_msgpack'
+        else
+          wrong_media_type("Content type #{env['CONTENT_TYPE']} not supported", 415)
+        end
+      end
+
       before do
         authenticate!
-        content_type 'application/json'
+        determine_content_type!
       end
 
       get '/' do
         auth_denied
       end
 
+      def wrong_media_type(message, status_code=415)
+        halt(status_code, {'Content-Type' => 'text/plain'}, message)
+      end
+
       def request_failed(message, status_code=501)
         halt(status_code, {
           :status => 'failed',
           :message => message,
-        }.to_json)
+        }.method(@method_name).call)
       end
 
       def mandatory_params(mandatory, params)
@@ -67,6 +84,8 @@ class Jerakia
           end
         end
       end
+
+
 
       get '/v1/lookup' do
         request_failed("Keyless lookups not supported in this version of Jerakia")
@@ -101,18 +120,18 @@ class Jerakia
         {
           :status => 'ok',
           :payload => answer.payload
-        }.to_json
+        }.method(@method_name).call
       end
 
       get '/v1/scope/:realm/:identifier' do
         resource = Jerakia::Scope::Server.find(params['realm'], params['identifier'])
         if resource.nil?
-          halt(404, { :status => 'failed', :message => "No scope data found" }.to_json)
+          halt(404, { :status => 'failed', :message => "No scope data found"}.method(@method_name).call)
         else
           {
             :status => 'ok',
             :payload => resource.scope
-          }.to_json
+          }.method(@method_name).call
         end
       end
 
@@ -122,7 +141,7 @@ class Jerakia
         {
           :status => 'ok',
           :uuid => uuid
-        }.to_json
+        }.method(@method_name).call
       end
 
       get '/v1/scope/:realm/:identifier/uuid' do
@@ -133,7 +152,7 @@ class Jerakia
           {
             :status => 'ok',
             :uuid => resource.uuid
-          }.to_json
+          }.method(@method_name).call
         end
       end
     end
