@@ -45,13 +45,22 @@ class Jerakia
         @authorized_tokens[token] = Time.now
       end
 
+      def encode_result(data)
+        case @content_type
+        when :json
+          return data.to_json
+        when :msgpack
+          return data.to_msgpack
+        end
+      end
+
       def determine_content_type!
         if not env.key?('CONTENT_TYPE') or env['CONTENT_TYPE'] == "application/json"
           content_type 'application/json'
-          @method_name = 'to_json'
+          @content_type = :json
         elsif env['CONTENT_TYPE'] == "application/x-msgpack"
           content_type 'application/x-msgpack'
-          @method_name = 'to_msgpack'
+          @content_type = :msgpack
         else
           wrong_media_type("Content type #{env['CONTENT_TYPE']} not supported", 415)
         end
@@ -71,10 +80,9 @@ class Jerakia
       end
 
       def request_failed(message, status_code=501)
-        halt(status_code, {
-          :status => 'failed',
-          :message => message,
-        }.method(@method_name).call)
+        halt(status_code, 
+             encode_result({ :status => 'failed', 
+                             :message => message }))
       end
 
       def mandatory_params(mandatory, params)
@@ -84,8 +92,6 @@ class Jerakia
           end
         end
       end
-
-
 
       get '/v1/lookup' do
         request_failed("Keyless lookups not supported in this version of Jerakia")
@@ -117,31 +123,27 @@ class Jerakia
         rescue Jerakia::Error => e
           request_failed(e.message, 501)
         end
-        {
-          :status => 'ok',
-          :payload => answer.payload
-        }.method(@method_name).call
+        encode_result({ :status => 'ok', 
+                        :payload => answer.payload})
       end
 
       get '/v1/scope/:realm/:identifier' do
         resource = Jerakia::Scope::Server.find(params['realm'], params['identifier'])
         if resource.nil?
-          halt(404, { :status => 'failed', :message => "No scope data found"}.method(@method_name).call)
+          halt(404, 
+               encode_result({:status => 'failed', 
+                              :message => "No scope data found"}))
         else
-          {
-            :status => 'ok',
-            :payload => resource.scope
-          }.method(@method_name).call
+          encode_result({:status => 'ok',
+                         :payload => resource.scope})
         end
       end
 
       put '/v1/scope/:realm/:identifier' do
         scope = JSON.parse(request.body.read)
         uuid = Jerakia::Scope::Server.store(params['realm'], params['identifier'], scope)
-        {
-          :status => 'ok',
-          :uuid => uuid
-        }.method(@method_name).call
+        encode_result({:status => 'ok',
+                       :uuid => uuid})
       end
 
       get '/v1/scope/:realm/:identifier/uuid' do
@@ -149,10 +151,8 @@ class Jerakia
         if resource.nil?
           request_failed('No scope data found', 404)
         else
-          {
-            :status => 'ok',
-            :uuid => resource.uuid
-          }.method(@method_name).call
+          encode_result({:status => 'ok',
+                         :uuid => resource.uuid})
         end
       end
     end
