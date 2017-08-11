@@ -12,6 +12,13 @@
 <link rel="stylesheet" href="/css/highlight.css">    
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <link rel="icon" type="image/png" href="/favicon.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@crayfishx" />
+<meta name="twitter:creator" content="@crayfishx" />
+<meta name="twitter:url" content="http://jerakia.io" />
+<meta name="twitter:title" content="A flexible hierarchical data lookup tool" />
+<meta name="twitter:description" content="Jerakia is an open source, pluggable and highly flexible key val hierarchical data lookup tool" />
+<meta name="twitter:image" content="http://jerakia.io/jerakia_logo_small.jpg" />
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -82,6 +89,7 @@
                 <li><a href="/integration/"><strong>Integrating Jerakia</strong></a></li>
                 <ul class="a">
                   <li><a href="/integration/puppet">Puppet</a></li>
+                  <li><a href="/integration/ansible">Ansible</a></li>
                 </ul>
                 <li><a href="/server"><strong>Jerakia Server</strong></a></li>
                 <ul class="a">
@@ -93,6 +101,7 @@
                 <ul class="a">
                   <li><a href="/contributing/quickenv">30 second spin up!</a></li>
                 </ul>
+                  <li><a href="/support"><strong>Commercial Support</a></li>
                 <li><a href="/releasenotes"><strong>Release Notes</strong></a></li>
                 <ul class="a">
                   <li><a href="/releasenotes/2_0">2.0.0</a></li>
@@ -113,7 +122,7 @@
 
 <p>Consider infrastructure data, typically data related to an infrastructure will vary between different environments, or locations, so must either be recorded separately for each diferenciation or centralized and wrapped in logic.  Often we will want to define defaults for things that may ore may not be overridden in particular situations.  For this we use a <em>hierarchy</em>.  A hierarchy in Jerakia is entirely arbirarty and can have as many levels as you require to model the data effectivly.  Consider the following simple hierarchy representing infrastructure;</p>
 
-<p><img src="/images/hierarchy.png" alt="A simple hierarchy" class="center-image" /></p>
+<p><img src="/images/infra.png" alt="A simple hierarchy" class="center-image" /></p>
 
 <p>When performing a lookup for a key using this hierarchy, first we will check to see if there is any host-specific data that matches the key being looked up.  If no data is found, then we fall down to the next level to check if there is any data specific to the environment, if still there is no data then we fall down to location-specific data and then finally we see if there is any data in <em>all</em> which is the level where we would store system wide defaults.   This gives you the ability to declare a key value pair in <em>all</em> and override it just for specific environments, locations or individual hosts.</p>
 

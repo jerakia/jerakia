@@ -12,7 +12,7 @@ Hierarchical data lookups solve the problem of having to wrap logic around your 
 
 Consider infrastructure data, typically data related to an infrastructure will vary between different environments, or locations, so must either be recorded separately for each diferenciation or centralized and wrapped in logic.  Often we will want to define defaults for things that may ore may not be overridden in particular situations.  For this we use a *hierarchy*.  A hierarchy in Jerakia is entirely arbirarty and can have as many levels as you require to model the data effectivly.  Consider the following simple hierarchy representing infrastructure;
 
-![A simple hierarchy](/images/hierarchy.png){: .center-image }
+![A simple hierarchy](/images/infra.png){: .center-image }
 
 When performing a lookup for a key using this hierarchy, first we will check to see if there is any host-specific data that matches the key being looked up.  If no data is found, then we fall down to the next level to check if there is any data specific to the environment, if still there is no data then we fall down to location-specific data and then finally we see if there is any data in _all_ which is the level where we would store system wide defaults.   This gives you the ability to declare a key value pair in _all_ and override it just for specific environments, locations or individual hosts.
 
