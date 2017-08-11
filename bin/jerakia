@@ -4,5 +4,9 @@ lib = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'jerakia/cli'
-
+begin
 Jerakia::CLI.start(ARGV)
+rescue Jerakia::Error => e
+  STDERR.puts "Error(#{e.class}): #{e.message}"
+  exit 1
+end

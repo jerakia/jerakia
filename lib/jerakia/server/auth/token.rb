@@ -26,8 +26,12 @@ class Jerakia
         property :last_seen, DateTime, :default => DateTime.now
       end
 
-      DataMapper.finalize
-      DataMapper.auto_upgrade!
+     begin
+        DataMapper.finalize
+        DataMapper.auto_upgrade!
+      rescue DataObjects::ConnectionError => e
+        raise Jerakia::Error, "Unable to open database file in #{Jerakia.config[:databasedir]}: #{e.message}"
+      end
     end
   end
 end
