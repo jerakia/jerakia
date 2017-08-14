@@ -16,7 +16,6 @@ class Jerakia
     include Jerakia::CLI::Secret
     include Jerakia::CLI::Config
 
-
     desc 'version', 'Version information'
     def version
       puts Jerakia::VERSION

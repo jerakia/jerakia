@@ -11,14 +11,15 @@ jerakia
 
 [![Join the chat at https://gitter.im/crayfishx/jerakia](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/crayfishx/jerakia?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-A pluggable and extendable data lookup system
+A pluggable and extendable hierarchical data lookup system
 
 ## Introduction ##
 
-Jerakia is a pluggable hierarchical data lookup engine.  It is not a database, Jerakia itself does not store any data but rather gives a single point of access to your data via a variety of back end data sources.   Jerakia is inspired by Hiera, and can be used a drop in replacement. Hiera itself is a good tool, however it suffers from some degree of limitation in its architecture that makes solving complex edge cases a challenge. Jerakia is an attempt at a different way of approaching data lookup management.  Jerakia started out as a prototype experiment to replace hiera in order to solve a number of complicated requirements for a particular project, over time it matured a bit and we decided to open source it and move it towards a standalone data lookup system.
+Jerakia is a pluggable hierarchical data lookup engine.  It is not a database, Jerakia gives a single point of access to your data via a variety of back end data sources and provides a hierarchical way to search key value data.   Jerakia is inspired by Hiera, and can be used along side or instead of Hiera in Puppet implementations.  Jerakia can also integrate with other tools, such as Ansible and more.
 
-The main goals of Jerakia are:
+The main goals and features of Jerakia are:
 
+* Hierarchical key value data lookups
 * Extendable framework to solve even the most complex edge cases
 * Decoupled from any particular configuration management system
 * Pluggable framework to encourage community plugin development
@@ -35,7 +36,7 @@ Features include:
 Documentation is kept on the [Official Website](http://jerakia.io)
 
 ## Other documentation ##
-
+* [Blog post: Understanding Hierarchichal Data Lookups](https://www.craigdunn.org/2017/08/understanding-hierarchical-data-lookups/)
 * [Blog post part 1: Solving real world problems with Jerakia](http://www.craigdunn.org/2015/09/solving-real-world-problems-with-jerakia/)
 * [Blog post part 2: Extending Jerakia with lookup plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/)
 * [Blog post: Managing Puppet Secrets with Jerakia and Vault](http://www.craigdunn.org/2017/04/managing-puppet-secrets-with-jerakia-and-vault/)
@@ -53,9 +54,10 @@ There are various integration options for making requests to Jerakia.
 * Command line tool
 * Ruby API
 * REST API
-* Hiera 5 Backend
+* [Hiera 5 Backend](http://forge.puppet.com/crayfishx/jerakia)
+* [Ansible Lookup Plugin](https://github.com/crayfishx/ansible-jerakia)
 
-Legacy (see jerakia-puppet):
+Legacy (see [jerakia-puppet](https://github.com/crayfishx/jerakia-puppet) ):
 
 * Puppet data binding terminus
 * Hiera 3.x Backend

@@ -1,5 +1,12 @@
 # Jerakia Release Notes
 
+## 2.4.0
+
+* Feature: API now supports optional data encoding type of messagepack.  The default behaviour is still JSON as with previous versions, but now if you specify a content type of `application/x-msgpack` (and encode your payload with msgpack) then Jerakia will return responses in msgpack instead of JSON.  This has some small performance gains but also solves an issue with JSON encoding integer hash keys as strings (https://github.com/crayfishx/jerakia/issues/95).  This is currently an opt-in change, however we aim to make msgpack the default serialization format for Jerakia 3. Thanks to @hhenkel for the contribution (https://github.com/crayfishx/jerakia/pull/96)
+
+* Enhancement: Better error reporting and softer handling of situations where there is no logfile.  Jerakia will no longer cause an exception to be thrown if the logfile cannot be opened, instead it will direct logs to `STDOUT` with a warning to the user, and continue executing.  The previous behaviour was frustrating, especially when using the rubygem installation method that doesn't set up all the scaffolding for you.  Other errors such as failure to open the database files are also better reported and more understandable.  Any `Jerakia::Error` thrown on the CLI is now captured and reported back in an easier to understand way
+
+
 ## 2.3.0
 
 * Enhancement:  Added `--bind`, `--port` and `--token_ttl` options to `jerakia server` to override these values from the CLI
