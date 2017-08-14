@@ -14,13 +14,13 @@ gem "sinatra"
 gem "dm-sqlite-adapter"
 gem "rake"
 gem "rack", "~> 1.6.5"
+gem "msgpack"
 
 group(:development, :test) do
   gem 'rspec-core'
   gem 'rspec'
   gem 'mocha'
   gem "puppet", ENV['PUPPET_GEM_VERSION'] || '~> 4.8.0'
-  gem "msgpack" # required for integration tests with jerakia-puppet
   gem "webmock-rspec-helper"
   if RUBY_VERSION < '2.1'
     gem "nokogiri", '1.6.8'
