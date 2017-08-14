@@ -38,7 +38,7 @@ curl -X GET -H 'content_type: application/json' -H 'X-Authentication: my_app:ac2
 {"status":"ok","payload":{"france":"paris","argentina":"buenos aires","spain":"malaga"}}
 {% endhighlight %}
 
-To use msgpack as the data serialization format it is necessary to set the content type to `application/x-msgpack:
+To use msgpack as the data serialization format it is necessary to set the content type to `application/x-msgpack:`
 
 {% highlight none %}
 $ curl -X GET -H 'content_type: application/x-msgpack' -H 'X-Authentication: my_app:ac2a313db95bf5d034732d9c8b202ed61b0c369fffe61cd3bdce7642df9bf8602094d01fc35c82a5' http://localhost:9992/v1/lookup/cities?namespace=test
