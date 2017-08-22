@@ -35,6 +35,8 @@ Features include:
 
 Documentation is kept on the [Official Website](http://jerakia.io)
 
+Get help and support on [the Jerakia users mailing list](https://groups.google.com/a/enviatics.com/d/forum/jerakia-users)
+
 ## Other documentation ##
 * [Blog post: Understanding Hierarchichal Data Lookups](https://www.craigdunn.org/2017/08/understanding-hierarchical-data-lookups/)
 * [Blog post part 1: Solving real world problems with Jerakia](http://www.craigdunn.org/2015/09/solving-real-world-problems-with-jerakia/)
