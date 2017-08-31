@@ -23,6 +23,7 @@ Follow the links on the left for documentation on how to configure and use Jerak
 * [Blog post: Managing Puppet Secrets with Jerakia and Vault](http://www.craigdunn.org/2017/04/managing-puppet-secrets-with-jerakia-and-vault/)
 * [Blog post: Using data schemas with Jerakia](http://www.craigdunn.org/2016/03/using-data-schemas-with-jerakia-0-5/)
 * [Blog post: Extending Jerakia with lookup plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/)
+* [Blog post: Hierarhical lookups with Ansible using Jerakia](https://www.craigdunn.org/2017/08/hierarchical-data-lookups-ansible/)
 
 ## Talks
 
