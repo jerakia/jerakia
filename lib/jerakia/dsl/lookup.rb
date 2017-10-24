@@ -21,8 +21,6 @@ class Jerakia
       # @api: public
       def datasource(name, opts = {})
         lookup.datasource = { :name => name, :opts => opts }
-        #datasource = Jerakia::Datasource.new(name, lookup, opts)
-        #lookup.datasource = datasource
       end
 
       # pass through exposed functions from the main lookup object
