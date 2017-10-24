@@ -30,6 +30,21 @@ class Jerakia::Datasource::Consul_kv < Jerakia::Datasource::Instance
   #
   option(:searchpath, :default => ['/']) { |opt| opt.is_a?(Array) }
 
+  # Set any consul parameters against the Diplomat class
+  #
+  # These values are set in jerakia.yaml and are loaded directly
+  # to the class when we load the datasource for the first time.
+  #
+  consul_config = Jerakia.config['consul']
+  if consul_config.is_a?(Hash)
+    Diplomat.configure do |config|
+      config.url = consul_config['url'] if consul_config.has_key?('url')
+      config.acl_token = consul_config['acl_token'] if consul_config.has_key?('acl_token')
+      config.options = consul_config['options'] if consul_config['options'].is_a?(Hash)
+    end
+  end
+
+
 
   # Entrypoint for Jerakia lookups starts here.
   #
