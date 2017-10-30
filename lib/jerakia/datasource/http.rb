@@ -53,7 +53,7 @@ class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
       Jerakia.log.debug("Datasource provided #{data} (#{data.class}) looking for key #{request.key}")
 
       if data.is_a?(Hash)
-        if data.has_key(request.key)
+        if data.has_key?(request.key)
           Jerakia.log.debug("Found data #{data[request.key]}")
           response.submit data[request.key]
         end
