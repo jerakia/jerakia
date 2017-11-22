@@ -8,7 +8,7 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
 
   option :format,  :default => :yaml
   option :docroot, :default => '/var/lib/jerakia/data'
-  option :extention
+  option :extension
   option :enable_caching, :default => true
 
   def load_format_handler
@@ -88,7 +88,7 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
       path = paths.shift
       break unless path
       data = read_from_file(path)
-      unless data[request.key].nil?
+      if data.has_key?(request.key)
         response.submit data[request.key]
       end
     end

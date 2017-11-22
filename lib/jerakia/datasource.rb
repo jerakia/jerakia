@@ -15,9 +15,8 @@ class Jerakia
       attr_reader :response
 
       def initialize(lookup, opts)
-        self.class.validate_options(opts)
         @response = Jerakia::Response.new(lookup)
-        @options = opts
+        @options = self.class.set_options(opts)
         @request = lookup.request 
         @features = []
       end
@@ -64,11 +63,17 @@ class Jerakia
           opt
         end
       end
-      def self.validate_options(args)
-        options.keys.each do |k|
-          options[k].call(args[k])
-        end
 
+      def self.set_options(args)
+        opts = {}
+        options.keys.each do |k|
+          opts[k] = options[k].call(args[k])
+        end
+        validate_options(args)
+        opts
+      end
+
+      def self.validate_options(args)
         args.keys.each do |k|
           raise Jerakia::DatasourceArgumentError, "Unknown option #{k}" unless options.keys.include?(k)
         end

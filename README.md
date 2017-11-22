@@ -15,7 +15,9 @@ A pluggable and extendable hierarchical data lookup system
 
 ## Introduction ##
 
-Jerakia is a pluggable hierarchical data lookup engine.  It is not a database, Jerakia gives a single point of access to your data via a variety of back end data sources and provides a hierarchical way to search key value data.   Jerakia is inspired by Hiera, and can be used along side or instead of Hiera in Puppet implementations.  Jerakia can also integrate with other tools, such as Ansible and more.
+Jerakia is a tool that performs key value lookups against a variety of pluggable data stores. It does this using a top-down hierarchical set of queries that allow you to define global values and override them at different levels of a configurable hierarchy.  This has many use cases, including infrastructure management where you often have configuration values defined at a global level but wish to override these values based on certain factors such as the environment or location of the request.
+
+Key value pairs of data are looked up using a top-down search path allowing you to override values in a hierarchical way. Jerakia recieves a key to lookup a long with information about the requestor, using that information it traverses down a preconfigured hierarchy of queries until it finds the most relevant answer to return
 
 The main goals and features of Jerakia are:
 
@@ -34,6 +36,8 @@ Features include:
 ## Usage and Documentation ##
 
 Documentation is kept on the [Official Website](http://jerakia.io)
+
+Get help and support on [the Jerakia users mailing list](https://groups.google.com/a/enviatics.com/d/forum/jerakia-users)
 
 ## Other documentation ##
 * [Blog post: Understanding Hierarchichal Data Lookups](https://www.craigdunn.org/2017/08/understanding-hierarchical-data-lookups/)
