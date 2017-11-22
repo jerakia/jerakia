@@ -21,5 +21,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'dm-sqlite-adapter', '~> 1.2'
   s.add_dependency 'thin', '~> 1.6'
   s.add_dependency 'msgpack', '~> 1.1'
+  s.add_dependency 'diplomat', '~> 2.0'
 
 end
