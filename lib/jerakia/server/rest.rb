@@ -123,7 +123,8 @@ class Jerakia
         rescue Jerakia::Error => e
           request_failed(e.message, 501)
         end
-        encode_result({ :status => 'ok', 
+        encode_result({ :status => 'ok',
+                        :found => answer.found?,
                         :payload => answer.payload})
       end
 

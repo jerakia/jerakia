@@ -2,6 +2,8 @@
 
 root_password: "vault:v1:HBlr4Ao2oUYBOqgzwbZOKrn63HyduS2y9QYZklXgBOuENA=="
 
+null_value: ~
+
 booltrue: true
 boolfalse: false
 
