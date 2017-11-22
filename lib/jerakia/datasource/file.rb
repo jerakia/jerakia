@@ -8,7 +8,7 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
 
   option :format,  :default => :yaml
   option :docroot, :default => '/var/lib/jerakia/data'
-  option :extention
+  option :extension
   option :enable_caching, :default => true
 
   def load_format_handler
