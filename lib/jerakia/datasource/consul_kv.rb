@@ -28,7 +28,7 @@ class Jerakia::Datasource::Consul_kv < Jerakia::Datasource::Instance
   # We allow this option to be ommited in case the lookup path
   # starts at the namesapce.
   #
-  option(:searchpath, :default => ['/']) { |opt| opt.is_a?(Array) }
+  option(:searchpath, :default => ['']) { |opt| opt.is_a?(Array) }
 
   # Set any consul parameters against the Diplomat class
   #
@@ -60,7 +60,7 @@ class Jerakia::Datasource::Consul_kv < Jerakia::Datasource::Instance
     answer do |response|
 
       break if paths.empty?
-      path = paths.shift.split('/')
+      path = paths.shift.split('/').compact
 
 
       path << namespace
