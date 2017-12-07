@@ -11,6 +11,7 @@ gem 'thor'
 gem "deep_merge"
 gem "thin"
 gem "sinatra"
+gem "bigdecimal"
 gem "dm-sqlite-adapter"
 gem "rake"
 gem "rack", "~> 1.6.5"
