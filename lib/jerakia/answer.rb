@@ -29,12 +29,12 @@ class Jerakia
       responses.each do |res|
         case lookup_type
         when :first
-          @payload = res[:value]
-          @datatype = res[:datatype]
+          @payload = res.value
+          @datatype = res.datatype
           Jerakia.log.debug("Registered answer as #{payload}")
           break
         when :cascade
-          @payload << res[:value]
+          @payload << res.value
         end
       end
       consolidate
