@@ -11,7 +11,7 @@ describe Jerakia do
         Jerakia::Request.new(
           key: 'sub_value',
           namespace: [ 'test' ],
-          metadata: { "env": "prod" }
+          metadata: { "env" => "prod" }
         )
       end
 
