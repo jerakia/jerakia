@@ -3,5 +3,5 @@ class Jerakia
   #
   # This should be updated when a new gem is released and it is read from the gemspec file
   #
-  VERSION = '2.4.0'.freeze
+  VERSION = '2.5.0-rc1'.freeze
 end
