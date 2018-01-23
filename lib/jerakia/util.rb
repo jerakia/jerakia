@@ -6,6 +6,20 @@ class Jerakia
         require "jerakia/#{path}/#{mod}"
       end
 
+      def dig(data, dig_path)
+        key = dig_path.shift
+        if dig_path.empty?
+          if data.has_key?(key)
+            return data[key]
+          else
+            return :not_found
+          end
+        else
+          return :not_found unless data[key].is_a?(Hash)
+          return dig(data[key], dig_path)
+        end
+      end
+
       def walk(data)
         if data.is_a?(Hash)
           walk_hash(data) do |target|

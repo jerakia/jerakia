@@ -19,6 +19,14 @@ class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
   option :http_connect_timeout, :type => Integer
   option :paths, :type => Array, :required => true
 
+  # When lookup_key is set to false, the datasource will not attempt to
+  # look up the key from a hash that gets returned.  This flag will be
+  # set to default of false in Jerakia 3.0
+  #
+  option(:lookup_key, :default => true) { |opt|
+    [TrueClass,FalseClass].include?(opt.class)
+  }
+
   def lookup
 
     lookup_supported_params = [
@@ -53,9 +61,10 @@ class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
       Jerakia.log.debug("Datasource provided #{data} (#{data.class}) looking for key #{request.key}")
 
       if data.is_a?(Hash)
-        if data.has_key?(request.key)
-          Jerakia.log.debug("Found data #{data[request.key]}")
-          response.submit data[request.key]
+        if options[:lookup_key]
+          response.submit data[request.key] if data.has_key?(request.key)
+        else
+          response.submit data
         end
       else
         unless options[:output] == 'plain' || options[:failure] == 'graceful'
