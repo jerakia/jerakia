@@ -8,6 +8,11 @@ IS_SYSTEMD=$((pidof systemd 2>&1 > /dev/null)  && echo "yes" || echo "no")
 if [ "$IS_SYSTEMD" == "yes" ]; then
   cp /opt/jerakia/ext/systemd/jerakia.service /etc/systemd/system/jerakia.service
   systemctl daemon-reload
+else
+  if [ -f "/etc/init.d/functions" ]; then
+    cp /opt/jerakia/ext/init.d/jerakia /etc/init.d/jerakia
+    chmod +x /etc/init.d/jerakia
+  fi
 fi
 
 

@@ -32,7 +32,6 @@ policy :default do
     datasource :file, {
       :docroot    => "test/fixtures/var/lib/jerakia/data",
       :enable_caching => true,
-      :format     => :yaml,
       :searchpath => [
         "host/#{scope[:hostname]}",
         "env/#{scope[:env]}",
@@ -41,6 +40,7 @@ policy :default do
     }
     exclude request.key, "skippy"
     output_filter :encryption
+    output_filter :strsub
   end
 end
 

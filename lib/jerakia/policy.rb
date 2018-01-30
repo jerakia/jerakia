@@ -44,6 +44,7 @@ class Jerakia
         break unless lookup_instance.proceed?
       end
       answer.process_response(response_entries)
+      Jerakia.log.debug(answer)
       return answer
     end
 

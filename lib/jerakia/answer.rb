@@ -10,6 +10,7 @@ class Jerakia
     def initialize(lookup_type = :first, merge_strategy = :array)
       @lookup_type = lookup_type
       @merge_strategy = merge_strategy
+      @found = false
       case lookup_type
       when :first
         @payload = nil
@@ -20,18 +21,27 @@ class Jerakia
     end
 
     def process_response(response_entries)
-      response_entries.flatten.each do |res|
+      responses = response_entries.flatten.compact
+
+      return nil if responses.empty?
+      @found = true
+
+      responses.each do |res|
         case lookup_type
         when :first
-          @payload = res[:value]
-          @datatype = res[:datatype]
+          @payload = res.value
+          @datatype = res.datatype
           Jerakia.log.debug("Registered answer as #{payload}")
           break
         when :cascade
-          @payload << res[:value]
+          @payload << res.value
         end
       end
       consolidate
+    end
+
+    def found?
+      @found
     end
 
     def consolidate

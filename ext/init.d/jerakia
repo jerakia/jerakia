@@ -1,0 +1,62 @@
+#!/bin/bash
+. /etc/init.d/functions
+
+RETVAL=0
+prog="jerakia"
+LOCKFILE=/var/lock/subsys/$prog
+PIDFILE=/var/run/${prog}.pid
+
+start() {
+        echo -n "Starting $prog: "
+        nohup jerakia server 2>&1 > /dev/null &
+        RETVAL=$?
+        PID=$!
+        echo $PID > $PIDFILE
+        [ $RETVAL -eq 0 ] && touch $LOCKFILE && success || failure
+        echo
+        return $RETVAL
+}
+
+stop() {
+        echo -n "Shutting down $prog: "
+        killproc -p /var/run/jerakia.pid jerakia && success || failure
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && rm -f $LOCKFILE $PIDFILE
+        echo
+        return $RETVAL
+}
+
+status() {
+        echo -n "Checking $prog status: "
+        if [ -f $PIDFILE ]; then
+          PID=`cat $PIDFILE`
+          if [ -z "`ps axf | grep ${PID} | grep 'jerakia server'`" ]; then
+            printf "%s\n" "PID file exists but process dead" && failure
+          else
+            echo  "Running" && success
+          fi
+        else
+          echo "Not running" && failure
+        fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+exit $RETVAL
