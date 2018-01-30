@@ -55,6 +55,10 @@ If `failure` is _not_ set to `graceful` then any error code received from the HT
 #### `headers`
 Hash of headers to send in the request
 
+#### `lookup_key`
+By default the HTTP datasource expects a data structure and attempts to resolve the key from the returned data.  This isn't always desirable, setting `lookup_key` to `false` will disable this behaviour and return the whole document.  See "Data digging" for a more expansive explanation of this.   Note: In Jerakia 2.x this option defaults to `true`, it is planned that in Jerakia 3 this will default to `false` so the datasource will always return the entire data set.
+
+
 ### SSL Options
 
 #### `use_ssl`
@@ -82,3 +86,59 @@ The user to use for basic auth
 
 ### `auth_pass`
 The password to use for basic auth
+
+## Data Digging
+
+The default behaviour of the HTTP data source is to expect a hash of key value pairs and try and resolve the lookup key, for example, when looking up the key `port` in the `apache` namespace the HTTP datasource would require returned data from the endpoint something like;
+
+{% highlight json %}
+{
+  "port": 80
+}
+{% endhighlight %}
+
+This isn't particularly flexible in using the HTTP data source with a variety of different end points that may have differing ways of returning data.  Jerakia 2.5 addresses this issue with the addition of the `lookup_key` flag to the HTTP datasource and a new output filter, called `dig`, used together they make the HTTP datasource a lot more flexible.
+
+When `lookup_key` is set to `false` the HTTP will not attempt to resolve the key, so instead of returning `80` in the above example, it will return the whole data set of `{ "port": 80 }`
+
+Using the [dig output filter](/outputfilters/dig) we can achieve the same results as before
+
+{% highlight ruby %}
+lookup :default do
+  datasource :http, {
+    ...
+    :lookup_key => false,
+  }
+
+  output_filter :dig, [ request.key ]
+end
+{% endhighlight %}
+
+Now consider a more complex example, if the endpoint we are talking to returns a hash of key value pairs under a nested hash, eg:
+
+{% highlight json %}
+{
+  "document": {
+    "settings": {
+      "apache": {
+        "port": 80
+      }
+    }
+  }
+}
+{% endhighlight %}
+
+This return data is clearly incompatible with the HTTP datasource with the default legacy lookup key mode enabled, but when we set this to false and combine it with the dig datasource we can tailor the behaviour of the lookup;
+
+{% highlight ruby %}
+lookup :default do
+  datasource :http, {
+    ...
+    :lookup_key => false,
+  }
+
+  output_filter :dig, [ "document", "settings", request.namespace, request.key ]
+end
+{% endhighlight %}
+
+_Important_: In Jerakia 3.0 the default behaviour of `lookup_key` will be set to `false` in the HTTP datasource

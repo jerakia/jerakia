@@ -72,6 +72,7 @@ Example:
 #### Response
 
 * `status`: `ok` or `failed`
+* `found`: `true` or `false`, whether or not a value was found in the lookup - this is useful to determine between a key not being found and a key specifically set to `null`  (version 2.5.0+)
 * `payload`: The data returned from the lookup, if the lookup did not return any results this element is `null`
 * `message`: Details of the error if `status` is `failed`
 
