@@ -10,39 +10,8 @@ Output filters are an optional addition to a lookup, when an output filter is de
 
 ## Available filters
 
-Currently there are two output filters shipped with Jerakia, `encryption` and `strsub`
-
-### encryption
-
-#### Description
-
-The `encryption` output filter can be used if you have a [valid encryption provider](/encryption) loaded, such as Vault.  Encryption providers expose a signiture as a regular expression. With the `encryption` output filter enabled, any results that come back from any datasource matching the regex of the providers signiture (eg: vault:v1:ZDXtHprxLDnAJySOcyAnc5F2RJlIGtOnoxeJICQXUrYf9A3iOC76) then the string is passed to the decrypt method of the encryption provider to be decrypted before it's passed back to the requestor.
-
-#### Usage
-
-{% highlight ruby %}
-policy :default do
-  lookup :main do
-    datasource :file {
-      ...
-    }
-    output_filter :encryption
-  end
-end
-{% endhighlight %}
-
-### strsub
-
-#### Description
-
-The `strsub` filter will parse the data for strings matching `%{var}` and attempt to replace the tag with the corresponding value `var` from the scope provided with the lookup.
-
-If you are [Integrating with Puppet](/integration/puppet) using the Hiera 5 data provider in [crayfishx/jerakia](https://forge.puppet.com/crayfishx/jerakia) 1.2.0 or higher then you can do interpolation natively using the Hiera backend (enabled by default).  This output filter should not be used in that case.
-
-#### Usage
-
-{% highlight ruby %}
-    output_filter :strsub
-{% endhighlight %}
+* [strsub](/outputfilters/strsub): Walk through the data set and perform a basic string substitution
+* [encryption](/outputfilters/encryption): Enable decryption of values in the dataset, depending what type of [encryption provider](/encryption) is being used
+* [dig](/outputfilters/dig): Dig into the data structure and return a subset
 
 
