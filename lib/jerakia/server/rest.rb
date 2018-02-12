@@ -98,7 +98,6 @@ class Jerakia
       end
 
       get '/v1/lookup/:key' do
-        mandatory_params(['namespace'], params)
         request_opts = {
           :key => params['key'],
           :namespace => params['namespace'].split(/\//),
