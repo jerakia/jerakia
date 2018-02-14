@@ -11,6 +11,11 @@ begin
 rescue LoadError
 end
 
+task :validate do
+  Dir['bin/**/*.rb','lib/**/*.rb'].each do |ruby_file|
+    sh "ruby -c #{ruby_file}" unless ruby_file =~ /spec\/fixtures/
+  end
+end
 
 def run_puppet (type, modulename, facts={})
   args = [ 'puppet', 'apply', '--debug' ]
@@ -64,4 +69,4 @@ end
 
 
 task :integration_tests => [:test_hiera, :test_hiera_compat, :test_hiera_compat_with_autorun, :test_data_binding, :test_policy_override]
-task :default => [:integration_tests, :spec]
+task :default => [:validate, :integration_tests, :spec]
