@@ -104,7 +104,7 @@ class Jerakia
         }
 
         if params['namespace']
-          request_opts[:namespace] = params['namespace'].split(/\//),
+          request_opts[:namespace] = params['namespace'].split(/\//)
         end
 
         metadata = params.select { |k,v| k =~ /^metadata_.*/ }
