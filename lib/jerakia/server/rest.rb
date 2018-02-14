@@ -98,11 +98,14 @@ class Jerakia
       end
 
       get '/v1/lookup/:key' do
-        mandatory_params(['namespace'], params)
+
         request_opts = {
           :key => params['key'],
-          :namespace => params['namespace'].split(/\//),
         }
+
+        if params['namespace']
+          request_opts[:namespace] = params['namespace'].split(/\//)
+        end
 
         metadata = params.select { |k,v| k =~ /^metadata_.*/ }
         scope_opts = params.select { |k,v| k =~ /^scope_.*/ }

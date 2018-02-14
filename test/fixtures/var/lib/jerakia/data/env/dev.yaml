@@ -1,0 +1,9 @@
+---
+# Data from this file would be looked up when not using namespaces.
+#
+
+biscuits:
+  - gingernuts
+  - jammiedodgers
+  - custardcreams
+
