@@ -24,6 +24,9 @@ ADD bin ./bin
 COPY Gemfile /usr/app
 COPY jerakia.gemspec .
 
+COPY entrypoint.sh ./
+RUN chmod ugo+x ./entrypoint.sh
+
 RUN bundle config build.nokogiri --use-system-libraries && \
     bundle install --without development test
 
@@ -36,6 +39,5 @@ VOLUME /etc/jerakia/policy.d /var/lib/jerakia/plugins /var/lib/jerakia/data /var
 
 RUN rm -rf /var/cache/apk*
 
-USER jerakia
 ENTRYPOINT ["jerakia"]
 CMD ["server"]
