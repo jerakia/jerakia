@@ -1,5 +1,6 @@
 FROM alpine:3.6
-MAINTAINER Craig Dunn <craig@craigdunn.org>
+
+LABEL maintainer="Craig Dunn <craig@craigdunn.org>"
 
 ARG RUNTIME_UID=99901
 ARG RUNTIME_GID=99901
