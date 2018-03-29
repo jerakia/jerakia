@@ -39,5 +39,5 @@ VOLUME /etc/jerakia/policy.d /var/lib/jerakia/plugins /var/lib/jerakia/data /var
 
 RUN rm -rf /var/cache/apk*
 
-ENTRYPOINT ["jerakia"]
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["server"]
