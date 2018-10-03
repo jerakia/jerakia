@@ -13,6 +13,8 @@ class Jerakia
   require 'jerakia/cache'
   require 'jerakia/version'
   require 'jerakia/error'
+  require 'jerakia/dataset'
+  require 'jerakia/filter'
 
   attr_reader :options
   attr_reader :launcher

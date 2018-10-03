@@ -4,6 +4,7 @@ if ENV['PACKAGING'].to_s == "1"
 ruby '2.3.0'
 end
 
+gem 'pry'
 gem 'faster_require'
 gem 'psych'
 gem 'lookup_http'

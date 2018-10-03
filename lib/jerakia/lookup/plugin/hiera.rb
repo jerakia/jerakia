@@ -12,11 +12,6 @@ class Jerakia::Lookup::Plugin
       unless request.namespace.empty?
         request.key.prepend("#{request.namespace.join('::')}::")
       end
-      request.namespace = []
-    end
-
-    def rewrite_lookup
-      Jerakia.log.debug('DEPRECATION NOTICE: The use of plugin.hiera.rewrite_lookup is now deprecated and is automatically executed when the plugin is loaded')
     end
 
     def calling_module

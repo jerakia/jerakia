@@ -10,6 +10,7 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
   option :docroot, :default => '/var/lib/jerakia/data'
   option :extension
   option :enable_caching, :default => true
+  option :map_namespace, :default => true
 
   def load_format_handler
     format = options[:format]
@@ -43,14 +44,29 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
     Dir["#{prefix}.d/*.#{extension}"] if ::File.directory?("#{prefix}.d")
   end
 
-  def read_from_file(fname)
+
+  def namespaces
+    return [request.namespace] unless request.namespace.empty?
+    found_namespaces = []
+    options[:searchpath].flatten.each do |path|
+      found_namespaces << query_namespaces(path)
+    end
+    found_namespaces.flatten.uniq
+  end
+    
+  def query_namespaces(base)
+    rootdir = File.join(options[:docroot], base)
+    Dir[File.join(rootdir, '*.yaml')].map { |m| File.basename(m, ".#{extension}") }
+  end
+
+  def read_from_file(fname,namespace = request.namespace)
     docroot = options[:docroot]
-    namespace = request.namespace
     cached = options[:enable_caching]
     
     fpath = []
     fpath << docroot unless fname[0] == '/'
-    fpath << [fname, namespace]
+    fpath << fname
+    fpath << namespace if options[:map_namespace]
 
     diskname_prefix = ::File.join(fpath.flatten).gsub(/\/$/, '').to_s
     diskname = "#{diskname_prefix}.#{extension}"
@@ -79,17 +95,16 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
   end
 
   def lookup
-    Jerakia.log.debug("Searching key #{request.key} from file format #{options[:format]}")
-
     load_format_handler
-    paths=options[:searchpath].flatten
-
-    answer do |response|
-      path = paths.shift
-      break unless path
-      data = read_from_file(path)
-      if data.has_key?(request.key)
-        response.submit data[request.key]
+    paths = options[:searchpath].flatten
+    reply do |response|
+      paths.each do |path|
+        #namespaces.each do |namespace|
+          data = read_from_file(path, request.namespace)
+          unless data.empty?
+            response.namespace(request.namespace).submit data
+          end
+        #end
       end
     end
   end

@@ -4,6 +4,7 @@ policy :autorun do
     datasource :file, {
       :format => :yaml,
       :docroot => "test/fixtures/var/lib/hiera",
+      :map_namespace => false,
       :searchpath => [
         "common"
       ],

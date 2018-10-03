@@ -39,8 +39,10 @@ policy :default do
     ],
     }
     exclude request.key, "skippy"
-    output_filter :encryption
-    output_filter :strsub
+    output_filter :dig, [ 'beers' ]
+
+#    output_filter :encryption
+ #   output_filter :strsub
   end
 end
 
