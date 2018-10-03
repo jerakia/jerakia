@@ -20,7 +20,7 @@ To install the latest stable version
 
 ### Alternative methods
 
-You can also install Jerakia using system packages, see [Installing Jerakia](/basics/installing)
+You can also install Jerakia using system packages, see [Installing Jerakia](/basics/install)
 
 
 ## 2) Configuration
