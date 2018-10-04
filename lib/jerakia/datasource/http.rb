@@ -52,7 +52,7 @@ class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
 
 
     paths = options[:paths].flatten
-    answer do |response|
+    reply do |response|
       path = paths.shift
       break unless path
       Jerakia.log.debug("Attempting to load data from #{path}")
@@ -62,9 +62,12 @@ class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
 
       if data.is_a?(Hash)
         if options[:lookup_key]
-          response.submit data[request.key] if data.has_key?(request.key)
+          if data.has_key?(request.key)
+            response.namespace(request.namespace).key(request.key).ammend(data[request.key])
+          end
+          
         else
-          response.submit data
+          response.namespace(request.namespace).key(request.key).ammend(data)
         end
       else
         unless options[:output] == 'plain' || options[:failure] == 'graceful'

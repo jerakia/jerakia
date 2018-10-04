@@ -14,7 +14,7 @@ policy :dig do
     output_filter :dig, [ 'document', 'settings', request.key ]
   end
 
-  lookup :main do
+  lookup :second do
     datasource :dummy, {
       :return => {
         'document' =>  {

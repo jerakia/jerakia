@@ -41,7 +41,7 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
   end
 
   def list_fragments(prefix, extension)
-    Dir["#{prefix}.d/*.#{extension}"] if ::File.directory?("#{prefix}.d")
+    Dir["#{prefix}.d/*.#{extension}"].sort if ::File.directory?("#{prefix}.d")
   end
 
 

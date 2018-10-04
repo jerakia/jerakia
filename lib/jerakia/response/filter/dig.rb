@@ -6,6 +6,7 @@ class Jerakia::Response
         Jerakia.log.debug("[output_filter:dig]: Attempting to dig using path #{path}")
         responses do |entry|
 
+         
           unless entry.value.is_a?(Hash)
             raise Jerakia::Error, "Cannot perform dig on a non hash value"
           end

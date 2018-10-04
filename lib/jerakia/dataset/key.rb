@@ -8,6 +8,7 @@ class Jerakia
       attr_reader :cascade
       attr_reader :merge
       attr_reader :namespace
+      attr_reader :valid
  
 
 
@@ -15,6 +16,7 @@ class Jerakia
         @name = name
         @namespace = namespace
         @value = nil
+        @valid = true
         set_attributes
       end
 
@@ -48,30 +50,51 @@ class Jerakia
       end
 
       def ammend(value)
-        if has_value?
-          if cascade?
-            Jerakia.log.debug("Adding #{value}")
-            add_to_value(value)
-          else
-            Jerakia.log.debug("Rejecting #{value}")
-          end
+        if cascade?
+          add_to_value(value)
         else
-          set(value)
+          if has_value?
+            Jerakia.log.debug("Rejecting #{value}")
+          else
+            Jerakia.log.debug("Adding #{value}")
+            set(value)
+          end
         end
       end 
+
+      def invalidate!
+        @valid = false
+      end
+
+      def validate!
+        @valid = true
+      end
+
+      def valid?
+        @valid
+      end
+
+      def parse_values
+        Jerakia::Util.walk(value) do |v|
+          yield v
+        end
+      end
 
       private
 
       def add_to_value(newval)
         case @merge
         when :array
+          @value ||= []
           @value << newval
           @value.flatten!
         when :hash
-          newhash = @value.merge(newval)
+          @value ||= {}
+          newhash = newval.merge(@value)
           @value = newhash
         when :deep_hash
-          newhash = @value.deep_merge!(newval)
+          @value ||= {}
+          newhash = newval.deep_merge!(@value)
           @value = newhash
         end
       end

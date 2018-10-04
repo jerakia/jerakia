@@ -41,10 +41,15 @@ class Jerakia
         @keys
       end
 
+      def delete_key(keyname)
+        @keys.delete(keyname)
+      end
+
       # dump: return a consolidated hash of all key value pairs
       def dump
         returndata = {}
         keys.each do |name, k|
+          next unless k.valid?
           returndata[name] = k.value
         end
         return returndata

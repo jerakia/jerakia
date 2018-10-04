@@ -1,6 +1,6 @@
 policy :autorun do
 
-  lookup :default, :use => :hiera do
+  lookup :default do
     datasource :file, {
       :format => :yaml,
       :docroot => "test/fixtures/var/lib/hiera",
