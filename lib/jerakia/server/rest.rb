@@ -80,8 +80,8 @@ class Jerakia
       end
 
       def request_failed(message, status_code=501)
-        halt(status_code, 
-             encode_result({ :status => 'failed', 
+        halt(status_code,
+             encode_result({ :status => 'failed',
                              :message => message }))
       end
 
@@ -100,20 +100,20 @@ class Jerakia
             :key => params['key'],
             :namespace => params['namespace'].split(/\//),
           }
-  
+
           metadata = params.select { |k,v| k =~ /^metadata_.*/ }
           scope_opts = params.select { |k,v| k =~ /^scope_.*/ }
-  
+
           request_opts[:metadata] = Hash[metadata.map { |k,v| [k.gsub(/^metadata_/, ""), v] }]
           request_opts[:scope_options] = Hash[scope_opts.map { |k,v| [k.gsub(/^scope_/, ""), v] }]
-  
-  
+
+
           request_opts[:policy] = params['policy'].to_sym if params['policy']
           request_opts[:lookup_type] = params['lookup_type'].to_sym if params['lookup_type']
           request_opts[:merge] = params['merge'].to_sym if params['merge']
           request_opts[:scope] = params['scope'].to_sym if params['scope']
           request_opts[:use_schema] = false if params['use_schema'] == 'false'
-  
+
           begin
             request = Jerakia::Request.new(request_opts)
             answer = jerakia.lookup(request)
@@ -129,8 +129,8 @@ class Jerakia
       get '/v1/scope/:realm/:identifier' do
         resource = Jerakia::Scope::Server.find(params['realm'], params['identifier'])
         if resource.nil?
-          halt(404, 
-               encode_result({:status => 'failed', 
+          halt(404,
+               encode_result({:status => 'failed',
                               :message => "No scope data found"}))
         else
           encode_result({:status => 'ok',

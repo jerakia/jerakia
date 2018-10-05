@@ -53,7 +53,7 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
     end
     found_namespaces.flatten.uniq
   end
-    
+
   def query_namespaces(base)
     rootdir = File.join(options[:docroot], base)
     Dir[File.join(rootdir, '*.yaml')].map { |m| File.basename(m, ".#{extension}") }
@@ -62,7 +62,7 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
   def read_from_file(fname,namespace = request.namespace)
     docroot = options[:docroot]
     cached = options[:enable_caching]
-    
+
     fpath = []
     fpath << docroot unless fname[0] == '/'
     fpath << fname

@@ -65,7 +65,7 @@ class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
           if data.has_key?(request.key)
             response.namespace(request.namespace).key(request.key).ammend(data[request.key])
           end
-          
+
         else
           response.namespace(request.namespace).key(request.key).ammend(data)
         end

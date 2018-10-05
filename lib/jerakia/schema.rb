@@ -8,7 +8,7 @@ class Jerakia::Schema
     attr_reader :alias
     attr_reader :to_key
     attr_reader :to_namespace
-    
+
     def initialize(namespace,name,data)
       @name = name
       @namespace = namespace
@@ -28,12 +28,12 @@ class Jerakia::Schema
     end
 
   end
-  
+
   attr_reader :keys
   def initialize(namespace)
 
     @keys = {}
- 
+
     opts = Jerakia.config[:schema] || {}
 
     schema_datasource = datasource(opts)

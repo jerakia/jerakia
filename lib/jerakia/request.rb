@@ -51,18 +51,18 @@ class Jerakia
               load_schema
             end
           end
-          
+
           @key = newkey if newkey
         end
       end
     end
-    
+
 
     def use_schema?
       @use_schema
     end
 
-    
+
 
     private
 

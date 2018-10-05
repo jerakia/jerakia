@@ -42,9 +42,9 @@ class Jerakia::Cache::File
     end
 
     # If the cache has a valid copy of the file, then we retrieve it, if the cache
-    # doesn't have a copy, or if the state has changed, then we should add it to 
+    # doesn't have a copy, or if the state has changed, then we should add it to
     # the cache again and overite the existing data.
-    # 
+    #
     # Returns nil if the file doesn't exist
     #
     def retrieve(filename)

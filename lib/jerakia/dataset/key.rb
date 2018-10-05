@@ -9,7 +9,7 @@ class Jerakia
       attr_reader :merge
       attr_reader :namespace
       attr_reader :valid
- 
+
       def initialize(namespace, name)
         @name = name
         @namespace = namespace
@@ -43,7 +43,7 @@ class Jerakia
       def cascade?
         @cascade
       end
-  
+
       def set(value)
         @value = value
       end
@@ -59,7 +59,7 @@ class Jerakia
             set(value)
           end
         end
-      end 
+      end
 
       def invalidate!
         @valid = false
@@ -100,6 +100,6 @@ class Jerakia
     end
   end
 end
-      
 
-      
+
+

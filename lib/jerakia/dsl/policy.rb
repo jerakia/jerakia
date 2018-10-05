@@ -51,7 +51,7 @@ class Jerakia
 
       def lookup(name, opts = {}, &block)
         Jerakia.log.debug("Adding lookup #{name} for policy #{policy}")
-        policy.lookups << Proc.new do |request, scope| 
+        policy.lookups << Proc.new do |request, scope|
           Jerakia.log.debug("Invoking lookup #{name}")
           Jerakia::Dsl::Lookup.evaluate(name, request, scope, opts, &block)
         end

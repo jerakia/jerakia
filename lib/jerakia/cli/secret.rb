@@ -5,7 +5,7 @@ class Jerakia
   class CLI < Thor
     module Secret
       class Secret < Thor
-        
+
         Jerakia.new
         @provider = Jerakia::Encryption.new
 

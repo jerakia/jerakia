@@ -18,7 +18,7 @@ class Jerakia
       def initialize(dataset, lookup, opts)
         @dataset = dataset
         @options = self.class.set_options(opts)
-        @request = lookup.request 
+        @request = lookup.request
         @features = []
       end
 
@@ -82,7 +82,7 @@ class Jerakia
     def self.class_of(name)
       return eval "Jerakia::Datasource::#{name.to_s.capitalize}"
     end
-      
+
 
     def self.run(dataset, lookup)
       options  = lookup.datasource[:opts]

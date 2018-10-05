@@ -2,7 +2,7 @@ class Jerakia
   class Answer
     attr_reader :request
     attr_reader :dataset
-    
+
     def initialize(request, dataset)
       @request = request
       @dataset = dataset

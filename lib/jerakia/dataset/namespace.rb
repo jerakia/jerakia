@@ -55,7 +55,7 @@ class Jerakia
         end
         return returndata
       end
-      
+
     end
   end
 end

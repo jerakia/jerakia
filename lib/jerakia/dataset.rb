@@ -9,7 +9,7 @@ class Jerakia
     attr_reader :namespaces
     attr_reader :request
     attr_reader :use_schema
-    
+
     def initialize(request)
       @namespaces={}
       @request = request
@@ -27,7 +27,7 @@ class Jerakia
       @namespaces[arrname] ||= Jerakia::Dataset::Namespace.new(arrname, @request)
       @namespaces[arrname]
     end
-    
+
     def has_namespace?(name)
       arrname = Array(name)
       @namespaces.has_key?(arrname)

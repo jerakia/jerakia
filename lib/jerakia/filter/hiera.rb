@@ -7,9 +7,9 @@ class Jerakia
 
       def filter
         key = options[:key]
-        
+
       require 'pry'; binding.pry
       end
     end
   end
-end 
+end

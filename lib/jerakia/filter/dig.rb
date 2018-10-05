@@ -16,7 +16,7 @@ class Jerakia
           else
             key.set(newval)
           end
-            
+
         end
       end
     end
