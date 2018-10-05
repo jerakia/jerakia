@@ -55,12 +55,12 @@ class Jerakia
       end
 
       def determine_content_type!
-        if not env.key?('CONTENT_TYPE') or env['CONTENT_TYPE'] == "application/json"
-          content_type 'application/json'
-          @content_type = :json
-        elsif env['CONTENT_TYPE'] == "application/x-msgpack"
+        if not env.key?('CONTENT_TYPE') or env['CONTENT_TYPE'] == "application/x-msgpack"
           content_type 'application/x-msgpack'
           @content_type = :msgpack
+        elsif env['CONTENT_TYPE'] == "application/json"
+          content_type 'application/json'
+          @content_type = :json
         else
           wrong_media_type("Content type #{env['CONTENT_TYPE']} not supported", 415)
         end
