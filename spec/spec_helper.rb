@@ -6,7 +6,6 @@ require 'rubygems'
 require 'rspec'
 require 'mocha'
 require 'jerakia'
-require 'hiera/backend/jerakia_backend'
 require 'webmock/rspec'
 
 RSpec.configure do |c|
