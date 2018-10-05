@@ -26,7 +26,7 @@ class Jerakia
           "vault_api_version" => 1
        }.merge(self.class.config)
       end
-  
+
 
 
       def vault_url(endpoint)
@@ -93,13 +93,13 @@ class Jerakia
           :encrypt => "transit/encrypt/#{config['vault_keyname']}",
           :login   => "auth/approle/login"
         }[action]
-      end 
+      end
 
       def url_path(action)
         vault_url(endpoint(action))
       end
 
-          
+
 
       def parse_response(response)
         body = JSON.load(response.body)
@@ -117,7 +117,7 @@ class Jerakia
           raise Jerakia::EncryptionError, "Error decrypting data from Vault: #{message}"
         end
       end
-          
+
       def vault_post(data, action, use_token=true, headers={})
         url = url_path(action)
         http_options = {}

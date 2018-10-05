@@ -55,12 +55,12 @@ class Jerakia
       end
 
       def determine_content_type!
-        if not env.key?('CONTENT_TYPE') or env['CONTENT_TYPE'] == "application/json"
-          content_type 'application/json'
-          @content_type = :json
-        elsif env['CONTENT_TYPE'] == "application/x-msgpack"
+        if not env.key?('CONTENT_TYPE') or env['CONTENT_TYPE'] == "application/x-msgpack"
           content_type 'application/x-msgpack'
           @content_type = :msgpack
+        elsif env['CONTENT_TYPE'] == "application/json"
+          content_type 'application/json'
+          @content_type = :json
         else
           wrong_media_type("Content type #{env['CONTENT_TYPE']} not supported", 415)
         end
@@ -80,8 +80,8 @@ class Jerakia
       end
 
       def request_failed(message, status_code=501)
-        halt(status_code, 
-             encode_result({ :status => 'failed', 
+        halt(status_code,
+             encode_result({ :status => 'failed',
                              :message => message }))
       end
 
@@ -93,46 +93,44 @@ class Jerakia
         end
       end
 
-      get '/v1/lookup' do
-        request_failed("Keyless lookups not supported in this version of Jerakia")
-      end
+      [ '/v1/lookup/:key', '/v1/lookup' ].each do |path|
+        get path do
+          mandatory_params(['namespace'], params)
+          request_opts = {
+            :key => params['key'],
+            :namespace => params['namespace'].split(/\//),
+          }
 
-      get '/v1/lookup/:key' do
-        mandatory_params(['namespace'], params)
-        request_opts = {
-          :key => params['key'],
-          :namespace => params['namespace'].split(/\//),
-        }
+          metadata = params.select { |k,v| k =~ /^metadata_.*/ }
+          scope_opts = params.select { |k,v| k =~ /^scope_.*/ }
 
-        metadata = params.select { |k,v| k =~ /^metadata_.*/ }
-        scope_opts = params.select { |k,v| k =~ /^scope_.*/ }
-
-        request_opts[:metadata] = Hash[metadata.map { |k,v| [k.gsub(/^metadata_/, ""), v] }]
-        request_opts[:scope_options] = Hash[scope_opts.map { |k,v| [k.gsub(/^scope_/, ""), v] }]
+          request_opts[:metadata] = Hash[metadata.map { |k,v| [k.gsub(/^metadata_/, ""), v] }]
+          request_opts[:scope_options] = Hash[scope_opts.map { |k,v| [k.gsub(/^scope_/, ""), v] }]
 
 
-        request_opts[:policy] = params['policy'].to_sym if params['policy']
-        request_opts[:lookup_type] = params['lookup_type'].to_sym if params['lookup_type']
-        request_opts[:merge] = params['merge'].to_sym if params['merge']
-        request_opts[:scope] = params['scope'].to_sym if params['scope']
-        request_opts[:use_schema] = false if params['use_schema'] == 'false'
+          request_opts[:policy] = params['policy'].to_sym if params['policy']
+          request_opts[:lookup_type] = params['lookup_type'].to_sym if params['lookup_type']
+          request_opts[:merge] = params['merge'].to_sym if params['merge']
+          request_opts[:scope] = params['scope'].to_sym if params['scope']
+          request_opts[:use_schema] = false if params['use_schema'] == 'false'
 
-        begin
-          request = Jerakia::Request.new(request_opts)
-          answer = jerakia.lookup(request)
-        rescue Jerakia::Error => e
-          request_failed(e.message, 501)
+          begin
+            request = Jerakia::Request.new(request_opts)
+            answer = jerakia.lookup(request)
+          rescue Jerakia::Error => e
+            request_failed(e.message, 501)
+          end
+          encode_result({ :status => 'ok',
+                          :found => answer.found?,
+                          :payload => answer.payload})
         end
-        encode_result({ :status => 'ok',
-                        :found => answer.found?,
-                        :payload => answer.payload})
       end
 
       get '/v1/scope/:realm/:identifier' do
         resource = Jerakia::Scope::Server.find(params['realm'], params['identifier'])
         if resource.nil?
-          halt(404, 
-               encode_result({:status => 'failed', 
+          halt(404,
+               encode_result({:status => 'failed',
                               :message => "No scope data found"}))
         else
           encode_result({:status => 'ok',

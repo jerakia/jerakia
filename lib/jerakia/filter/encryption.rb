@@ -1,9 +1,10 @@
 require 'jerakia/encryption'
 
-class Jerakia::Response
-  module Filter
-    module Encryption
-      def filter_encryption(_opts = {})
+class Jerakia
+  class Filter
+    class Encryption < Jerakia::Filter
+
+      def filter
         Jerakia.log.debug("Encryption filter started")
         provider = Jerakia::Encryption.handler
 
@@ -21,12 +22,13 @@ class Jerakia::Response
         # if the string matches the regex then call the decrypt method of the encryption
         # provider
         #
-        parse_values do |val|
-          if val =~ signiture
-            decrypted = provider.decrypt(val)
-            val.clear.insert(0, decrypted)
+        all_keys do |key|
+          key.parse_values do |val|
+            if val =~ signiture
+              decrypted = provider.decrypt(val)
+              val.clear.insert(0, decrypted)
+            end
           end
-          val
         end
       end
     end

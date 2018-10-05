@@ -10,7 +10,7 @@ class Jerakia::Datasource
          rescue Psych::SyntaxError => e
            raise Jerakia::FileParseError, "Error parsing YAML document: #{e.message}"
          end
-      
+
       end
     end
   end

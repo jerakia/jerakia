@@ -9,6 +9,7 @@ describe Jerakia do
     context 'when looking up using the dig parameter' do
       let(:request) do
         Jerakia::Request.new(
+          namespace: 'test',
           key: 'tango',
           policy: 'dig'
         )

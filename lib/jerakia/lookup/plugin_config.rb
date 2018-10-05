@@ -26,6 +26,6 @@ class Jerakia
     end
   end
 end
-        
+
 
 

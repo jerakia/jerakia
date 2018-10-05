@@ -18,7 +18,7 @@ class Jerakia::Scope
       }.merge(request.scope_options['puppetdb_http_opts'] || {})
 
       puppetdb_con = LookupHttp.new(connection_opts)
-      
+
       case puppetdb_api
       when 4
         path = "/pdb/query/v4/nodes/#{node}/facts"

@@ -8,11 +8,11 @@ class Jerakia::Datasource::Consul_kv < Jerakia::Datasource::Instance
   # datacenter
   #
   option(:datacenter) { |str| str.is_a?(String) }
-  
+
   # to_hash, when used with recursive, will consolidate the
   # results into a hash, instead of an array
   #
-  option(:to_hash, :default => true) { |opt| 
+  option(:to_hash, :default => true) { |opt|
     [ TrueClass, FalseClass ].include?(opt.class)
   }
 
@@ -49,7 +49,7 @@ class Jerakia::Datasource::Consul_kv < Jerakia::Datasource::Instance
   # Entrypoint for Jerakia lookups starts here.
   #
   def lookup
-    
+
     Jerakia.log.debug("[datasource::console_kv] backend performing lookup for #{request.key}")
     paths = options[:searchpath].reject { |p| p.nil? }
 

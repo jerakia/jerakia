@@ -98,7 +98,7 @@ describe Jerakia do
 
       it 'should contain the data from test::jewels' do
         expect(answer.payload).to eq( 
-          ["ruby","opal","diamond"]
+          ["ruby", "opal", "diamond", "quartz", "topaz"]
         )
       end
     end
@@ -144,9 +144,9 @@ describe Jerakia do
         expect(answer.payload).to be_a(Array)
       end
 
-      it 'should contain the data from the test namespace' do
+      it 'should contain the data from the test namespace and pick up the new schema directives' do
         expect(answer.payload).to eq( 
-          ["ruby","opal","diamond"]
+          ["ruby", "opal", "diamond", "quartz", "topaz"]
         )
       end
     end

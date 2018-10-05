@@ -12,7 +12,7 @@ class Jerakia
           uri = URI.parse(uri_str)
           request = Net::HTTP::Post.new(uri.path)
           request.body = data.to_json
-          http_send(uri, request, headers, options) 
+          http_send(uri, request, headers, options)
         end
 
         def put(uri_str, data={}, headers={}, options={})

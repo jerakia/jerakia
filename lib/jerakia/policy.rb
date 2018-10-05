@@ -21,29 +21,23 @@ class Jerakia
 
     def run(request)
 
-      if request.use_schema && Jerakia.config[:enable_schema]
-        schema_config = Jerakia.config[:schema] || {}
-        @schema = Jerakia::Schema.new(request, schema_config)
-      end
-
       scope = Jerakia::Scope.new(request)
-      answer = Jerakia::Answer.new(request.lookup_type, request.merge)
-
+      dataset = Jerakia::Dataset.new(request)
       response_entries = []
+
       lookups.each do |lookup|
         lookup_instance = lookup.call clone_request(request), scope
         next unless lookup_instance.valid?
+
         register_datasource lookup_instance.datasource[:name]
-        responses = Jerakia::Datasource.run(lookup_instance)
-        lookup_instance.output_filters.each do |filter|
+        responses = Jerakia::Datasource.run(dataset, lookup_instance)
+        lookup_instance.filters.each do |filter|
           Jerakia.log.debug("Using output filter #{filter[:name]}")
-          responses.filter! filter[:name], filter[:opts]
+          Jerakia::Filter.load(filter[:name], dataset, filter[:opts]).filter
         end
-        lookup_answers = responses.entries.map { |r| r}
-        response_entries << lookup_answers if lookup_answers
         break unless lookup_instance.proceed?
       end
-      answer.process_response(response_entries)
+      answer = Jerakia::Answer.new(request,dataset)
       Jerakia.log.debug(answer)
       return answer
     end

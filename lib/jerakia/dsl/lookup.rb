@@ -49,8 +49,14 @@ class Jerakia
         lookup.continue
       end
 
+      def filter(*args)
+        lookup.filter(*args)
+      end
+
+      # From 3.0 we are going to refer to these as simply 'filter'
+      # output_filter will be left in until Jerakia 4.0 or 5.0
       def output_filter(*args)
-        lookup.output_filter(*args)
+        filter(*args)
       end
 
       def plugin

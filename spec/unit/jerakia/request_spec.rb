@@ -4,7 +4,7 @@ describe Jerakia::Request do
   context 'with no arguments' do
     let(:subject) { Jerakia::Request.new }
     it 'should contain our defaults' do
-      expect(subject.key).to eq ''
+      expect(subject.key).to eq nil
       expect(subject.policy).to eq 'default'
     end
   end

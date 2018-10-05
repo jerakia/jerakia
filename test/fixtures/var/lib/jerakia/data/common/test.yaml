@@ -35,6 +35,11 @@ hash:
     element2:
       subelement2: common
   
+subhash:
+  walk:
+    replace: "%{env}"
+    another:
+      deeper: "%{env}"
 
 admins:
   - bill
