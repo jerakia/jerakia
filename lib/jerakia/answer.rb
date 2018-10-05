@@ -11,7 +11,7 @@ class Jerakia
     def found?
       return false if dataset.empty?
       if request.namespace
-        return false unless dataset.has_namespace?(request.namespace)
+        return false if dataset.namespace(request.namespace).empty?
       end
      if request.key
         return false unless dataset.namespace(request.namespace).has_key?(request.key)

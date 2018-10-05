@@ -93,39 +93,37 @@ class Jerakia
         end
       end
 
-      get '/v1/lookup' do
-        request_failed("Keyless lookups not supported in this version of Jerakia")
-      end
-
-      get '/v1/lookup/:key' do
-        mandatory_params(['namespace'], params)
-        request_opts = {
-          :key => params['key'],
-          :namespace => params['namespace'].split(/\//),
-        }
-
-        metadata = params.select { |k,v| k =~ /^metadata_.*/ }
-        scope_opts = params.select { |k,v| k =~ /^scope_.*/ }
-
-        request_opts[:metadata] = Hash[metadata.map { |k,v| [k.gsub(/^metadata_/, ""), v] }]
-        request_opts[:scope_options] = Hash[scope_opts.map { |k,v| [k.gsub(/^scope_/, ""), v] }]
-
-
-        request_opts[:policy] = params['policy'].to_sym if params['policy']
-        request_opts[:lookup_type] = params['lookup_type'].to_sym if params['lookup_type']
-        request_opts[:merge] = params['merge'].to_sym if params['merge']
-        request_opts[:scope] = params['scope'].to_sym if params['scope']
-        request_opts[:use_schema] = false if params['use_schema'] == 'false'
-
-        begin
-          request = Jerakia::Request.new(request_opts)
-          answer = jerakia.lookup(request)
-        rescue Jerakia::Error => e
-          request_failed(e.message, 501)
+      [ '/v1/lookup/:key', '/v1/lookup' ].each do |path|
+        get path do
+          mandatory_params(['namespace'], params)
+          request_opts = {
+            :key => params['key'],
+            :namespace => params['namespace'].split(/\//),
+          }
+  
+          metadata = params.select { |k,v| k =~ /^metadata_.*/ }
+          scope_opts = params.select { |k,v| k =~ /^scope_.*/ }
+  
+          request_opts[:metadata] = Hash[metadata.map { |k,v| [k.gsub(/^metadata_/, ""), v] }]
+          request_opts[:scope_options] = Hash[scope_opts.map { |k,v| [k.gsub(/^scope_/, ""), v] }]
+  
+  
+          request_opts[:policy] = params['policy'].to_sym if params['policy']
+          request_opts[:lookup_type] = params['lookup_type'].to_sym if params['lookup_type']
+          request_opts[:merge] = params['merge'].to_sym if params['merge']
+          request_opts[:scope] = params['scope'].to_sym if params['scope']
+          request_opts[:use_schema] = false if params['use_schema'] == 'false'
+  
+          begin
+            request = Jerakia::Request.new(request_opts)
+            answer = jerakia.lookup(request)
+          rescue Jerakia::Error => e
+            request_failed(e.message, 501)
+          end
+          encode_result({ :status => 'ok',
+                          :found => answer.found?,
+                          :payload => answer.payload})
         end
-        encode_result({ :status => 'ok',
-                        :found => answer.found?,
-                        :payload => answer.payload})
       end
 
       get '/v1/scope/:realm/:identifier' do

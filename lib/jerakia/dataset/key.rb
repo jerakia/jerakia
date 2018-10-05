@@ -27,14 +27,15 @@ class Jerakia
         else
           @cascade = true
         end
-        load_from_schema if namespace.request.use_schema
+        load_from_schema if namespace.request.use_schema?
       end
 
       def load_from_schema
-        schema_config = Jerakia.config[:schema] || {}
-        schema = Jerakia::Schema.new({:name => @name, :namespace => @namespace.name}, schema_config)
-        @merge = schema.merge unless schema.merge.nil?
-        @cascade = schema.cascade unless schema.cascade.nil?
+        if namespace.request.schema.has_key?(name)
+          schema = namespace.request.schema.key(name)
+          @merge = schema.merge unless schema.merge.nil?
+          @cascade = schema.cascade unless schema.cascade.nil?
+        end
       end
 
       def has_value?

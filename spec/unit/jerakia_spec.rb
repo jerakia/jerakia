@@ -14,10 +14,6 @@ describe Jerakia do
     expect(subject).to be_a(Jerakia)
   end
 
-  it 'should have a valid request object' do
-    expect(request).to be_a(Jerakia::Request)
-  end
-
   describe 'Configuring Jerakia' do
     context 'with a nonexistent config file' do
       let(:subject) { Jerakia.new(config: '/path/to/nothing.yaml', logfile: '/dev/null') }

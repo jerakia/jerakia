@@ -5,6 +5,7 @@ class Jerakia
       attr_reader :name
       attr_reader :keys
       attr_reader :request
+      attr_reader :schema
 
       def initialize(name,request)
         @name = Array(name)

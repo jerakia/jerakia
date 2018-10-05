@@ -88,7 +88,8 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
     end
 
     begin
-      convert(raw_data)
+      struct_data = convert(raw_data)
+      return struct_data.nil? ? {} : struct_data
     rescue Jerakia::FileParseError => e
       raise Jerakia::FileParseError, "While parsing #{diskname}: #{e.message}"
     end

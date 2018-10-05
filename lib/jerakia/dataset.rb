@@ -13,6 +13,7 @@ class Jerakia
     def initialize(request)
       @namespaces={}
       @request = request
+      self.namespace(request.namespace)
     end
 
 

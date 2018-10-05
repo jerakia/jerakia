@@ -28,6 +28,8 @@ class Jerakia
 
       scope = Jerakia::Scope.new(request)
       dataset = Jerakia::Dataset.new(request)
+      
+ 
       #answer = Jerakia::Answer.new(request.lookup_type, request.merge)
 
       response_entries = []

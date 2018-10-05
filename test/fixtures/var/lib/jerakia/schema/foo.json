@@ -2,7 +2,7 @@
   "stones": {
     "alias": {
       "namespace": "test",
-      "keyz": "jewels"
+      "key": "jewels"
     }
   },
 
