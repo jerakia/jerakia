@@ -11,7 +11,7 @@ class Jerakia::Lookup
   attr_accessor :proceed
   attr_reader :lookuptype
   attr_reader :scope_object
-  attr_reader :output_filters
+  attr_reader :filters
   attr_reader :name
   attr_reader :pluginfactory
 
@@ -20,7 +20,7 @@ class Jerakia::Lookup
     @request = req
     @valid = true
     @scope_object = scope
-    @output_filters = []
+    @filters = []
     @proceed = true
     @pluginfactory = Jerakia::Lookup::PluginFactory.new
 
@@ -61,8 +61,8 @@ class Jerakia::Lookup
     scope_object.value
   end
 
-  def output_filter(name, opts = {})
-    @output_filters << { :name => name, :opts => opts }
+  def filter(name, opts = {})
+    @filters << { :name => name, :opts => opts }
   end
 
   def proceed?

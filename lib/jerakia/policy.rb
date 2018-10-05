@@ -31,7 +31,7 @@ class Jerakia
 
         register_datasource lookup_instance.datasource[:name]
         responses = Jerakia::Datasource.run(dataset, lookup_instance)
-        lookup_instance.output_filters.each do |filter|
+        lookup_instance.filters.each do |filter|
           Jerakia.log.debug("Using output filter #{filter[:name]}")
           Jerakia::Filter.load(filter[:name], dataset, filter[:opts]).filter
         end

@@ -40,8 +40,8 @@ policy :default do
     }
     exclude request.key, "skippy"
 
-     #output_filter :encryption
-     output_filter :strsub, scope
+     filter :encryption
+     filter :strsub, scope
      
   end
 end
