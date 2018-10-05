@@ -1,7 +1,6 @@
 # rubocop:disable Lint/Eval
 #
 require 'jerakia/cache'
-require 'jerakia/namespace'
 
 class Jerakia
   class Datasource
@@ -14,25 +13,13 @@ class Jerakia
 
       attr_reader :options
       attr_reader :request
-      attr_reader :response
       attr_reader :dataset
 
       def initialize(dataset, lookup, opts)
-        @response = Jerakia::Response.new(lookup)
         @dataset = dataset
         @options = self.class.set_options(opts)
         @request = lookup.request 
         @features = []
-      end
-
-      def answer(data=nil)
-        if block_given?
-          while @response.want?
-            yield @response
-          end
-        else
-          @response.submit(data) if response.want? and not data.nil?
-        end
       end
 
       def reply
@@ -87,8 +74,6 @@ class Jerakia
         end
       end
     end
-
-    require 'jerakia/response'
 
     def self.load_datasource(name)
       require "jerakia/datasource/#{name.to_s}"

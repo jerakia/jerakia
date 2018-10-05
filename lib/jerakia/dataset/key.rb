@@ -10,8 +10,6 @@ class Jerakia
       attr_reader :namespace
       attr_reader :valid
  
-
-
       def initialize(namespace, name)
         @name = name
         @namespace = namespace
@@ -99,7 +97,6 @@ class Jerakia
           @value = newhash
         end
       end
-
     end
   end
 end

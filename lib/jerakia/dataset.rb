@@ -20,7 +20,6 @@ class Jerakia
     def submit(options)
       namespace(options[:namespace])
       data = options[:data]
-      puts "Submitting #{data} to #{namespace}"
     end
 
     def namespace(name)
