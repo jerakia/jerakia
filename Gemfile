@@ -14,7 +14,6 @@ gem "sinatra"
 gem "bigdecimal"
 gem "dm-sqlite-adapter"
 gem "rake"
-gem "rack", "~> 1.6.5"
 gem "msgpack"
 gem "diplomat", "~> 2.0"
 
