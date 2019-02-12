@@ -39,12 +39,15 @@ COPY jerakia.gemspec .
 COPY jerakia.docker /bin
 
 ENV RUBYOPT="-W0"
-RUN bundle config build.nokogiri --use-system-libraries && \
-    bundle install --without development test
-RUN bundle config build.nokogiri --use-system-libraries && \
-    bundle install --without development test &&\
-    bundle exec gem build jerakia.gemspec && \
-    bundle exec gem install --no-rdoc --no-ri ./jerakia*.gem &&\
+#RUN gem install --no-rdoc --no-ri rake && bundle config build.nokogiri --use-system-libraries && \
+#    bundle install --without development test
+#RUN bundle config build.nokogiri --use-system-libraries && \
+#    bundle install --without development test &&\
+RUN gem install --no-rdoc --no-ri rake && \
+    bundle config build.nokogiri --use-system-libraries && \
+    bundle install --without development test && \
+    gem build jerakia.gemspec && \
+    gem install --no-rdoc --no-ri ./jerakia*.gem &&\
     chmod +x /bin/jerakia.docker
 
 VOLUME /etc/jerakia \

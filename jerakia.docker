@@ -2,7 +2,7 @@
 
 
 if [ "${tokens}" != "" ]; then
-  extra_args = "${extra_args} -T ${tokens}"
+  extra_args="${extra_args} -T ${tokens}"
 fi
 
 jerakia $* $extra_args
