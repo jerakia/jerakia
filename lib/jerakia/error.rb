@@ -5,6 +5,9 @@ class Jerakia
     end
   end
 
+  class ArgumentError < Jerakia::Error
+  end
+
   class PolicyError < Jerakia::Error
   end
 

@@ -42,9 +42,9 @@ class Jerakia
           get_entry(api_id)
         end
 
-        def create(api_id)
+        def create(api_id, token=nil)
           raise Jerakia::Error, "API ID #{api_id} already exists" if exists?(api_id)
-          token = generate_token
+	  token = generate_token if token.nil?
           entry = Jerakia::Server::Auth::Token.new(:api_id => api_id, :token => token)
           entry.save
           api_id + ":" + token
