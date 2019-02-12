@@ -46,6 +46,7 @@ Get help and support on [the Jerakia users mailing list](https://groups.google.c
 * [Blog post: Managing Puppet Secrets with Jerakia and Vault](http://www.craigdunn.org/2017/04/managing-puppet-secrets-with-jerakia-and-vault/)
 * [Blog post: Using data schemas with Jerakia](http://www.craigdunn.org/2016/03/using-data-schemas-with-jerakia-0-5/)
 * [Blog post: Extending Jerakia with lookup plugins](http://www.craigdunn.org/2015/09/extending-jerakia-with-lookup-plugins/)
+* [Video: CfgMgmtCamp 2019 - Ansible track - Hierarchical Config Data with Jerakia and Ansible](https://youtu.be/pw5Y1f3ukno)
 
 ## Architecture ##
 

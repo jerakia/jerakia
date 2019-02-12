@@ -61,7 +61,7 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
 
   def read_from_file(fname,namespace = request.namespace)
     docroot = options[:docroot]
-    cached = options[:enable_caching]
+    enable_caching = options[:enable_caching]
 
     fpath = []
     fpath << docroot unless fname[0] == '/'
@@ -78,11 +78,10 @@ class Jerakia::Datasource::File < Jerakia::Datasource::Instance
 
     files.flatten.compact.each do |f|
       Jerakia.log.debug("read_from_file()  #{f}")
-      file_contents = get_file_with_cache(f)
-      if cached
+      if enable_caching
         file_contents = get_file_with_cache(f)
       else
-        file_content = get_file(f)
+        file_contents = get_file(f)
       end
       raw_data << file_contents if file_contents
     end

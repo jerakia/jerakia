@@ -3,13 +3,13 @@ class Jerakia
     module Token
       def self.included(thor)
         thor.class_eval do
-          desc 'token [SUBCOMMAND] <api id> <options>', 'Create, view and manage token access'
+          desc 'token [SUBCOMMAND] <api id> [<token>] <options>', 'Create, view and manage token access'
           option :quiet,
                  aliases: :q,
                  type: :boolean,
                  desc: 'Supress explanatory output'
 
-          def token(subcommand, api_id=:all)
+          def token(subcommand, api_id=:all, token=nil)
             Jerakia.new
             require 'jerakia/server/auth'
 
@@ -30,7 +30,7 @@ class Jerakia
 
             case subcommand
             when 'create'
-              token = Jerakia::Server::Auth.create(api_id)
+              token = Jerakia::Server::Auth.create(api_id, token)
               unless options[:quiet]
                 puts "Copy the following token to the application, it must be sent in the Authorization header. This token cannot be retrieved later, if you have lost the token for an application you can create a new one with 'jerakia token regenerate <api id>'\n\n"
               end
