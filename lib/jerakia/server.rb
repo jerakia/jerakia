@@ -34,7 +34,10 @@ class Jerakia
             Jerakia::Server::Auth.create(api_id, token_string)
             Jerakia.log.verbose("Stored token for #{api_id}")
           else
-            Jerakia.log.verbose("Skipping supplied token #{api_id}, already exists")
+	    stored = Jerakia::Server::Auth.get_entry(api_id)
+	    unless stored.token == token_string
+              raise Jerakia::Error, ("Supplied token #{api_id}, conflicts with existing token")
+	    end
           end
         end
       end
