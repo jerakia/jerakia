@@ -82,19 +82,38 @@ class Jerakia
       private
 
       def add_to_value(newval)
-        case @merge
-        when :array
-          @value ||= []
-          @value << newval
-          @value.flatten!
-        when :hash
-          @value ||= {}
-          newhash = newval.merge(@value)
-          @value = newhash
-        when :deep_hash
-          @value ||= {}
-          newhash = newval.deep_merge!(@value)
-          @value = newhash
+        case newval
+        when TrueClass, FalseClass
+          @value ||= false
+          @value = newval
+        when Fixnum
+          @value ||= 0
+          @value = newval
+        when String
+          @value ||= ""
+          @value = newval
+        when Array
+          case @merge
+          when :array, :deep_all
+            @value ||= []
+            @value << newval
+            @value.flatten!
+          else
+            @value = newval
+          end
+        when Hash
+          case @merge
+          when :hash
+            @value ||= {}
+            newhash = newval.merge(@value)
+            @value = newhash
+          when :deep_hash, :deep_all
+            @value ||= {}
+            newhash = newval.deep_merge!(@value)
+            @value = newhash
+          else
+            @value = newval
+          end
         end
       end
     end
