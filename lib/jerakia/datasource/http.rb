@@ -23,7 +23,7 @@ class Jerakia::Datasource::Http < Jerakia::Datasource::Instance
   # look up the key from a hash that gets returned.  This flag will be
   # set to default of false in Jerakia 3.0
   #
-  option(:lookup_key, :default => true) { |opt|
+  option(:lookup_key, :default => false) { |opt|
     [TrueClass,FalseClass].include?(opt.class)
   }
 
