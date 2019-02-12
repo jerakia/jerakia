@@ -17,10 +17,26 @@ class Jerakia
 
       def default_config
         {
-        'bind' => '127.0.0.1',
-        'port' => '9843',
+        'bind'      => '127.0.0.1',
+        'port'      => '9843',
         'token_ttl' => 300,
+	'tokens'     => [],
         }
+      end
+
+      def parse_tokens(tokens)
+        tokens.each do |t|
+          unless t.match(/^\w+:\w+$/)
+            raise Jerakia::ArgumentError, "Invalid token #{t}: must be <api_id>:<token> and be alphanumeric"
+          end
+	  api_id, token_string = t.split(/:/)
+	  unless Jerakia::Server::Auth.exists?(api_id)
+            Jerakia::Server::Auth.create(api_id, token_string)
+            Jerakia.log.verbose("Stored token for #{api_id}")
+          else
+            Jerakia.log.verbose("Skipping supplied token #{api_id}, already exists")
+          end
+        end
       end
 
       def jerakia
@@ -31,6 +47,8 @@ class Jerakia
         @jerakia = Jerakia.new(opts)
         require 'jerakia/server/rest'
         @config = default_config.merge(Jerakia.config[:server] || {}).merge(server_opts)
+        parse_tokens(@config['tokens'])
+
         Thin::Logging.logger=Jerakia.log.logger
         Jerakia::Server::Rest.set :bind, @config['bind']
         Jerakia::Server::Rest.set :port, @config['port']

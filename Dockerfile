@@ -1,7 +1,9 @@
 FROM alpine:3.7
 MAINTAINER Craig Dunn <craig@craigdunn.org>
 
-ENV JERAKIA_CONFIG="/etc/jerakia/config/jerakia.yaml"
+ENV JERAKIA_CONFIG="/etc/jerakia/config/jerakia.yaml" \
+    tokens="" \
+    extra_args=""
 
 RUN apk update && apk upgrade && \
     apk add bash \
@@ -34,6 +36,7 @@ ADD lib ./lib
 ADD bin ./bin
 COPY Gemfile /usr/app
 COPY jerakia.gemspec .
+COPY jerakia.docker /bin
 
 ENV RUBYOPT="-W0"
 RUN bundle config build.nokogiri --use-system-libraries && \
@@ -41,7 +44,8 @@ RUN bundle config build.nokogiri --use-system-libraries && \
 RUN bundle config build.nokogiri --use-system-libraries && \
     bundle install --without development test &&\
     bundle exec gem build jerakia.gemspec && \
-    bundle exec gem install --no-rdoc --no-ri ./jerakia*.gem
+    bundle exec gem install --no-rdoc --no-ri ./jerakia*.gem &&\
+    chmod +x /bin/jerakia.docker
 
 VOLUME /etc/jerakia \
        /var/db/jerakia \
@@ -50,5 +54,5 @@ VOLUME /etc/jerakia \
 RUN rm -rf /var/cache/apk*
 
 USER jerakia
-ENTRYPOINT ["jerakia"]
+ENTRYPOINT ["jerakia.docker"]
 CMD ["server", "--bind", "0.0.0.0"]
