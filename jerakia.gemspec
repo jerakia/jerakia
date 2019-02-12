@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://jerakia.io'
   s.license     = 'Apache-2.0'
 
-  s.required_ruby_version = '>= 2.2'
+  s.required_ruby_version = '>= 2.3'
 
   s.add_runtime_dependency 'rack', '~> 2.0'
   s.add_runtime_dependency 'thor', '~> 0.19'
