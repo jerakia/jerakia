@@ -7,4 +7,5 @@ group(:development, :test) do
   gem 'rspec'
   gem 'rake', '~> 10.0'
   gem 'mocha'
+  gem 'webmock-rspec-helper'
 end
