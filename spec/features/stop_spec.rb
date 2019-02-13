@@ -22,7 +22,7 @@ describe Jerakia do
       end
 
       it 'should return the answer' do
-        expect(answer.payload).to eq(['Success'])
+        expect(answer.payload).to eq('Success')
       end
 
     end
