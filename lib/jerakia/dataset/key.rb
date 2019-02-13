@@ -83,15 +83,8 @@ class Jerakia
 
       def add_to_value(newval)
         case newval
-        when TrueClass, FalseClass
-          @value ||= false
-          @value = newval
-        when Fixnum
-          @value ||= 0
-          @value = newval
-        when String
-          @value ||= ""
-          @value = newval
+        when String, Integer, TrueClass, FalseClass
+          @value ||= newval
         when Array
           case @merge
           when :array, :deep_all
@@ -99,7 +92,7 @@ class Jerakia
             @value << newval
             @value.flatten!
           else
-            @value = newval
+            @value ||= newval
           end
         when Hash
           case @merge
@@ -112,13 +105,11 @@ class Jerakia
             newhash = newval.deep_merge!(@value)
             @value = newhash
           else
-            @value = newval
+            @value ||= newval
           end
         end
       end
+
     end
   end
 end
-
-
-
