@@ -50,6 +50,6 @@ The YAML scope handler can take a YAML file containing key value pairs and use t
 
 ### Server
 
-There is a special scope handler called `server` which is exposed by Jerakia server.  Currently it is used by the [jerakia data binding in puppet](https://github.com/crayfishx/jerakia-puppet).  It allows for the scope data to be sent ahead of time by the requestor using the Jerakia API and then subsequent lookups will read from this.  This is currently experimental.
+There is a special scope handler called `server` which is exposed by Jerakia server.  Currently it is used by the [jerakia data binding in puppet](https://github.com/jerakia/jerakia-puppet).  It allows for the scope data to be sent ahead of time by the requestor using the Jerakia API and then subsequent lookups will read from this.  This is currently experimental.
 
 

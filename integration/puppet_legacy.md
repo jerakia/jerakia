@@ -85,5 +85,5 @@ Eg:
 
 
 ## See also
-* [Jerakia client project home](https://github.com/crayfishx/jerakia-client)
+* [Jerakia client project home](https://github.com/jerakia/jerakia-client)
 

@@ -18,7 +18,7 @@ If you are just looking to take Jerakia for a spin with no strings attached, or 
 It's pretty simple, just clone the repo and set a couple of environment variables and you can use Jerakia.  You need to be in the root Jerakia folder to run commands as paths are relative.  Here is what you need to do
 
 {% highlight bash %}
-$ git clone https://github.com/crayfishx/jerakia
+$ git clone https://github.com/jerakia/jerakia
 $ cd jerakia
 $ bundle install
 $ . test/environment.sh

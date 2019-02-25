@@ -13,6 +13,6 @@ Currently Jerakia Server offers a REST API supporting;
 * Performing data lookups
 * Sending, storing and retrieving scope data
 
-See the [usage instructions](/server/usage) for information on how to start Jerakia Server and [the API documentation](/server/api) for details of how to interact with the API.  There is also a [jerakia-client gem](https://github.com/crayfishx/jerakia-client) which provides ruby bindings and a CLI for interacting with Jerakia Server over REST.
+See the [usage instructions](/server/usage) for information on how to start Jerakia Server and [the API documentation](/server/api) for details of how to interact with the API.  There is also a [jerakia-client gem](https://github.com/jerakia/jerakia-client) which provides ruby bindings and a CLI for interacting with Jerakia Server over REST.
 
 
