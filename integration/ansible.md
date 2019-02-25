@@ -5,7 +5,7 @@ layout: default
 
 ## Integrating with Ansible
 
-To integrate with Ansible, please see [the Ansible lookup plugin](http://github.com/crayfishx/ansible-jerakia)
+To integrate with Ansible, please see [the Ansible lookup plugin](http://github.com/jerakia/ansible-jerakia)
 
 ### Description
 

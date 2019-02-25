@@ -30,7 +30,7 @@ An HTTP request should contain the API version and the path to the endpoint. Cur
 
 Prior to version 2.4 of Jerakia, only the content type `json` was supported. From version 2.4 on jerakia supports either [json](http://json.org/) or [msgpack](http://msgpack.org/) as a content type. For backwards compatibility the server uses json as the default content type if the client sents no content type or explicit `application/json`.
 
-When using `applictation/json` be aware that JSON uses strings as keys which may result in different behavior than when using jerakia through the CLI, Ruby bindings or legacy hiera backend, depending on your data. (see [Issue 95](https://github.com/crayfishx/jerakia/issues/95))
+When using `applictation/json` be aware that JSON uses strings as keys which may result in different behavior than when using jerakia through the CLI, Ruby bindings or legacy hiera backend, depending on your data. (see [Issue 95](https://github.com/jerakia/jerakia/issues/95))
 
 {% highlight none %}
 curl -X GET -H 'content_type: application/json' -H 'X-Authentication: my_app:ac2a313db95bf5d034732d9c8b202ed61b0c369fffe61cd3bdce7642df9bf8602094d01fc35c82a5' http://localhost:9843/v1/lookup/cities?namespace=test

@@ -9,7 +9,7 @@ Follow the links on the left for documentation on how to configure and use Jerak
 
 ## Getting Help
 
-* Raise a ticket on our [GitHub site](https://github.com/crayfishx/jerakia)
+* Raise a ticket on our [GitHub site](https://github.com/jerakia/jerakia)
 * Join [the public Jerakia-users mailing list](https://groups.google.com/a/enviatics.com/d/forum/jerakia-users)
 
 
