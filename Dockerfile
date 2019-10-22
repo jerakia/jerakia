@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.9
 MAINTAINER Craig Dunn <craig@craigdunn.org>
 
 ENV JERAKIA_CONFIG="/etc/jerakia/config/jerakia.yaml" \
