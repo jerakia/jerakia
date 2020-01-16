@@ -1,7 +1,7 @@
 FROM alpine:3.9
 MAINTAINER Craig Dunn <craig@craigdunn.org>
 
-ENV JERAKIA_CONFIG="/etc/jerakia/config/jerakia.yaml" \
+ENV JERAKIA_CONFIG="/etc/jerakia/jerakia.yaml" \
     tokens="" \
     extra_args=""
 
