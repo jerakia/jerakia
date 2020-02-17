@@ -7,7 +7,7 @@ class Jerakia
   class Server
     class Auth
 
-      Jerakia.log.debug("Authentication database sqlite://#{Jerakia.config[:vardir]}/tokens.db")
+      Jerakia.log.debug("Authentication database sqlite://#{Jerakia.config[:databasedir]}/tokens.db")
 
       DataMapper.setup(:tokens, "sqlite://#{Jerakia.config[:databasedir]}/tokens.db")
 
