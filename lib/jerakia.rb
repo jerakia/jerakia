@@ -66,11 +66,11 @@ class Jerakia
 
   class << self
     def config=(data)
-      @config ||= data
+      @config = data
     end
 
     def log=(logger)
-      @log ||= logger
+      @log = logger
     end
   end
 
